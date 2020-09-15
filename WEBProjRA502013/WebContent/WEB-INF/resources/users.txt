@@ -1,0 +1,9 @@
+1|a|aaaaaaaa|a|a|MALE|GUEST|true
+2|b|bbbbbbbb|b|b|FEMALE|ADMIN|true
+3|c|cccccccc|c|c|MALE|HOST|true
+4|d|dddddddd|d|d|FEMALE|GUEST|true
+5|e|eeeeeeee|e|e|MALE|GUEST|true
+6|bb|bbbbbbbb|b|b|MALE|GUEST|true
+7|aa|aaaaaaaa|a|a|MALE|GUEST|true
+8|dd|aaaaaaaa|a|a|MALE|GUEST|true
+9|dfdfd|aaaaaaaa|a|a|MALE|GUEST|true
