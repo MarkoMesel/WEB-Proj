@@ -4,13 +4,16 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Hello World</title>
+<title>Welcome</title>
+	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<h1>Hello World!</h1>
-	<div style="color: #008000;">${welcomeMessage}</div>
-	Links:<br/>
-	<a href="/WEBProjRA502013/registerGuest.jsp">Register Account</a><br/>
-	<a href="/WEBProjRA502013/login.jsp">Login</a><br/>
+	<div class="mainPanel">
+		<h1>Welcome!</h1>
+		<div style="color: #008000;">${welcomeMessage}</div>
+		Links:<br/>
+		<a class = "button" href="/WEBProjRA502013/registerGuest.jsp">Register Account</a><br/>
+		<a class = "button" href="/WEBProjRA502013/login.jsp">Login</a><br/>
+	</div>
 </body>
 </html>
