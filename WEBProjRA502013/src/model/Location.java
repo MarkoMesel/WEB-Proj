@@ -6,10 +6,22 @@ public class Location {
 	private Float geoLength;
 	private String streetName;
 	private String streetNumber;
-	private String City;
+	private String city;
 	private String postNumber;
 	
-	public int getId() {
+	public Location(Integer id, Float geoWidth, Float geoLength, String streetName, String streetNumber, String city,
+			String postNumber) {
+		super();
+		this.id = id;
+		this.geoWidth = geoWidth;
+		this.geoLength = geoLength;
+		this.streetName = streetName;
+		this.streetNumber = streetNumber;
+		this.city = city;
+		this.postNumber = postNumber;
+	}
+	
+	public Integer getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -40,10 +52,10 @@ public class Location {
 		this.streetNumber = streetNumber;
 	}
 	public String getCity() {
-		return City;
+		return city;
 	}
 	public void setCity(String city) {
-		City = city;
+		this.city = city;
 	}
 	public String getPostNumber() {
 		return postNumber;

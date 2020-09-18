@@ -29,14 +29,14 @@ public class RegisterGuestServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ContainerController.populateUserList();
+		ContainerController.populateLists();
 		ValidationResponse validationResponse = Validator.validateGuestRegistration(request);
 		if(validationResponse.isValid()) {
 			Guest guest = ServletController.createGuestFromRequest(request);
 			ContainerController.addUser(guest);
 			ServletController.putUserInSession(guest, request.getSession());
-			ServletController.redirectToHome(request, response);
 			ContainerController.saveUserList();
+			ServletController.forwardToHome(request, response);
 		} else {
 		    ServletController.sendBadRequest(response, validationResponse.getErrorMessage());
 		}

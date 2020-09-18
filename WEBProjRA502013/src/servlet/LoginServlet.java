@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ContainerController.populateUserList();
+		ContainerController.populateLists();
 		ValidationResponse validationResponse = Validator.validateLogin(request);
 		if(validationResponse.isValid()) {
 			User user = ContainerController.findUserByUsernameAndPassword(
@@ -37,9 +37,9 @@ public class LoginServlet extends HttpServlet {
 					request.getParameter("password")
 			);
 			ServletController.putUserInSession(user, request.getSession());
-			ServletController.redirectToHome(request, response);
+			ServletController.forwardToHome(request, response);
 		} else {
-			ServletController.redirectToLoginWithError(
+			ServletController.forwardToLoginWithError(
 				request, 
 				response, 
 				validationResponse.getErrorMessage());

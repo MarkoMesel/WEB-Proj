@@ -30,6 +30,6 @@ public class LogoutServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletController.invalidateSession(request.getSession());
-		ServletController.redirectToLogin(request, response);
+		ServletController.forwardToLogin(request, response);
 	}
 }

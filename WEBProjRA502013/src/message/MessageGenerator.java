@@ -25,4 +25,7 @@ public class MessageGenerator {
 	public static String generateWrongPasswordMessage() {
 		return "Wrong password.";
 	}
+	public static String generateSuccessfulUpdateMessage() {
+		return "You have successfully updated your account!";
+	}
 }

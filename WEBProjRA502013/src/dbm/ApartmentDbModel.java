@@ -3,7 +3,7 @@ package dbm;
 public class ApartmentDbModel {
 	public String id;
 	public String type;
-	public String roomsCount;
+	public String roomCount;
 	public String guestCount;
 	public String locationId;
 	public String hostId;
@@ -12,11 +12,11 @@ public class ApartmentDbModel {
 	public String cancelTime;
 	public String status;
 	
-	public ApartmentDbModel(String id, String type, String roomsCount, String guestCount, String locationId,
+	public ApartmentDbModel(String id, String type, String roomCount, String guestCount, String locationId,
 			String hostId, String price, String bookingTime, String cancelTime, String status) {
 		this.id = id;
 		this.type = type;
-		this.roomsCount = roomsCount;
+		this.roomCount = roomCount;
 		this.guestCount = guestCount;
 		this.locationId = locationId;
 		this.hostId = hostId;
@@ -29,7 +29,7 @@ public class ApartmentDbModel {
 	public ApartmentDbModel(String[] array) {
 		this.id = array[0];
 		this.type = array[1];
-		this.roomsCount = array[2];
+		this.roomCount = array[2];
 		this.guestCount = array[3];
 		this.locationId = array[4];
 		this.hostId = array[5];

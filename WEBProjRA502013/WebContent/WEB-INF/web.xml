@@ -10,8 +10,8 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <listener>
-        <listener-class>
-            listener.ContextListener
-        </listener-class>
-    </listener>
+       <listener-class>
+           listener.ContextListener
+       </listener-class>
+   </listener>
 </web-app>
