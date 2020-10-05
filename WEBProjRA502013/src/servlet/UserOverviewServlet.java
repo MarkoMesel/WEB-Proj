@@ -36,9 +36,12 @@ public class UserOverviewServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContainerController.populateLists();
-		ArrayList<User> userList = ContainerController.users;
+		ArrayList<User> users = new ArrayList<User>();
+		if(ContainerController.isAdmin(request.getSession().getAttribute("role").toString())) {
+			users = ContainerController.users;
+		}
 		ArrayList<User> searchResult = ContainerController.findUsersByOptionalUsernameAndOptionalFirstNameAndOptionalLastNameAndOptionalGender(
-			userList,
+			users,
 			request.getParameter("username"),
 			request.getParameter("firstName"),
 			request.getParameter("lastName"),
