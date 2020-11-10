@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.ContainerController;
+import controller.DatabaseController;
 import controller.ServletController;
 import model.Guest;
 import validator.ValidationResponse;
@@ -33,7 +34,7 @@ public class RegisterGuestServlet extends HttpServlet {
 		ValidationResponse validationResponse = Validator.validateGuestRegistration(request);
 		if(validationResponse.isValid()) {
 			Guest guest = ServletController.createGuestFromRequest(request);
-			ContainerController.addUser(guest);
+			ContainerController.users.add(guest);
 			ServletController.putUserInSession(guest, request.getSession());
 			ContainerController.saveUserList();
 			ServletController.forwardToHome(request, response);

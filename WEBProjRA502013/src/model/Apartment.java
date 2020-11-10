@@ -9,14 +9,15 @@ public class Apartment {
 	private Integer guestCount;
 	private Location location;
 	private Host host;
-	private Integer price;
-	private String bookingTime;
-	private String cancelTime;
+	private String price;
+	private String checkInTime;
+	private String checkOutTime;
 	private Status status;
 	private ArrayList<String> datesForReservation;
+	private ArrayList<Amenity> amenities;
 	
 	public Apartment(int id, Type type, int roomCount, int guestCount, Location location, Host host,
-			int price, String bookingTime, String cancelTime, Status status) {
+			String price, String checkInTime, String checkOutTime, Status status) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -25,10 +26,11 @@ public class Apartment {
 		this.location = location;
 		this.host = host;
 		this.price = price;
-		this.bookingTime = bookingTime;
-		this.cancelTime = cancelTime;
+		this.checkInTime = checkInTime;
+		this.checkOutTime = checkOutTime;
 		this.status = status;
-		datesForReservation = new ArrayList<String>();
+		this.datesForReservation = new ArrayList<String>();
+		this.amenities = new ArrayList<Amenity>();
 	}
 
 	public Integer getId() {
@@ -79,28 +81,28 @@ public class Apartment {
 		this.host = host;
 	}
 
-	public Integer getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 
-	public String getBookingTime() {
-		return bookingTime;
+	public String getCheckInTime() {
+		return checkInTime;
 	}
 
-	public void setBookingTime(String bookingTime) {
-		this.bookingTime = bookingTime;
+	public void setCheckInTime(String checkInTime) {
+		this.checkInTime = checkInTime;
 	}
 
-	public String getCancelTime() {
-		return cancelTime;
+	public String getCheckOutTime() {
+		return checkOutTime;
 	}
 
-	public void setCancelTime(String cancelTime) {
-		this.cancelTime = cancelTime;
+	public void setCheckOutTime(String checkOutTime) {
+		this.checkOutTime = checkOutTime;
 	}
 
 	public Status getStatus() {
@@ -118,4 +120,13 @@ public class Apartment {
 	public void setDatesForReservation(ArrayList<String> datesForReservation) {
 		this.datesForReservation = datesForReservation;
 	}
+
+	public ArrayList<Amenity> getAmenities() {
+		return amenities;
+	}
+
+	public void setAmenities(ArrayList<Amenity> amenities) {
+		this.amenities = amenities;
+	}
+	
 }

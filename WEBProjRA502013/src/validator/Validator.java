@@ -90,4 +90,82 @@ public class Validator {
 		//Valid
 		return new ValidationResponse(true, "");
 	}
+
+	public static ValidationResponse validateApartment(HttpServletRequest request) {
+		//Room Count
+		if(ValidationRules.isEmpty(request.getParameter("roomCount")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Room count"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("roomCount")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Room count"));
+		if(ValidationRules.isNotNumberWithNoLeadingZeros(request.getParameter("roomCount")))
+			return new ValidationResponse(false, MessageGenerator.generateMustBeNaturalNumberBiggerThanZeroMessage("Room count"));
+		//Guest Count
+		if(ValidationRules.isEmpty(request.getParameter("guestCount")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Guest count"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("guestCount")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Guest count"));
+		if(ValidationRules.isNotNumberWithNoLeadingZeros(request.getParameter("guestCount")))
+			return new ValidationResponse(false, MessageGenerator.generateMustBeNaturalNumberBiggerThanZeroMessage("Guest count"));
+		//Price
+		if(ValidationRules.isEmpty(request.getParameter("price")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Price"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("price")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Price"));
+		if(ValidationRules.isNotInValidPriceFormat(request.getParameter("price")))
+			return new ValidationResponse(false, MessageGenerator.generateMustBeInValidPriceFormatMessage("Price"));
+		//Check-In Time
+		if(ValidationRules.isEmpty(request.getParameter("checkInTime")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Check-In time"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("checkInTime")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Check-In time"));
+		if(ValidationRules.isNotInValidTimeFormat(request.getParameter("checkInTime")))
+			return new ValidationResponse(false, MessageGenerator.generateMustBeInValidTimeFormatMessage("Check-In time"));
+		//Check-Out Time
+		if(ValidationRules.isEmpty(request.getParameter("checkOutTime")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Check-Out time"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("checkOutTime")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Check-Out time"));
+		if(ValidationRules.isNotInValidTimeFormat(request.getParameter("checkOutTime")))
+			return new ValidationResponse(false, MessageGenerator.generateMustBeInValidTimeFormatMessage("Check-Out time"));
+		//Latitude
+		if(ValidationRules.isEmpty(request.getParameter("latitude")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Latitude"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("latitude")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Latitude"));
+		if(ValidationRules.isNotInValidLatitudeFormat(request.getParameter("latitude")))
+			return new ValidationResponse(false, MessageGenerator.generateMustBeInValidLatitudeFormatMessage("Latitude"));
+		//Longitude
+		if(ValidationRules.isEmpty(request.getParameter("longitude")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Longitude"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("longitude")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Longitude"));
+		if(ValidationRules.isNotInValidLongitudeFormat(request.getParameter("longitude")))
+			return new ValidationResponse(false, MessageGenerator.generateMustBeInValidLongitudeFormatMessage("Longitude"));
+		//Street Name
+		if(ValidationRules.isEmpty(request.getParameter("streetName")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Street name"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("streetName")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Street name"));
+		//Street Number
+		if(ValidationRules.isEmpty(request.getParameter("streetNumber")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Street number"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("streetNumber")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Street number"));
+		if(ValidationRules.isNotInValidStreetNumberFormat(request.getParameter("streetNumber")))
+			return new ValidationResponse(false, MessageGenerator.generateMustBeInValidStreetNumberFormatMessage("Street number"));
+		//City
+		if(ValidationRules.isEmpty(request.getParameter("city")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("City"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("city")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("City"));
+		//Post Number
+		if(ValidationRules.isEmpty(request.getParameter("postNumber")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Post number"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("postNumber")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Post number"));
+		if(ValidationRules.isNotInValidNumberFormat(request.getParameter("postNumber")))
+			return new ValidationResponse(false, MessageGenerator.generateMustBeInValidNumberFormatMessage("Post number"));
+		//Valid
+		return new ValidationResponse(true, "");
+	}
 }

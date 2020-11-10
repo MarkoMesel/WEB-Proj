@@ -5,4 +5,5 @@ public class Admin extends User {
 		super(id, username, password, firstName, lastName, gender, enabled);
 		this.role = Role.ADMIN;
 	}
+	
 }

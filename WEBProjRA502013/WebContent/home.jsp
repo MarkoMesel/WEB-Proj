@@ -35,6 +35,9 @@
 			<form method="get" action="/WEBProjRA502013/UserOverviewServlet">
 				<input type="${sessionScope.role == 'GUEST' ? 'hidden' : 'submit'}" class="submitButton" value="User Overview"/>
 			</form>
+			<form method="get" action="/WEBProjRA502013/AddApartmentServlet">
+				<input type="${sessionScope.role == 'HOST' ? 'submit' : 'hidden'}" class="submitButton" value="Add Apartment"/>
+			</form>
 		</c:if>
 		<form method="get" action="/WEBProjRA502013/ApartmentOverviewServlet">
 			<input type="submit" class="submitButton" value="Apartment Overview"/>

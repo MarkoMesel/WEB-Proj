@@ -2,19 +2,19 @@ package model;
 
 public class Location {
 	private Integer id;
-	private Float geoWidth;
-	private Float geoLength;
+	private Float latitude;
+	private Float longitude;
 	private String streetName;
 	private String streetNumber;
 	private String city;
 	private String postNumber;
 	
-	public Location(Integer id, Float geoWidth, Float geoLength, String streetName, String streetNumber, String city,
+	public Location(Integer id, Float latitude, Float longitude, String streetName, String streetNumber, String city,
 			String postNumber) {
 		super();
 		this.id = id;
-		this.geoWidth = geoWidth;
-		this.geoLength = geoLength;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.streetName = streetName;
 		this.streetNumber = streetNumber;
 		this.city = city;
@@ -27,17 +27,17 @@ public class Location {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public float getGeoWidth() {
-		return geoWidth;
+	public Float getLatitude() {
+		return latitude;
 	}
-	public void setGeoWidth(float geoWidth) {
-		this.geoWidth = geoWidth;
+	public void setLatitude(float latitude) {
+		this.latitude = latitude;
 	}
-	public float getGeoLength() {
-		return geoLength;
+	public Float getLongitude() {
+		return longitude;
 	}
-	public void setGeoLength(float geoLength) {
-		this.geoLength = geoLength;
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
 	}
 	public String getStreetName() {
 		return streetName;

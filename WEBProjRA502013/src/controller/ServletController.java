@@ -8,12 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dbm.AmenityDbModel;
 import dbm.ApartmentDbModel;
 import dbm.UserDbModel;
 import message.MessageGenerator;
+import model.Amenity;
 import model.Apartment;
 import model.Gender;
 import model.Guest;
+import model.Host;
+import model.Location;
+import model.Status;
+import model.Type;
 import model.User;
 import rm.ApartmentRequestModel;
 
@@ -89,5 +95,40 @@ public class ServletController {
 	}
 	public static void forwardToApartmentOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/apartmentOverview.jsp").forward(request, response);
+	}
+	public static void forwardToAddApartment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/addApartment.jsp").forward(request, response);
+	}
+	public static void putAmenityListInSession(ArrayList<Amenity> amenities, HttpSession session) {
+		ArrayList<AmenityDbModel> dbmList = new ArrayList<AmenityDbModel>();
+		for(Amenity a : amenities) {
+			dbmList.add(DatabaseController.createModelFromAmenity(a));
+		}
+		session.setAttribute("amenities", dbmList);
+	}
+	public static Location createLocationFromRequest(HttpServletRequest request) {
+		return new Location(
+			ContainerController.locations.size()+1,
+			Float.parseFloat(request.getParameter("latitude")),
+			Float.parseFloat(request.getParameter("longitude")),
+			request.getParameter("streetName"),
+			request.getParameter("streetNumber"),
+			request.getParameter("city"),
+			request.getParameter("postNumber")
+		);
+	}
+	public static Apartment createApartmentFromRequestAndLocation(HttpServletRequest request, Location location) {		
+		return new Apartment(
+			ContainerController.apartments.size()+1,
+			Type.valueOf(request.getParameter("aType")),
+			Integer.parseInt(request.getParameter("roomCount")),
+			Integer.parseInt(request.getParameter("guestCount")),
+			location,
+			(Host) ContainerController.findUserById(Integer.parseInt(request.getSession().getAttribute("id").toString())),
+			request.getParameter("price"),
+			request.getParameter("checkInTime"),
+			request.getParameter("checkOutTime"),
+			Status.INACTIVE
+		);
 	}
 }
