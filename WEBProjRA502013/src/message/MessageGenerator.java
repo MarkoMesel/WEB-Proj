@@ -4,8 +4,11 @@ public class MessageGenerator {
 	public static String generateSuccessfulRegisterMessage() {
 		return "You have successfully registered your account!";
 	}
-	public static String generateSuccessfulUpdateMessage() {
-		return "You have successfully updated your account!";
+	public static String generateSuccessfulUpdateMessage(String s) {
+		return "You have successfully updated " + s + "!";
+	}
+	public static String generateSuccessfulCreateMessage(String s) {
+		return "You have successfully created a new " + s + "!";
 	}
 	public static String generateNotEmptyMessage(String s) {
 		return s + " must not be empty.";
@@ -48,6 +51,9 @@ public class MessageGenerator {
 	}
 	public static String generateMustBeInValidNumberFormatMessage(String s) {
 		return s + " can only contain numbers.";
+	}
+	public static String generateSuccessfulDeleteMessage(String s) {
+		return "You have successfully deleted an amenity!";
 	}
 	
 }

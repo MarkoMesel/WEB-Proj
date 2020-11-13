@@ -1,5 +1,7 @@
-1|WIFI|A WiFi hotspot is near the vicinity.
-2|Washing Machine|The Apartment has a washing machine.
-3|TV|There is a TV in the apartment.
-4|Heating|There is heating.
-5|Washer|There is a washer in the apartment.
+1|eeeeeee|eeee|false
+2|vvvvvvv|qwqeqrfd|true
+3|gegegeg|xcxx|true
+4|Heating|There is heating.|false
+5|Washer|There is a washer in the apartment.|false
+6|vvvvvvv|A new amenity has these details|true
+7|xc|zxzxzx|true

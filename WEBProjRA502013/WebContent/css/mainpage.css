@@ -1,7 +1,6 @@
 @charset "ISO-8859-1";
 
 h1 {
-	padding-top: 30px;
 	padding-top: 50px;
 }
 
@@ -53,11 +52,13 @@ input {
 	color: black;
 }
 
-.button {
-	font-family: Arial, Helvetica, sans-serif;
-	background-color: #332542;
+.small {
+	width: 78px;
+	height: 67px;
+}
+
+.button, .deleteButton {
 	border: solid;
-	color: #d4d4d4;
 	padding: 20px;
 	text-align: center;
 	text-decoration: none;
@@ -69,8 +70,17 @@ input {
 	border-color: #d4d4d4;
 }
 
+.button {
+	background-color: #332542;
+	color: #d4d4d4;
+}
+
+.deleteButton {
+	background-color: #D30404;
+	color: #F5F5DC;
+}
+
 .submitButton {
-	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
 	background-color: #F5F5DC;
 	border: solid;

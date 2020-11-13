@@ -6,8 +6,14 @@ import controller.ContainerController;
 import message.MessageGenerator;
 
 public class Validator {
+	//FIELDS
+	
+	//Constants
 	public static final int MINIMUM_PASSWORD_LENGTH = 8;
 	
+	//METHODS
+	
+	//Validate
 	public static ValidationResponse validateGuestRegistration(HttpServletRequest request) {
 		//Username
 		if(ValidationRules.isEmpty(request.getParameter("username")))
@@ -46,7 +52,6 @@ public class Validator {
 		//Valid
 		return new ValidationResponse(true, "");
 	}
-	
 	public static ValidationResponse validateLogin(HttpServletRequest request) {
 		//Username
 		if(ValidationRules.isEmpty(request.getParameter("username")))
@@ -68,7 +73,6 @@ public class Validator {
 		//Valid
 		return new ValidationResponse(true, "");
 	}
-
 	public static ValidationResponse validateEditProfile(HttpServletRequest request) {
 		//Password
 		if(ValidationRules.isEmpty(request.getParameter("password")))
@@ -90,7 +94,6 @@ public class Validator {
 		//Valid
 		return new ValidationResponse(true, "");
 	}
-
 	public static ValidationResponse validateApartment(HttpServletRequest request) {
 		//Room Count
 		if(ValidationRules.isEmpty(request.getParameter("roomCount")))
@@ -165,6 +168,20 @@ public class Validator {
 			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Post number"));
 		if(ValidationRules.isNotInValidNumberFormat(request.getParameter("postNumber")))
 			return new ValidationResponse(false, MessageGenerator.generateMustBeInValidNumberFormatMessage("Post number"));
+		//Valid
+		return new ValidationResponse(true, "");
+	}
+	public static ValidationResponse validateEditAmenity(HttpServletRequest request) {
+		//Amenity Name
+		if(ValidationRules.isEmpty(request.getParameter("amenityName")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Amenity name"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("amenityName")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Amenity name"));
+		//Amenity Details
+		if(ValidationRules.isEmpty(request.getParameter("amenityDetails")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Amenity details"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("amenityDetails")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Amenity details"));
 		//Valid
 		return new ValidationResponse(true, "");
 	}

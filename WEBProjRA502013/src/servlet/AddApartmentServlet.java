@@ -31,7 +31,7 @@ public class AddApartmentServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
 		ContainerController.populateLists();
-		ArrayList<Amenity> amenities = ContainerController.amenities;
+		ArrayList<Amenity> amenities = ContainerController.findAmenitiesByEnabled(true);
 		ServletController.putAmenityListInSession(amenities, request.getSession());
 		ServletController.forwardToAddApartment(request, response);
 	}
@@ -54,7 +54,7 @@ public class AddApartmentServlet extends HttpServlet {
 			ContainerController.apartments.add(apartment);
 			ContainerController.saveApartmentList();
 			ContainerController.saveLocationList();
-			ContainerController.saveAppartmentAmenitiyPairingsList();
+			ContainerController.saveAppartmentAmenitiyPairingList();
 		} else {
 		    ServletController.sendBadRequest(response, validationResponse.getErrorMessage());
 		}

@@ -1,8 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.annotation.processing.Messager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,34 +12,37 @@ import javax.servlet.http.HttpServletResponse;
 import controller.ContainerController;
 import controller.ServletController;
 import message.MessageGenerator;
+import model.Amenity;
+import model.Apartment;
+import model.Location;
 import model.User;
 import validator.ValidationResponse;
 import validator.Validator;
 
-@WebServlet("/EditProfileServlet")
-public class EditProfileServlet extends HttpServlet {
+@WebServlet("/AddAmenityServlet")
+public class AddAmenityServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-    public EditProfileServlet() {
+    public AddAmenityServlet() {
         super();
     }
 	
 	public void init() {
 	}
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletController.forwardToEditProfile(request, response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
+		ServletController.forwardToAddAmenity(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContainerController.populateLists();
-		ValidationResponse validationResponse = Validator.validateEditProfile(request);
+		ValidationResponse validationResponse = Validator.validateEditAmenity(request);
 		if(validationResponse.isValid()) {
-			User user = ContainerController.findUserById(Integer.parseInt((String)request.getSession().getAttribute("id")));
-			ServletController.editUserFromRequest(user, request);
-			ServletController.putUserInSession(user, request.getSession());
-			ContainerController.saveUserList();
-			ServletController.forwardToEditProfileWithSuccess(request, response, MessageGenerator.generateSuccessfulUpdateMessage("your profile"));
+			Amenity amenity = ServletController.createAmenityFromRequest(request);
+			ContainerController.amenities.add(amenity);
+			ContainerController.saveAmenityList();
+			ServletController.putAllEnabledAmenitiesInSession(request.getSession());
+			ServletController.forwardToManageAmenitiesWithSuccess(request, response, MessageGenerator.generateSuccessfulUpdateMessage("the selected amenity"));
 		} else {
 		    ServletController.sendBadRequest(response, validationResponse.getErrorMessage());
 		}

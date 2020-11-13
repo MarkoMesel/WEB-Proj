@@ -73,6 +73,28 @@ public class ContainerController {
 		}
 	}
 
+	//Save Lists
+	public static void saveLocationList() {
+		List<LocationDbModel> dbModels = getDbModelsFromLocations();
+		DatabaseController.saveLocationsToDatabase(dbModels);
+	}
+	public static void saveUserList() {
+		List<UserDbModel> dbModels = getDbModelsFromUsers();
+		DatabaseController.saveUsersToDatabase(dbModels);
+	}
+	public static void saveApartmentList() {
+		List<ApartmentDbModel> dbModels = getApartmentDbModelsFromApartments();
+		DatabaseController.saveApartmentsToDatabase(dbModels);
+	}
+	public static void saveAppartmentAmenitiyPairingList() {
+		List<ApartmentAmenityDbModel> dbModels = getApartmentAmenityDbModelsFromApartments();
+		DatabaseController.saveApartmentAmenityPairingsToDatabase(dbModels);
+	}
+	public static void saveAmenityList() {
+		List<AmenityDbModel> dbModels = getDbModelsFromAmenities();
+		DatabaseController.saveAmenitiesToDatabase(dbModels);	
+	}
+
 	//Get containerModel list from dbModel list
 	private static ArrayList<Location> getLocationsFromDbModels(List<LocationDbModel> locationDbModels) {
 		ArrayList<Location> list = new ArrayList<Location>();
@@ -163,8 +185,8 @@ public class ContainerController {
 			Type.valueOf(dbm.type),
 			Integer.parseInt(dbm.roomCount),
 			Integer.parseInt(dbm.guestCount),
-			ContainerController.findLocationById(Integer.parseInt(dbm.locationId)),
-			(Host) ContainerController.findUserById(Integer.parseInt(dbm.hostId)),
+			findLocationById(Integer.parseInt(dbm.locationId)),
+			(Host) findUserById(Integer.parseInt(dbm.hostId)),
 			dbm.price,
 			dbm.checkInTime,
 			dbm.checkOutTime,
@@ -175,24 +197,113 @@ public class ContainerController {
 		return new Amenity(
 			Integer.parseInt(dbm.id),
 			dbm.name,
-			dbm.details
+			dbm.details,
+			Boolean.parseBoolean(dbm.enabled)
 		);
 	}
 	
-	//Save Lists
-	public static void saveLocationList() {
-		DatabaseController.saveLocationsToDatabase();
+	//Get dbModel list from container list
+	private static List<LocationDbModel> getDbModelsFromLocations() {
+		ArrayList<LocationDbModel> dbModels = new ArrayList<LocationDbModel>();
+		for(Location l : locations) {
+			LocationDbModel dbm = createModelFromLocation(l);
+			dbModels.add(dbm);
+		}
+		return dbModels;
 	}
-	public static void saveUserList() {
-		DatabaseController.saveUsersToDatabase();
+	private static List<UserDbModel> getDbModelsFromUsers() {
+		ArrayList<UserDbModel> dbModels = new ArrayList<UserDbModel>();
+		for(User u : users) {
+			UserDbModel dbm = createModelFromUser(u);
+			dbModels.add(dbm);
+		}
+		return dbModels;
 	}
-	public static void saveApartmentList() {
-		DatabaseController.saveApartmentsToDatabase();
+	private static List<ApartmentDbModel> getApartmentDbModelsFromApartments() {
+		ArrayList<ApartmentDbModel> dbModels = new ArrayList<ApartmentDbModel>();
+		for(Apartment a : apartments) {
+			ApartmentDbModel dbm = createModelFromApartment(a);
+			dbModels.add(dbm);
+		}
+		return dbModels;
 	}
-	public static void saveAppartmentAmenitiyPairingsList() {
-		DatabaseController.saveApartmentAmenityPairingsToDatabase();
+	private static List<ApartmentAmenityDbModel> getApartmentAmenityDbModelsFromApartments() {
+		ArrayList<ApartmentAmenityDbModel> dbModels = new ArrayList<ApartmentAmenityDbModel>();
+		Integer id = 1;
+		for(Apartment apartment : apartments) {
+			for(Amenity amenity : apartment.getAmenities()) {
+				ApartmentAmenityDbModel dbm = createModelFromApartmentAndAmenity(id, apartment.getId(), amenity.getId());
+				dbModels.add(dbm);
+				id = new Integer(id.intValue() + 1);
+			}
+		}
+		return dbModels;
 	}
-
+	private static List<AmenityDbModel> getDbModelsFromAmenities() {
+		ArrayList<AmenityDbModel> dbModels = new ArrayList<AmenityDbModel>();
+		for(Amenity a : amenities) {
+			AmenityDbModel dbm = createModelFromAmenity(a);
+			dbModels.add(dbm);
+		}
+		return dbModels;
+	}
+	
+	//Create dbModel from containerModel/containerModels
+	public static LocationDbModel createModelFromLocation(Location l) {
+		return new LocationDbModel(
+			l.getId().toString(),
+			l.getLatitude().toString(),
+			l.getLongitude().toString(),
+			l.getStreetName(),
+			l.getStreetNumber(),
+			l.getCity(),
+			l.getPostNumber()
+		);
+	}
+	public static UserDbModel createModelFromUser(User u) {
+		return new UserDbModel(
+			u.getId().toString(),
+			u.getUsername(),
+			u.getPassword(),
+			u.getFirstName(),
+			u.getLastName(),
+			u.getGender().toString(),
+			u.getRole().toString(),
+			u.getEnabled().toString()
+		);
+	}
+	public static ApartmentDbModel createModelFromApartment(Apartment a) {
+		return new ApartmentDbModel(
+			a.getId().toString(),
+			a.getType().toString(),
+			a.getRoomCount().toString(),
+			a.getGuestCount().toString(),
+			a.getLocation().getId().toString(),
+			a.getHost().getId().toString(),
+			a.getPrice().toString(),
+			a.getCheckInTime(),
+			a.getCheckOutTime(),
+			a.getStatus().toString());
+	}
+	public static ApartmentAmenityDbModel createModelFromApartmentAndAmenity(
+			Integer id, 
+			Integer apartmentId,
+			Integer amenityId) {
+			return new ApartmentAmenityDbModel(
+				id.toString(), 
+				apartmentId.toString(), 
+				amenityId.toString()
+			);
+		}
+	public static AmenityDbModel createModelFromAmenity(Amenity a) {
+		return new AmenityDbModel(
+			a.getId().toString(),
+			a.getName(),
+			a.getDetails(),
+			a.getEnabled().toString()
+		);
+	}
+	
 	//Find Location/Locations
 	public static Location findLocationById(Integer id) {
 		return locations.stream()
@@ -307,6 +418,15 @@ public class ContainerController {
 			.findFirst()
 			.orElse(null);
 	}
+	public static ArrayList<Amenity> findAmenitiesByEnabled(Boolean enabled) {
+		return new ArrayList<>(
+				amenities.stream()
+					.filter(
+						amenity -> 
+							enabled.equals(amenity.getEnabled()))
+					.collect(Collectors.toList())
+			);
+	}
 	
 	//Checks
 	public static boolean isAdmin(String role) {
@@ -314,5 +434,14 @@ public class ContainerController {
 	}
 	public static boolean isHost(String role) {
 		return role.equals("HOST");
+	}
+
+	//Logical Delete
+	public static void logicalDeleteAmenity(Amenity amenity) {
+		amenity.setEnabled(false);
+		for(Apartment apartment : apartments) {
+			if(apartment.getAmenities().contains(amenity))
+			apartment.getAmenities().remove(amenity);
+		}
 	}
 }

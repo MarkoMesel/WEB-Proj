@@ -33,17 +33,7 @@ public class DatabaseController {
 	
 	public static final String PATH_TO_RESOURCES = "WEBProjRA502013/WebContent/WEB-INF/resources/";
 	public static ServletContext servletContext = ContextListener.context;
-	
-	public static List<UserDbModel> getUsersFromDatabase() {
-		List<String> userLines = getLinesFromFile(getPathToFile("users.txt"));
-		return getUserDbModelsFromLines(userLines);
-	}
-	public static void saveUsersToDatabase() {
-		List<UserDbModel> userDbModels = getDbModelsFromUsers();
-		List<String> lines = getLinesFromUserDbModels(userDbModels);
-		saveLinesToFile(lines, getPathToFile("users.txt"));
-	}
-
+		
 	public static List<String> getLinesFromFile(String file) { 
 		List<String> lines = Collections.emptyList(); 
 		try {
@@ -67,32 +57,7 @@ public class DatabaseController {
 	public static String[] splitLine(String line) {
 		return line.split("\\|");
 	}
-	public static List<UserDbModel> getDbModelsFromUsers() {
-		ArrayList<UserDbModel> dbModels = new ArrayList<UserDbModel>();
-		for(User u : ContainerController.users) {
-			UserDbModel dbm = createModelFromUser(u);
-			dbModels.add(dbm);
-		}
-		return dbModels;
-	}
-	public static UserDbModel createModelFromUser(User user) {
-		return new UserDbModel(
-			user.getId().toString(),
-			user.getUsername(),
-			user.getPassword(),
-			user.getFirstName(),
-			user.getLastName(),
-			user.getGender().toString(),
-			user.getRole().toString(),
-			user.getEnabled().toString()
-		);
-	}
-	public static ArrayList<String> getLinesFromUserDbModels(List<UserDbModel> userDbModels) {
-		ArrayList<String> lines = new ArrayList<String>();
-		for(UserDbModel dbm : userDbModels)
-			lines.add(mergeIntoLine(dbm));
-		return lines;
-	}
+
 	public static String mergeIntoLine(Object dbm) {
 		String line = "";
 		Field[] fields = dbm.getClass().getDeclaredFields();
@@ -114,59 +79,17 @@ public class DatabaseController {
 			e.printStackTrace(); 
 		} 
 	}
-	public static List<ApartmentDbModel> getApartmentsFromDatabase() {
-		List<String> apartmentLines = getLinesFromFile(getPathToFile("apartments.txt"));
-		return getApartmentDbModelsFromLines(apartmentLines);
-	}
 	public static List<ApartmentDbModel> getApartmentDbModelsFromLines(List<String> apartmentLines) {
 		ArrayList<ApartmentDbModel> dbModels = new ArrayList<ApartmentDbModel>();
 		for(String line : apartmentLines)
 			dbModels.add(new ApartmentDbModel(splitLine(line)));
 		return dbModels;
 	}
-	public static ArrayList<Apartment> getApartmentsFromDbModels(List<ApartmentDbModel> apartmentDbModels) {
-		ArrayList<Apartment> list = new ArrayList<Apartment>();
-		for(ApartmentDbModel dbm : apartmentDbModels) {
-			list.add(createApartmentFromModel(dbm));
-		}
-		return list;
-	}
-	private static Apartment createApartmentFromModel(ApartmentDbModel dbm) {
-		return new Apartment(
-			Integer.parseInt(dbm.id),
-			Type.valueOf(dbm.type),
-			Integer.parseInt(dbm.roomCount),
-			Integer.parseInt(dbm.guestCount),
-			ContainerController.findLocationById(Integer.parseInt(dbm.locationId)),
-			(Host) ContainerController.findUserById(Integer.parseInt(dbm.hostId)),
-			dbm.price,
-			dbm.checkInTime,
-			dbm.checkOutTime,
-			Status.valueOf(dbm.status)
-		);
-	}
-	public static List<LocationDbModel> getLocationsFromDatabase() {
-		List<String> locationLines = getLinesFromFile(getPathToFile("locations.txt"));
-		return getLocationDbModelsFromLines(locationLines);
-	}
 	private static List<LocationDbModel> getLocationDbModelsFromLines(List<String> locationLines) {
 		ArrayList<LocationDbModel> dbModels = new ArrayList<LocationDbModel>();
 		for(String line : locationLines)
 			dbModels.add(new LocationDbModel(splitLine(line)));
 		return dbModels;
-	}
-	public static ApartmentDbModel createModelFromApartment(Apartment a) {
-		return new ApartmentDbModel(
-			a.getId().toString(),
-			a.getType().toString(),
-			a.getRoomCount().toString(),
-			a.getGuestCount().toString(),
-			a.getLocation().getId().toString(),
-			a.getHost().getId().toString(),
-			a.getPrice().toString(),
-			a.getCheckInTime(),
-			a.getCheckOutTime(),
-			a.getStatus().toString());
 	}
 	public static ApartmentRequestModel createRequestModelFromApartment(Apartment a) {
 		return new ApartmentRequestModel(
@@ -190,12 +113,7 @@ public class DatabaseController {
 			+ l.getLatitude() + ", " 
 			+ l.getLongitude() + ")";
 	}
-	
-	public static List<AmenityDbModel> getAmenitiesFromDatabase() {
-		List<String> amenityLines = getLinesFromFile(getPathToFile("amenities.txt"));
-		return getAmenityDbModelsFromLines(amenityLines);
-	}
-	
+		
 	private static List<AmenityDbModel> getAmenityDbModelsFromLines(List<String> amenityLines) {
 		ArrayList<AmenityDbModel> dbModels = new ArrayList<AmenityDbModel>();
 		for(String line : amenityLines)
@@ -206,13 +124,73 @@ public class DatabaseController {
 		return new AmenityDbModel(
 				a.getId().toString(),
 				a.getName(),
-				a.getDetails()
+				a.getDetails(),
+				a.getEnabled().toString()
 			);
 	}
-	public static void saveApartmentsToDatabase() {
-		List<ApartmentDbModel> apartmentDbModels = getApartmentDbModelsFromApartments();
-		List<String> lines = getLinesFromApartmentDbModels(apartmentDbModels);
+	private static List<ApartmentAmenityDbModel> getApartmentAmenityDbModelsFromLines(List<String> lines) {
+		ArrayList<ApartmentAmenityDbModel> dbModels = new ArrayList<ApartmentAmenityDbModel>();
+		for(String line : lines)
+			dbModels.add(new ApartmentAmenityDbModel(splitLine(line)));
+		return dbModels;
+	}
+	
+	//Get from database
+	public static List<LocationDbModel> getLocationsFromDatabase() {
+		List<String> locationLines = getLinesFromFile(getPathToFile("locations.txt"));
+		return getLocationDbModelsFromLines(locationLines);
+	}
+	public static List<UserDbModel> getUsersFromDatabase() {
+		List<String> userLines = getLinesFromFile(getPathToFile("users.txt"));
+		return getUserDbModelsFromLines(userLines);
+	}
+	public static List<ApartmentDbModel> getApartmentsFromDatabase() {
+		List<String> apartmentLines = getLinesFromFile(getPathToFile("apartments.txt"));
+		return getApartmentDbModelsFromLines(apartmentLines);
+	}
+	public static List<AmenityDbModel> getAmenitiesFromDatabase() {
+		List<String> amenityLines = getLinesFromFile(getPathToFile("amenities.txt"));
+		return getAmenityDbModelsFromLines(amenityLines);
+	}
+	public static List<ApartmentAmenityDbModel> getApartmentAmenityPairingsFromDatabase() {
+		List<String> lines = getLinesFromFile(getPathToFile("apartmentAmenityPairings.txt"));
+		return getApartmentAmenityDbModelsFromLines(lines);
+	}
+	
+	//Save to database
+	public static void saveLocationsToDatabase(List<LocationDbModel> dbModels) {
+		List<String> lines = getLinesFromLocationDbModels(dbModels);
+		saveLinesToFile(lines, getPathToFile("locations.txt"));
+	}
+	public static void saveUsersToDatabase(List<UserDbModel> dbModels) {
+		List<String> lines = getLinesFromUserDbModels(dbModels);
+		saveLinesToFile(lines, getPathToFile("users.txt"));
+	}
+	public static void saveApartmentsToDatabase(List<ApartmentDbModel> dbModels) {
+		List<String> lines = getLinesFromApartmentDbModels(dbModels);
 		saveLinesToFile(lines, getPathToFile("apartments.txt"));
+	}
+	public static void saveApartmentAmenityPairingsToDatabase(List<ApartmentAmenityDbModel> dbModels) {
+		List<String> lines = getLinesFromApartmentAmenityDbModels(dbModels);
+		saveLinesToFile(lines, getPathToFile("apartmentAmenityPairings.txt"));
+	}
+	public static void saveAmenitiesToDatabase(List<AmenityDbModel> dbModels) {
+		List<String> lines = getLinesFromAmenityDbModels(dbModels);
+		saveLinesToFile(lines, getPathToFile("amenities.txt"));
+	}
+	
+	//Get Lines From dbModels
+	private static List<String> getLinesFromLocationDbModels(List<LocationDbModel> locationDbModels) {
+		ArrayList<String> lines = new ArrayList<String>();
+		for(LocationDbModel dbm : locationDbModels)
+			lines.add(mergeIntoLine(dbm));
+		return lines;
+	}
+	private static List<String> getLinesFromUserDbModels(List<UserDbModel> userDbModels) {
+		ArrayList<String> lines = new ArrayList<String>();
+		for(UserDbModel dbm : userDbModels)
+			lines.add(mergeIntoLine(dbm));
+		return lines;
 	}
 	private static List<String> getLinesFromApartmentDbModels(List<ApartmentDbModel> apartmentDbModels) {
 		ArrayList<String> lines = new ArrayList<String>();
@@ -220,85 +198,16 @@ public class DatabaseController {
 			lines.add(mergeIntoLine(dbm));
 		return lines;
 	}
-	private static List<ApartmentDbModel> getApartmentDbModelsFromApartments() {
-		ArrayList<ApartmentDbModel> dbModels = new ArrayList<ApartmentDbModel>();
-		for(Apartment a : ContainerController.apartments) {
-			ApartmentDbModel dbm = createModelFromApartment(a);
-			dbModels.add(dbm);
-		}
-		return dbModels;
-	}
-	public static void saveLocationsToDatabase() {
-		List<LocationDbModel> locationDbModels = getDbModelsFromLocations();
-		List<String> lines = getLinesFromLocationDbModels(locationDbModels);
-		saveLinesToFile(lines, getPathToFile("locations.txt"));
-	}
-	private static List<String> getLinesFromLocationDbModels(List<LocationDbModel> locationDbModels) {
-		ArrayList<String> lines = new ArrayList<String>();
-		for(LocationDbModel dbm : locationDbModels)
-			lines.add(mergeIntoLine(dbm));
-		return lines;
-	}
-	private static List<LocationDbModel> getDbModelsFromLocations() {
-		ArrayList<LocationDbModel> dbModels = new ArrayList<LocationDbModel>();
-		for(Location l : ContainerController.locations) {
-			LocationDbModel dbm = createModelFromLocation(l);
-			dbModels.add(dbm);
-		}
-		return dbModels;
-	}
-	private static LocationDbModel createModelFromLocation(Location l) {
-		return new LocationDbModel(
-			l.getId().toString(),
-			l.getLatitude().toString(),
-			l.getLongitude().toString(),
-			l.getStreetName(),
-			l.getStreetNumber(),
-			l.getCity(),
-			l.getPostNumber()
-		);
-	}
-	public static void saveApartmentAmenityPairingsToDatabase() {
-		List<ApartmentAmenityDbModel> dbModels = getApartmentAmenityDbModelsFromApartments();
-		List<String> lines = getLinesFromApartmentAmenityDbModels(dbModels);
-		saveLinesToFile(lines, getPathToFile("apartmentAmenityPairings.txt"));
-	}
 	private static List<String> getLinesFromApartmentAmenityDbModels(List<ApartmentAmenityDbModel> dbModels) {
 		ArrayList<String> lines = new ArrayList<String>();
 		for(ApartmentAmenityDbModel dbm : dbModels)
 			lines.add(mergeIntoLine(dbm));
 		return lines;
 	}
-	private static List<ApartmentAmenityDbModel> getApartmentAmenityDbModelsFromApartments() {
-		ArrayList<ApartmentAmenityDbModel> dbModels = new ArrayList<ApartmentAmenityDbModel>();
-		Integer id = 1;
-		for(Apartment apartment : ContainerController.apartments) {
-			for(Amenity amenity : apartment.getAmenities()) {
-				ApartmentAmenityDbModel dbm = createModelFromApartmentAndAmenity(id, apartment.getId(), amenity.getId());
-				dbModels.add(dbm);
-				id = new Integer(id.intValue() + 1);
-			}
-		}
-		return dbModels;
-	}
-	private static ApartmentAmenityDbModel createModelFromApartmentAndAmenity(
-		Integer id, 
-		Integer apartmentId,
-		Integer amenityId) {
-		return new ApartmentAmenityDbModel(
-			id.toString(), 
-			apartmentId.toString(), 
-			amenityId.toString()
-		);
-	}
-	public static List<ApartmentAmenityDbModel> getApartmentAmenityPairingsFromDatabase() {
-		List<String> lines = getLinesFromFile(getPathToFile("ApartmentAmenityPairings.txt"));
-		return getApartmentAmenityDbModelsFromLines(lines);
-	}
-	private static List<ApartmentAmenityDbModel> getApartmentAmenityDbModelsFromLines(List<String> lines) {
-		ArrayList<ApartmentAmenityDbModel> dbModels = new ArrayList<ApartmentAmenityDbModel>();
-		for(String line : lines)
-			dbModels.add(new ApartmentAmenityDbModel(splitLine(line)));
-		return dbModels;
+	private static List<String> getLinesFromAmenityDbModels(List<AmenityDbModel> dbModels) {
+		ArrayList<String> lines = new ArrayList<String>();
+		for(AmenityDbModel dbm : dbModels)
+			lines.add(mergeIntoLine(dbm));
+		return lines;
 	}
 }
