@@ -14,16 +14,19 @@ import controller.ServletController;
 import message.MessageGenerator;
 import model.Amenity;
 import model.Apartment;
+import model.ApartmentStatus;
 import model.Location;
+import model.Reservation;
+import model.Role;
 import model.User;
 import validator.ValidationResponse;
 import validator.Validator;
 
-@WebServlet("/EditAmenityServlet")
-public class EditAmenityServlet extends HttpServlet {
+@WebServlet("/ReserveApartmentServlet")
+public class ReserveApartmentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-    public EditAmenityServlet() {
+    public ReserveApartmentServlet() {
         super();
     }
 	
@@ -33,20 +36,27 @@ public class EditAmenityServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
 		ContainerController.populateLists();
 		String id = request.getParameter("currentRow").toString();
-		Amenity amenity = ContainerController.findAmenityById(Integer.parseInt(id));
-		ServletController.putAmenityInSession(amenity, request.getSession());
-		ServletController.forwardToEditAmenity(request, response);
+		Apartment apartment = ContainerController.findApartmentById(Integer.parseInt(id));
+		//ArrayList<String> apartmentDates = apartment.getDatesForReservation();
+		ArrayList<String> apartmentDates = apartment.getBusyDates();
+/*
+		apartmentDates.add("02-12-2020");
+		apartmentDates.add("03-12-2020");
+		apartmentDates.add("04-12-2020");
+		apartmentDates.add("05-12-2020");
+*/	
+		ServletController.putApartmentAndDateListInSession(apartment, apartmentDates, request.getSession());
+		ServletController.forwardToReserveApartment(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContainerController.populateLists();
-		ValidationResponse validationResponse = Validator.validateAmenity(request);
+		ValidationResponse validationResponse = Validator.validateApartmentReservation(request);
+		//TODO - finish validation
 		if(validationResponse.isValid()) {
-			Amenity amenity = ContainerController.findAmenityById(Integer.parseInt((String)request.getSession().getAttribute("amenityId")));
-			ServletController.editAmenityFromRequest(amenity, request);
-			ContainerController.saveAmenityList();
-			ServletController.putAllEnabledAmenitiesInSession(request.getSession());
-			ServletController.forwardToManageAmenitiesWithSuccess(request, response, MessageGenerator.generateSuccessfulCreateMessage("amenity"));
+			Reservation reservation = ServletController.createReservationFromRequest(request);
+			ContainerController.reservations.add(reservation);
+			ContainerController.saveReservationsList();
 		} else {
 		    ServletController.sendBadRequest(response, validationResponse.getErrorMessage());
 		}

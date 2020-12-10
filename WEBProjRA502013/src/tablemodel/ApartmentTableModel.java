@@ -1,6 +1,6 @@
-package rm;
+package tablemodel;
 
-public class ApartmentRequestModel {
+public class ApartmentTableModel {
 	public String id;
 	public String type;
 	public String roomCount;
@@ -12,7 +12,7 @@ public class ApartmentRequestModel {
 	public String cancelTime;
 	public String status;
 	
-	public ApartmentRequestModel(String id, String type, String roomCount, String guestCount, String location,
+	public ApartmentTableModel(String id, String type, String roomCount, String guestCount, String location,
 			String host, String price, String bookingTime, String cancelTime, String status) {
 		super();
 		this.id = id;

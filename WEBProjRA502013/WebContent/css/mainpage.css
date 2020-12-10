@@ -33,7 +33,7 @@ div.mainPanelLarge {
 	height:100%;
 	background-color: #5D3F6A;
 	color: #F5F5DC;
-	width: 1200px;
+	width: 1400px;
    	margin: auto;
    	text-align: center;
 }
@@ -77,6 +77,20 @@ input {
 
 .deleteButton {
 	background-color: #D30404;
+	color: #F5F5DC;
+}
+
+.smaller {
+	padding: 5px;
+}
+
+.delete {
+	background-color: #D30404;
+	color: #F5F5DC;
+}
+
+.reserve {
+	background-color: 	#289c28;
 	color: #F5F5DC;
 }
 

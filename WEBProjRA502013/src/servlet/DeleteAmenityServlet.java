@@ -40,7 +40,7 @@ public class DeleteAmenityServlet extends HttpServlet {
 		Amenity amenity = ContainerController.findAmenityById(Integer.parseInt(id));
 		ContainerController.logicalDeleteAmenity(amenity);
 		ContainerController.saveAmenityList();
-		ContainerController.saveAppartmentAmenitiyPairingList();
+		ContainerController.saveApartmentAmenitiyPairingList();
 		ServletController.putAllEnabledAmenitiesInSession(request.getSession());
 		ServletController.forwardToManageAmenitiesWithSuccess(request, response, MessageGenerator.generateSuccessfulDeleteMessage("amenity"));
 	}

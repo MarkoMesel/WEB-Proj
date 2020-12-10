@@ -12,12 +12,13 @@ public class Apartment {
 	private String price;
 	private String checkInTime;
 	private String checkOutTime;
-	private Status status;
-	private ArrayList<String> datesForReservation;
+	private ApartmentStatus status;
+	private ArrayList<String> busyDates;
 	private ArrayList<Amenity> amenities;
+	private Boolean enabled;
 	
 	public Apartment(int id, Type type, int roomCount, int guestCount, Location location, Host host,
-			String price, String checkInTime, String checkOutTime, Status status) {
+			String price, String checkInTime, String checkOutTime, ApartmentStatus status, boolean enabled) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -29,8 +30,9 @@ public class Apartment {
 		this.checkInTime = checkInTime;
 		this.checkOutTime = checkOutTime;
 		this.status = status;
-		this.datesForReservation = new ArrayList<String>();
+		this.busyDates = new ArrayList<String>();
 		this.amenities = new ArrayList<Amenity>();
+		this.enabled = enabled;
 	}
 
 	public Integer getId() {
@@ -105,20 +107,20 @@ public class Apartment {
 		this.checkOutTime = checkOutTime;
 	}
 
-	public Status getStatus() {
+	public ApartmentStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(ApartmentStatus status) {
 		this.status = status;
 	}
 
-	public ArrayList<String> getDatesForReservation() {
-		return datesForReservation;
+	public ArrayList<String> getBusyDates() {
+		return busyDates;
 	}
 
-	public void setDatesForReservation(ArrayList<String> datesForReservation) {
-		this.datesForReservation = datesForReservation;
+	public void setBusyDates(ArrayList<String> busyDates) {
+		this.busyDates = busyDates;
 	}
 
 	public ArrayList<Amenity> getAmenities() {
@@ -128,5 +130,12 @@ public class Apartment {
 	public void setAmenities(ArrayList<Amenity> amenities) {
 		this.amenities = amenities;
 	}
-	
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
 }

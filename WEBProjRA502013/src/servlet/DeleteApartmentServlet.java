@@ -11,18 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ContainerController;
 import controller.ServletController;
+import message.MessageGenerator;
+import model.Amenity;
 import model.Apartment;
 import model.ApartmentStatus;
+import model.Location;
 import model.Role;
 import model.User;
 import validator.ValidationResponse;
 import validator.Validator;
 
-@WebServlet("/ApartmentOverviewServlet")
-public class ApartmentOverviewServlet extends HttpServlet {
+@WebServlet("/DeleteApartmentServlet")
+public class DeleteApartmentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-    public ApartmentOverviewServlet() {
+    public DeleteApartmentServlet() {
         super();
     }
 	
@@ -30,7 +33,19 @@ public class ApartmentOverviewServlet extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
+		
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContainerController.populateLists();
+		String id = request.getParameter("currentSelectedApartment").toString();
+		Apartment apartment = ContainerController.findApartmentById(Integer.parseInt(id));
+		ContainerController.logicalDeleteApartment(apartment);
+		Location location = ContainerController.findLocationById(apartment.getLocation().getId());
+		ContainerController.logicalDeleteLocation(location);
+		ContainerController.saveApartmentList();
+		ContainerController.saveLocationList();
+		ContainerController.saveApartmentAmenitiyPairingList();
 		Role role = Role.valueOf(request.getSession().getAttribute("role").toString());
 		ArrayList<Apartment> apartments;
 		switch(role) {
@@ -67,8 +82,4 @@ public class ApartmentOverviewServlet extends HttpServlet {
 			break;
 		}
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
-	
 }

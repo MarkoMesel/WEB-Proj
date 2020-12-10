@@ -36,7 +36,7 @@ public class AddAmenityServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContainerController.populateLists();
-		ValidationResponse validationResponse = Validator.validateEditAmenity(request);
+		ValidationResponse validationResponse = Validator.validateAmenity(request);
 		if(validationResponse.isValid()) {
 			Amenity amenity = ServletController.createAmenityFromRequest(request);
 			ContainerController.amenities.add(amenity);

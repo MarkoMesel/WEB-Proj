@@ -32,29 +32,22 @@ public class AddApartmentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
 		ContainerController.populateLists();
 		ArrayList<Amenity> amenities = ContainerController.findAmenitiesByEnabled(true);
-		ServletController.putAmenityListInSession(amenities, request.getSession());
+		ServletController.putAmenityListInSession(amenities, "amenities", request.getSession());
 		ServletController.forwardToAddApartment(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Host id is: " + request.getSession().getAttribute("id"));
 		ContainerController.populateLists();
 		ValidationResponse validationResponse = Validator.validateApartment(request);
 		if(validationResponse.isValid()) {
 			Location location = ServletController.createLocationFromRequest(request);
 			ContainerController.locations.add(location);
 			Apartment apartment = ServletController.createApartmentFromRequestAndLocation(request, location);
-			ArrayList<Amenity> selectedAmenities = new ArrayList<Amenity>();
-			for(Amenity a : ContainerController.amenities) {
-				if(request.getParameter(a.name)!=null) {
-					selectedAmenities.add(a);
-				}
-			}
-			apartment.setAmenities(selectedAmenities);
+			ServletController.createAmenityListForApartmentFromRequest(apartment, request);
 			ContainerController.apartments.add(apartment);
 			ContainerController.saveApartmentList();
 			ContainerController.saveLocationList();
-			ContainerController.saveAppartmentAmenitiyPairingList();
+			ContainerController.saveApartmentAmenitiyPairingList();
 		} else {
 		    ServletController.sendBadRequest(response, validationResponse.getErrorMessage());
 		}

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ContainerController;
 import controller.ServletController;
+import model.Role;
 import model.User;
 
 @WebServlet("/UserOverviewServlet")
@@ -27,7 +28,8 @@ public class UserOverviewServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
 		ContainerController.populateLists();
 		ArrayList<User> users = new ArrayList<User>();
-		if(ContainerController.isAdmin(request.getSession().getAttribute("role").toString())) {
+		Role role = Role.valueOf(request.getSession().getAttribute("role").toString());
+		if(role == Role.ADMIN) {
 			users = ContainerController.users;
 		}
 		ServletController.putUserListInSession(users, request.getSession());
@@ -37,7 +39,8 @@ public class UserOverviewServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContainerController.populateLists();
 		ArrayList<User> users = new ArrayList<User>();
-		if(ContainerController.isAdmin(request.getSession().getAttribute("role").toString())) {
+		Role role = Role.valueOf(request.getSession().getAttribute("role").toString());
+		if(role == Role.ADMIN) {
 			users = ContainerController.users;
 		}
 		ArrayList<User> searchResult = ContainerController.findUsersByOptionalUsernameAndOptionalFirstNameAndOptionalLastNameAndOptionalGender(

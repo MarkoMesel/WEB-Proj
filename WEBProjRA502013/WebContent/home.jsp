@@ -45,6 +45,9 @@
 		<form method="get" action="/WEBProjRA502013/ApartmentOverviewServlet">
 			<input type="submit" class="submitButton" value="Apartment Overview"/>
 		</form>
+		<form method="get" action="/WEBProjRA502013/ReservationOverviewServlet">
+			<input type="submit" class="submitButton" value="Reservation Overview"/>
+		</form>
 		<c:if test="${sessionScope.id != null}">
 			<form method="post" action="/WEBProjRA502013/LogoutServlet">
 				<input type="submit" class="submitButton" value="Logout"/>

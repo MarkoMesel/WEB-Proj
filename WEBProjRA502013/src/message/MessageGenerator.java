@@ -55,5 +55,11 @@ public class MessageGenerator {
 	public static String generateSuccessfulDeleteMessage(String s) {
 		return "You have successfully deleted an amenity!";
 	}
+	public static String generateMustBeInValidDateFormatMessage(String s) {
+		return s + " must be written in the \"dd-mm-yyyy\" date format.";
+	}
+	public static String generateChosenDatesNotAvailableMessage() {
+		return "The chosen dates are not available.";
+	}
 	
 }

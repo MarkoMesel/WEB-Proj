@@ -8,9 +8,10 @@ public class Location {
 	private String streetNumber;
 	private String city;
 	private String postNumber;
+	private Boolean enabled;
 	
 	public Location(Integer id, Float latitude, Float longitude, String streetName, String streetNumber, String city,
-			String postNumber) {
+			String postNumber, boolean enabled) {
 		super();
 		this.id = id;
 		this.latitude = latitude;
@@ -19,6 +20,7 @@ public class Location {
 		this.streetNumber = streetNumber;
 		this.city = city;
 		this.postNumber = postNumber;
+		this.enabled = enabled;
 	}
 	
 	public Integer getId() {
@@ -62,5 +64,13 @@ public class Location {
 	}
 	public void setPostNumber(String postNumber) {
 		this.postNumber = postNumber;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 }

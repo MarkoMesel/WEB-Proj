@@ -11,9 +11,10 @@ public class ApartmentDbModel {
 	public String checkInTime;
 	public String checkOutTime;
 	public String status;
+	public String enabled;
 	
 	public ApartmentDbModel(String id, String type, String roomCount, String guestCount, String locationId,
-			String hostId, String price, String checkInTime, String checkOutTime, String status) {
+			String hostId, String price, String checkInTime, String checkOutTime, String status, String enabled) {
 		this.id = id;
 		this.type = type;
 		this.roomCount = roomCount;
@@ -24,6 +25,7 @@ public class ApartmentDbModel {
 		this.checkInTime = checkInTime;
 		this.checkOutTime = checkOutTime;
 		this.status = status;
+		this.enabled = enabled;
 	}
 	
 	public ApartmentDbModel(String[] array) {
@@ -37,6 +39,7 @@ public class ApartmentDbModel {
 		this.checkInTime = array[7];
 		this.checkOutTime = array[8];
 		this.status = array[9];
+		this.enabled = array[10];
 	}
 	
 }

@@ -8,9 +8,10 @@ public class LocationDbModel {
 	public String streetNumber;
 	public String city;
 	public String postNumber;
+	public String enabled;
 	
 	public LocationDbModel(String id, String latitude, String longitude, String streetName, String streetNumber,
-			String city, String postNumber) {
+			String city, String postNumber, String enabled) {
 		this.id = id;
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -18,6 +19,7 @@ public class LocationDbModel {
 		this.streetNumber = streetNumber;
 		this.city = city;
 		this.postNumber = postNumber;
+		this.enabled = enabled;
 	}
 	
 	public LocationDbModel(String[] array) {
@@ -28,6 +30,7 @@ public class LocationDbModel {
 		this.streetNumber = array[4];
 		this.city = array[5];
 		this.postNumber = array[6];
+		this.enabled = array[7];
 	}
 	
 	
