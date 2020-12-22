@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ContainerController;
 import controller.ServletController;
+import message.MessageGenerator;
 import model.Amenity;
 import model.Apartment;
 import model.Location;
@@ -48,6 +49,8 @@ public class AddApartmentServlet extends HttpServlet {
 			ContainerController.saveApartmentList();
 			ContainerController.saveLocationList();
 			ContainerController.saveApartmentAmenitiyPairingList();
+			ServletController.putSuccessMessageInSession(request, MessageGenerator.generateSuccessfulCreateMessage("apartment"));
+			ServletController.forwardToHome(request, response);
 		} else {
 		    ServletController.sendBadRequest(response, validationResponse.getErrorMessage());
 		}

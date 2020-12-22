@@ -13,15 +13,16 @@ import controller.ContainerController;
 import controller.ServletController;
 import model.Apartment;
 import model.ApartmentStatus;
+import model.Reservation;
 import model.User;
 import validator.ValidationResponse;
 import validator.Validator;
 
-@WebServlet("/FindApartmentServlet")
-public class FindApartmentServlet extends HttpServlet {
+@WebServlet("/FindReservationServlet")
+public class FindReservationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-    public FindApartmentServlet() {
+    public FindReservationServlet() {
         super();
     }
 	
@@ -33,34 +34,20 @@ public class FindApartmentServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContainerController.populateLists();
-		ArrayList<Apartment> apartmentList;
+		ArrayList<Reservation> reservationList;
 		String role = request.getSession().getAttribute("role").toString();
 		if(role.equals("HOST")) {
 			Integer hostId = Integer.parseInt(request.getSession().getAttribute("id").toString());
-			apartmentList = ContainerController.findApartmentsByStatusAndHostIdAndEnabled(
-				ApartmentStatus.ACTIVE,
-				hostId,
-				true
-			);
+			reservationList = ContainerController.findReservationsByHostId(hostId);
 		} else {
-			apartmentList = ContainerController.findApartmentsByEnabled(true);
+			reservationList = ContainerController.reservations;
 		}
-		ArrayList<Apartment> searchResult = ContainerController.findApartmnetsFromSearchOptions(
-			apartmentList,
-			ApartmentStatus.ACTIVE,
-			request.getParameter("datepickerArrive"),
-			request.getParameter("datepickerLeave"),
-			request.getParameter("timeArrive"),
-			request.getParameter("timeLeave"),
-			request.getParameter("priceMin"),
-			request.getParameter("priceMax"),
-			request.getParameter("roomCountMin"),
-			request.getParameter("roomCountMax"),
-			request.getParameter("guestCount"),
-			request.getParameter("location")
+		ArrayList<Reservation> searchResult = ContainerController.findReservationsFromGuestUsername(
+			reservationList,
+			request.getParameter("username")
 		);
-		ServletController.putApartmentListInSession(searchResult, request.getSession());
-		ServletController.forwardToApartmentOverview(request, response);
+		ServletController.putReservationListInSession(searchResult, request.getSession());
+		ServletController.forwardToReservationOverview(request, response);
 	}
 	
 }

@@ -12,6 +12,7 @@
 </head>
 <body>
 	<div class="mainPanel">
+		<div style="color: #00BF00;">${successMessage}</div>
 		<h1>Welcome!</h1>
 		<c:if test="${sessionScope.id != null}">
 			<c:choose>

@@ -31,6 +31,8 @@ public class ApartmentOverviewServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
 		ContainerController.populateLists();
+		ServletController.loadApartmentsAndForwardToApartmentOverview(request, response);
+		/*
 		Role role = Role.valueOf(request.getSession().getAttribute("role").toString());
 		ArrayList<Apartment> apartments;
 		switch(role) {
@@ -66,6 +68,7 @@ public class ApartmentOverviewServlet extends HttpServlet {
 		default:
 			break;
 		}
+		*/
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

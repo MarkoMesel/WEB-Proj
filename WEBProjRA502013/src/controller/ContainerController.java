@@ -36,6 +36,7 @@ import tablemodel.ApartmentTableModel;
 import tablemodel.ApartmentTableParameter;
 import tablemodel.CommentTableModel;
 import tablemodel.ReservationTableModel;
+import tablemodel.ReservationTableParameter;
 import helper.PriceManager;
 import helper.ComparisonOption;
 
@@ -543,10 +544,13 @@ public class ContainerController {
 				.collect(Collectors.toList())
 		);
 	}
-	public static ArrayList<User> findUsersByOptionalUsernameAndOptionalFirstNameAndOptionalLastNameAndOptionalGender(
-			ArrayList<User> userList, String username, String firstName, String lastName, String gender) {
+	public static ArrayList<User> findUsersFromSearchOptions(
+			ArrayList<User> userList, String role, String username, String firstName, String lastName, String gender) {
 		return new ArrayList<>(
 			userList.stream()
+				.filter(
+					user -> 
+					(role.equals("NONE")) ? true : user.getRole().toString().equals(role))
 				.filter(
 					user -> 
 						user.getUsername().contains(username))
@@ -584,8 +588,60 @@ public class ContainerController {
 				.collect(Collectors.toList())
 		);
 	}
-	public static ArrayList<Apartment> findApartmentsByOpTypeAndOpRoCountAndOpGuCountAndOpPriceLessOrEqualAndEnabled(
-		ArrayList<Apartment> apartmentList, String type, String roomCount, String guestCount, String price, Boolean enabled) {
+	public static ArrayList<Apartment> findApartmnetsFromSearchOptions(
+		ArrayList<Apartment> apartmentList,
+		ApartmentStatus status,
+		String datepickerArrive, 
+		String datepickerLeave,
+		String timeArrive,
+		String timeLeave,
+		String priceMin, 
+		String priceMax, 
+		String roomCountMin, 
+		String roomCountMax, 
+		String guestCount, 
+		String location) {
+		//TO DO
+		return new ArrayList<>(
+			apartmentList.stream()
+			.filter(
+					apartment -> 
+						apartment.getStatus() == status)
+			.filter(
+				apartment ->
+					datepickerArrive.isEmpty() || apartmentReservationStartAtDate(apartment, datepickerArrive))
+			.filter(
+				apartment ->
+					datepickerLeave.isEmpty() || apartmentReservationEndAtDate(apartment, datepickerLeave))
+			.filter(
+				apartment ->
+					timeArrive.isEmpty() || apartment.getCheckInTime().equals(timeArrive))
+			.filter(
+				apartment ->
+					timeLeave.isEmpty() || apartment.getCheckInTime().equals(timeLeave))
+			.filter(
+				apartment ->
+					(priceMin.isEmpty() && priceMax.isEmpty())
+					|| (priceMin.isEmpty() && PriceManager.comparePrices(apartment.getPrice(), ComparisonOption.LESS_THAN_OR_EQUAL_TO, priceMax))
+					|| (priceMax.isEmpty() && PriceManager.comparePrices(apartment.getPrice(), ComparisonOption.GREATER_THAN_OR_EQUAL_TO, priceMin))
+					|| (PriceManager.comparePrices(apartment.getPrice(), ComparisonOption.LESS_THAN_OR_EQUAL_TO, priceMax)
+						&& PriceManager.comparePrices(apartment.getPrice(), ComparisonOption.GREATER_THAN_OR_EQUAL_TO, priceMin)))
+			.filter(
+				apartment ->
+					(roomCountMin.isEmpty() && roomCountMax.isEmpty())
+					|| (roomCountMin.isEmpty() && (apartment.getRoomCount() <= getNumFromString(roomCountMax)))
+					|| (roomCountMax.isEmpty() && (apartment.getRoomCount() >= getNumFromString(roomCountMin)))
+					|| ((apartment.getRoomCount() <= getNumFromString(roomCountMax))
+						&& (apartment.getRoomCount() >= getNumFromString(roomCountMin))))
+			.filter(
+				apartment ->
+					guestCount.isEmpty() || apartment.getGuestCount() == getNumFromString(guestCount))
+			.filter(
+				apartment ->
+					location.isEmpty() || apartment.getLocation().getCity().contains(location))
+			.collect(Collectors.toList())
+		);
+/*
 		return new ArrayList<>(
 				apartmentList.stream()
 				.filter(
@@ -606,7 +662,9 @@ public class ContainerController {
 							enabled.equals(apartment.getEnabled()))
 				.collect(Collectors.toList())
 		);
+*/
 	}
+
 	public static ArrayList<Apartment> findApartmentsByHostId(Integer id) {
 		return new ArrayList<>(
 			apartments.stream()
@@ -716,6 +774,16 @@ public class ContainerController {
 					.collect(Collectors.toList())
 			);
 	}
+	public static ArrayList<Reservation> findReservationsFromGuestUsername(ArrayList<Reservation> reservations,
+			String username) {
+		return new ArrayList<>(
+			reservations.stream()
+				.filter(
+					reservation ->
+						reservation.getGuest().getUsername().contains(username))
+				.collect(Collectors.toList())
+		);
+	}
 	
 	//Find Comment/Comments
 	public static Comment findCommentById(Integer id) {
@@ -749,42 +817,86 @@ public class ContainerController {
 	}
 	
 	//Sort List
-	public static ArrayList<ApartmentTableModel> sortTableApartmentList(ArrayList<ApartmentTableModel> apartmentList, ApartmentTableParameter parameter) {
+	public static ArrayList<ApartmentTableModel> sortTableApartmentList(ArrayList<ApartmentTableModel> apartmentList, ApartmentTableParameter parameter, Boolean reversed) {
 		switch(parameter) {
 			case TYPE:
-				return sortApartments(apartmentList, ApartmentTableModel::getType);
+				return sortApartments(apartmentList, ApartmentTableModel::getType, reversed);
 			case ROOM_COUNT:
-				return sortApartments(apartmentList, ApartmentTableModel::getRoomCount);
+				return sortApartments(apartmentList, ApartmentTableModel::getRoomCount, reversed);
 			case GUEST_COUNT:
-				return sortApartments(apartmentList, ApartmentTableModel::getGuestCount);
+				return sortApartments(apartmentList, ApartmentTableModel::getGuestCount, reversed);
 			case LOCATION:
-				return sortApartments(apartmentList, ApartmentTableModel::getLocation);
+				return sortApartments(apartmentList, ApartmentTableModel::getLocation, reversed);
 			case HOST:
-				return sortApartments(apartmentList, ApartmentTableModel::getHost);
+				return sortApartments(apartmentList, ApartmentTableModel::getHost, reversed);
 			case PRICE:
-				return sortApartments(apartmentList, ApartmentTableModel::getPrice);
+				return sortApartments(apartmentList, ApartmentTableModel::getPrice, reversed);
 			case BOOKING_TIME:
-				return sortApartments(apartmentList, ApartmentTableModel::getBookingTime);
+				return sortApartments(apartmentList, ApartmentTableModel::getBookingTime, reversed);
 			case CANCEL_TIME:
-				return sortApartments(apartmentList, ApartmentTableModel::getCancelTime);
+				return sortApartments(apartmentList, ApartmentTableModel::getCancelTime, reversed);
 			case STATUS:
-				return sortApartments(apartmentList, ApartmentTableModel::getStatus);
+				return sortApartments(apartmentList, ApartmentTableModel::getStatus, reversed);
 			default:
 		}
 		return null;
 	}
 	private static ArrayList<ApartmentTableModel> sortApartments(
 		ArrayList<ApartmentTableModel> apartmentList, 
-		Function<ApartmentTableModel, String> sortKey) {
-		return new ArrayList<ApartmentTableModel>(
-			apartmentList.stream()
+		Function<ApartmentTableModel, String> sortKey, Boolean reversed) {
+		if(!reversed)
+			return new ArrayList<ApartmentTableModel>(
+				apartmentList.stream()
+					.sorted(Comparator.comparing(sortKey))
+					.collect(Collectors.toList())
+			);
+		else
+			return new ArrayList<ApartmentTableModel>(
+				apartmentList.stream()
+					.sorted(Comparator.comparing(sortKey).reversed())
+					.collect(Collectors.toList())
+			);
+	}
+	public static ArrayList<ReservationTableModel> sortTableReservationList(
+			ArrayList<ReservationTableModel> reservationList, ReservationTableParameter parameter,
+			Boolean reversed) {
+		switch(parameter) {
+		case APARTMENT:
+			return sortReservations(reservationList, ReservationTableModel::getApartment, reversed);
+		case DATE:
+			return sortReservations(reservationList, ReservationTableModel::getDate, reversed);
+		case NIGHTS:
+			return sortReservations(reservationList, ReservationTableModel::getNights, reversed);
+		case GUEST:
+			return sortReservations(reservationList, ReservationTableModel::getGuest, reversed);
+		case MESSAGE:
+			return sortReservations(reservationList, ReservationTableModel::getMessage, reversed);
+		case PRICE:
+			return sortReservations(reservationList, ReservationTableModel::getPrice, reversed);
+		case STATUS:
+			return sortReservations(reservationList, ReservationTableModel::getStatus, reversed);
+		default:
+	}
+	return null;
+	}
+	private static ArrayList<ReservationTableModel> sortReservations(ArrayList<ReservationTableModel> reservationList,
+			Function<ReservationTableModel, String> sortKey, Boolean reversed) {
+	if(!reversed)
+		return new ArrayList<ReservationTableModel>(
+			reservationList.stream()
 				.sorted(Comparator.comparing(sortKey))
 				.collect(Collectors.toList())
 		);
+	else
+		return new ArrayList<ReservationTableModel>(
+				reservationList.stream()
+				.sorted(Comparator.comparing(sortKey).reversed())
+				.collect(Collectors.toList())
+		);
 	}
-	
 /*	
-	//Checks
+	
+//Checks
 	public static boolean isAdmin(String role) {
 		return role.equals("ADMIN");
 	}
@@ -798,6 +910,22 @@ public class ContainerController {
 					return false;
 			}
 		return true;
+	}
+	public static boolean apartmentReservationStartAtDate(Apartment apartment, String date) {
+		ArrayList<Reservation> reservations = findReservationsByApartmentId(apartment.getId());
+		for(Reservation reservation : reservations) {
+			if(date.equals(reservation.getDate()))
+				return true;
+		}
+		return false;
+	}
+	public static boolean apartmentReservationEndAtDate(Apartment apartment, String date) {
+		ArrayList<Reservation> reservations = findReservationsByApartmentId(apartment.getId());
+		for(Reservation reservation : reservations) {
+			if(date.equals(reservation.getEndDate()))
+				return true;
+		}
+		return false;
 	}
 	
 	//Logical Delete
@@ -848,5 +976,4 @@ public class ContainerController {
 		}
 		return dates;
 	}
-
 }

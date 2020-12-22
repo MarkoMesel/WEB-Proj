@@ -11,6 +11,18 @@
 	<form method="post" action="/WEBProjRA502013/UserOverviewServlet">
 		<h1>Find Users</h1>
 		<table border="1" align="center">
+		<c:if test="${sessionScope.role == 'ADMIN'}">
+			<tr><td>By Role:</td>
+				<td>
+					<select name="userRoleSearch">
+						<option value="NONE">Ignore Role</option>
+						<option value="ADMIN">Administrator</option>
+						<option value="HOST">Host</option>
+						<option value="GUEST">Guest</option>
+					</select>
+				</td>
+			</tr>
+		</c:if>
 		<tr>
 			<td>By Username (leave blank to ignore):</td>
 			<td><input type="text" name="username" id="username"/></td>

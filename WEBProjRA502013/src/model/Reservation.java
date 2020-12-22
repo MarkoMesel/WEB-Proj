@@ -1,5 +1,9 @@
 package model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class Reservation {
 	private Integer id;
 	private Apartment apartment;
@@ -85,6 +89,19 @@ public class Reservation {
 
 	public void setStatus(ReservationStatus status) {
 		this.status = status;
+	}
+
+	public String getEndDate() {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			Calendar c = Calendar.getInstance();
+			c.setTime(sdf.parse(this.date));
+			c.add(Calendar.DATE, this.numberOfNights-1);
+			return sdf.format(c.getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

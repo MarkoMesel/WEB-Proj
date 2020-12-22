@@ -21,6 +21,7 @@ import model.Host;
 import model.Location;
 import model.Reservation;
 import model.ReservationStatus;
+import model.Role;
 import model.ApartmentStatus;
 import model.Comment;
 import model.Type;
@@ -335,6 +336,9 @@ public class ServletController {
 			dbmList.add(ContainerController.createTableModelFromReservation(r));
 		session.setAttribute("reservations", dbmList);
 	}
+	public static void putReservationTableModelListInSession(ArrayList<ReservationTableModel> reservations, HttpSession session) {
+		session.setAttribute("reservations", reservations);
+	}
 	public static void putCommentListInSession(ArrayList<Comment> comments, HttpSession session) {
 		ArrayList<CommentTableModel> dbmList = new ArrayList<CommentTableModel>();
 		for(Comment c : comments)
@@ -344,6 +348,12 @@ public class ServletController {
 	public static void putCommentPermissionInSession(String permission, HttpSession session) {
 		session.setAttribute("commentPermission", permission);
 	}	
+	public static void putReversedBooleanInSession(Boolean sortType, String name, HttpSession session) {
+		session.setAttribute(name, sortType.toString());
+	}
+	public static void putSuccessMessageInSession(HttpServletRequest request, String successMessage) {
+		request.setAttribute("successMessage", successMessage);
+	}
 	
 	//Invalidate session
 	public static void invalidateSession(HttpSession session) {
@@ -354,6 +364,45 @@ public class ServletController {
 	public static void sendBadRequest(HttpServletResponse response, String errorMessage) throws IOException {
 		response.sendError(HttpServletResponse.SC_BAD_REQUEST, errorMessage);
 	}
+
+	public static void loadApartmentsAndForwardToApartmentOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Role role = Role.valueOf(request.getSession().getAttribute("role").toString());
+		ArrayList<Apartment> apartments;
+		switch(role) {
+		case ADMIN:
+			apartments = ContainerController.findApartmentsByEnabled(true);
+			putApartmentListInSession(apartments, request.getSession());
+			forwardToApartmentOverview(request, response);
+			break;
+		case HOST:
+			Integer hostId = Integer.parseInt(request.getSession().getAttribute("id").toString());
+			ArrayList<Apartment> activeApartments = ContainerController.findApartmentsByStatusAndHostIdAndEnabled(
+				ApartmentStatus.ACTIVE, 
+				hostId,
+				true
+			);
+			ArrayList<Apartment> inactiveApartments = ContainerController.findApartmentsByStatusAndHostIdAndEnabled(
+				ApartmentStatus.INACTIVE,
+				hostId,
+				true
+			);
+			ServletController.putActiveAndInactiveApartmentListsInSession(
+				activeApartments,
+				inactiveApartments,
+				request.getSession()
+			);
+			forwardToApartmentOverview(request, response);
+			break;
+		case GUEST:
+			apartments = ContainerController.findApartmentsByStatusAndEnabled("ACTIVE", true);
+			putApartmentListInSession(apartments, request.getSession());
+			forwardToApartmentOverview(request, response);
+			break;
+		default:
+			break;
+		}
+	}
+
 
 
 

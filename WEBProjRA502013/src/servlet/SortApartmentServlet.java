@@ -36,15 +36,22 @@ public class SortApartmentServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContainerController.populateLists();
 		
-		String atpLabel = request.getParameter("sortBtn"); 
+		String atpLabel = request.getParameter("sortBtn");
+		Boolean reversed;
+		if(request.getSession().getAttribute("sortTypeApa") == null) 
+			reversed = true;
+		else
+			reversed = !Boolean.parseBoolean(request.getSession().getAttribute("sortTypeApa").toString());
 		
 		if(atpLabel != null) {
 			@SuppressWarnings("unchecked")
 			ArrayList<ApartmentTableModel> apartmentList = (ArrayList<ApartmentTableModel>) request.getSession().getAttribute("apartments");
 			ArrayList<ApartmentTableModel> sortedApartmentList = ContainerController.sortTableApartmentList(
 				apartmentList,
-				ApartmentTableParameter.valueOfLabel(atpLabel)
+				ApartmentTableParameter.valueOfLabel(atpLabel),
+				reversed
 			);
+			ServletController.putReversedBooleanInSession(reversed, "sortTypeApa", request.getSession());
 			ServletController.putApartmentTableModelListInSession(sortedApartmentList, "apartments", request.getSession());
 			ServletController.forwardToApartmentOverview(request, response);
 		} else {
@@ -53,8 +60,10 @@ public class SortApartmentServlet extends HttpServlet {
 			ArrayList<ApartmentTableModel> apartmentList = (ArrayList<ApartmentTableModel>) request.getSession().getAttribute("inactiveApartments");
 			ArrayList<ApartmentTableModel> sortedApartmentList = ContainerController.sortTableApartmentList(
 				apartmentList,
-				ApartmentTableParameter.valueOfLabel(atpLabel)
+				ApartmentTableParameter.valueOfLabel(atpLabel),
+				reversed
 			);
+			ServletController.putReversedBooleanInSession(reversed, "sortTypeApa", request.getSession());
 			ServletController.putApartmentTableModelListInSession(sortedApartmentList, "inactiveApartments", request.getSession());
 			ServletController.forwardToApartmentOverview(request, response);
 		}

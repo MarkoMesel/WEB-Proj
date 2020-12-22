@@ -6,6 +6,11 @@
 <title>Apartment Overview</title>
 	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
 	<link href="css/deletemodal.css" rel="stylesheet" type="text/css">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 <div class="mainPanelLarge">
@@ -13,30 +18,91 @@
 		<h1>Find Apartments</h1>
 		<table border="1" align="center">
 		<tr>
-			<td>By Type:</td>
+			<td rowspan="2" >By Date</td>
+			<td align="left">
+				Arrival date:
+			</td>
 			<td>
-				<select name="type">
-					<option value="NONE">Ignore Type</option>
-					<option value="ROOM">Room</option>
-					<option value="FULL">Full</option>
-				</select>
+				<input type="text" name="datepickerArrive" id="datepickerArrive"/>
 			</td>
 		</tr>
 		<tr>
-			<td>By Room Count (leave blank to ignore):</td>
-			<td><input type="text" name="roomCount" id="guestCount"/></td>
+			<td align="left">
+				Leave date:
+			</td>
+			<td>
+				<input type="text" name="datepickerLeave" id="datepickerLeave"/>
+			</td>
 		</tr>
 		<tr>
-			<td>By Guest Count (leave blank to ignore):</td>
-			<td><input type="text" name="guestCount" id="guestCount"/></td>
+			<td rowspan="2" >By Time</td>
+			<td align="left">
+				Arrival time:
+			</td>
+			<td>
+				<input type="text" name="timeArrive" id="timeArrive"/>
+			</td>
 		</tr>
 		<tr>
-			<td>By Price (this or less - leave blank to ignore):</td>
-			<td><input type="text" name="price" id="price"/></td>
+			<td align="left">
+				Leave time:
+			</td>
+			<td>
+				<input type="text" name="timeLeave" id="timeLeave"/>
+			</td>
 		</tr>
-		<tr><td colspan="2"><input type="submit" class="submitButton" value="Find Apartments"/></td></tr>
+		<tr>
+			<td rowspan="2">By Price</td>
+			<td align="left">
+				Min:
+			</td>
+			<td>
+				<input type="text" name="priceMin" id="priceMin"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="left">
+				Max:
+			</td>
+			<td>
+				<input type="text" name="priceMax" id="priceMax"/>
+			</td>
+		</tr>
+		<tr>
+			<td rowspan="2">By Room Count</td>
+			<td align="left">
+				Min:
+			</td>
+			<td >
+				<input type="text" name="roomCountMin" id="roomCountMin"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="left">
+				Max:
+			</td>
+			<td >
+				<input type="text" name="roomCountMax" id="roomCountMax"/>
+			</td>
+		</tr>
+		<tr>
+			<td>By Guest Count</td>
+			<td align="left">Num. of Guests:</td>
+			<td>
+				<input type="text" name="guestCount" id="guestCount"/>
+			</td>
+		</tr>
+		<tr>
+			<td>By Location</td>
+			<td align="left">City or Country:</td>
+			<td>
+				<input type="text" name="location" id="location"/>
+			</td>
+		</tr>
+		<tr><td colspan="3"><input type="submit" class="submitButton" value="Find Apartments"/></td></tr>
 	</table>
 	</form>
+	
 	<h1>Apartment Overview</h1>
 	<table border="1" align="center">
 		<tr>
@@ -212,6 +278,10 @@
 </div>
 
 <script>
+$( function() {
+	$( "#datepickerArrive" ).datepicker({dateFormat: 'dd-mm-yy'});
+	$( "#datepickerLeave" ).datepicker({dateFormat: 'dd-mm-yy'});
+  } );
 function displayDeleteModal(id) {
 	document.getElementById('id01').style.display='block';
 	document.getElementById('id02').style.display='block';

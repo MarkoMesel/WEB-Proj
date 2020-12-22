@@ -3,35 +3,66 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Apartment Overview</title>
+<title>Reservation Overview</title>
 	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
 	<link href="css/deletemodal.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="mainPanelLarge">
+	<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
+		<form method="post" action="/WEBProjRA502013/FindReservationServlet">
+			<h1>Find Reservations</h1>
+				<table border="1" align="center">
+				<tr>
+					<td>
+						By username:
+					</td>
+					<td>
+						<input type="text" name="username" id="username"/>
+					</td>
+					
+				</tr>
+				<tr><td colspan="2"><input type="submit" class="submitButton" value="Find Reservations"/></td></tr>
+				</table>
+		</form>
+	</c:if>
 	<h1>Reservation Overview</h1>
 	<table border="1" align="center">
 		<tr>
 			<th>
-				Apartment
+				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+					<input class="button" name="sortBtn" type="submit" value="Apartment"/>
+				</form>
 			</th>
 			<th>
-				Reservation Date
+				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+					<input class="button" name="sortBtn" type="submit" value="Reservation Date"/>
+				</form>
 			</th>
 			<th>
-				Num. of Nights
+				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+					<input class="button" name="sortBtn" type="submit" value="Night Count"/>
+				</form>
 			</th>
 			<th>
-				Total Price
+				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+					<input class="button" name="sortBtn" type="submit" value="Price"/>
+				</form>
 			</th>
 			<th>
-				Reservation Message
+				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+					<input class="button" name="sortBtn" type="submit" value="Message"/>
+				</form>
 			</th>
 			<th>
-				Guest
+				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+					<input class="button" name="sortBtn" type="submit" value="Guest"/>
+				</form>
 			</th>
 			<th>
-				Status
+				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+					<input class="button" name="sortBtn" type="submit" value="Status"/>
+				</form>
 			</th>
 		</tr>
 		<c:forEach var="reservation" items="${sessionScope.reservations}">
