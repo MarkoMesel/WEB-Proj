@@ -1,21 +1,21 @@
 package dbm;
 
-public class ApartmentAmenityDbModel {
+public class ApartmentPairingDbModel {
 	public String id;
 	public String apartmentId;
-	public String amenityId;
+	public String strPair;
 	
-	public ApartmentAmenityDbModel(String id, String apartmentId, String amenityId) {
+	public ApartmentPairingDbModel(String id, String apartmentId, String strPair) {
 		super();
 		this.id = id;
 		this.apartmentId = apartmentId;
-		this.amenityId = amenityId;
+		this.strPair = strPair;
 	}
 	
-	public ApartmentAmenityDbModel(String[] array) {
+	public ApartmentPairingDbModel(String[] array) {
 		this.id = array[0];
 		this.apartmentId = array[1];
-		this.amenityId = array[2];
+		this.strPair = array[2];
 	}
 
 	public String getId() {
@@ -30,11 +30,11 @@ public class ApartmentAmenityDbModel {
 	public void setApartmentId(String apartmentId) {
 		this.apartmentId = apartmentId;
 	}
-	public String getAmenityId() {
-		return amenityId;
+	public String getStrPair() {
+		return strPair;
 	}
-	public void setAmenityId(String amenityId) {
-		this.amenityId = amenityId;
+	public void setStrPair(String strPair) {
+		this.strPair = strPair;
 	}
 	
 }

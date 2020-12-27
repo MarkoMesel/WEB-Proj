@@ -1,5 +1,8 @@
 package tablemodel;
 
+import helper.PriceManager;
+import helper.TimeManager;
+
 public class ApartmentTableModel {
 	public String id;
 	public String type;
@@ -105,5 +108,25 @@ public class ApartmentTableModel {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public int getRoomCountAsInt() {
+		return Integer.parseInt(roomCount);
+	}
+	
+	public int getGuestCountAsInt() {
+		return Integer.parseInt(guestCount);
+	}
+	
+	public double getPriceAsDouble() {
+		return PriceManager.convertPriceToDouble(price);
+	}
+	
+	public double getBookingTimeAsDouble() {
+		return TimeManager.convertTimeToDouble(bookingTime);
+	}
+	
+	public double getCancelTimeAsDouble() {
+		return TimeManager.convertTimeToDouble(cancelTime);
 	}
 }

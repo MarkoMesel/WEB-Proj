@@ -27,7 +27,7 @@ public class PriceManager {
 	}
 	
 	//Convert
-	private static Double convertPriceToDouble(String price) {
+	public static Double convertPriceToDouble(String price) {
 		String priceString = price;
 		//Remove all "," and "$" from price string
 		priceString = priceString.replace("$", "").replaceAll(",", "");

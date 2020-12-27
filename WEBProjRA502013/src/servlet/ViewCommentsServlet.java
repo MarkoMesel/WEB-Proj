@@ -1,8 +1,13 @@
 package servlet;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +40,7 @@ public class ViewCommentsServlet extends HttpServlet {
 	public void init() {
 	}
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {     
 		ContainerController.populateLists();
 		String id = request.getParameter("currentRow").toString();
 		Apartment apartment = ContainerController.findApartmentById(Integer.parseInt(id));
@@ -60,6 +65,8 @@ public class ViewCommentsServlet extends HttpServlet {
 		ServletController.putCommentListInSession(comments, request.getSession());
 		ServletController.putCommentPermissionInSession(permission, request.getSession());
 		ServletController.forwardToViewComments(request, response);
+        
+        
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

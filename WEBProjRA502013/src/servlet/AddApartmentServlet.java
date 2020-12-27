@@ -42,15 +42,21 @@ public class AddApartmentServlet extends HttpServlet {
 		ValidationResponse validationResponse = Validator.validateApartment(request);
 		if(validationResponse.isValid()) {
 			Location location = ServletController.createLocationFromRequest(request);
-			ContainerController.locations.add(location);
+			//ContainerController.locations.add(location);
 			Apartment apartment = ServletController.createApartmentFromRequestAndLocation(request, location);
 			ServletController.createAmenityListForApartmentFromRequest(apartment, request);
+			/*
 			ContainerController.apartments.add(apartment);
 			ContainerController.saveApartmentList();
 			ContainerController.saveLocationList();
 			ContainerController.saveApartmentAmenitiyPairingList();
 			ServletController.putSuccessMessageInSession(request, MessageGenerator.generateSuccessfulCreateMessage("apartment"));
 			ServletController.forwardToHome(request, response);
+			*/
+			ArrayList<Amenity> amenities = ContainerController.findAmenitiesByEnabled(true);
+			ServletController.putApartmentAndLocationInSession(apartment, request.getSession());
+			ServletController.putChosenAmenityListInSession(amenities, apartment.getAmenities(), "amenities", request.getSession());
+			ServletController.forwardToAddApartmentPictures(request, response);
 		} else {
 		    ServletController.sendBadRequest(response, validationResponse.getErrorMessage());
 		}

@@ -88,6 +88,7 @@
 			<td><label id="postNumberError"></label></td>
 		</tr>
 	</table>
+	
 	<h2>Amenities</h2>
 	<table border="1" align="center" >
        <c:forEach var="element" items="${sessionScope.amenities}">

@@ -1,17 +1,22 @@
 package controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Function;
+import java.util.function.ToIntFunction;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 
 import dbm.AmenityDbModel;
-import dbm.ApartmentAmenityDbModel;
+import dbm.ApartmentPairingDbModel;
 import dbm.ApartmentDbModel;
 import dbm.CommentDbModel;
 import dbm.LocationDbModel;
@@ -50,6 +55,7 @@ public class ContainerController {
 	public static ArrayList<Amenity> amenities = new ArrayList<Amenity>();
 	public static ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 	public static ArrayList<Comment> comments = new ArrayList<Comment>();
+	//public static HashMap<Apartment, ArrayList<String>> apartmentPictureReferencePairings = new HashMap<Apartment, ArrayList<String>>();
 	
 	//METHODS
 	
@@ -65,6 +71,7 @@ public class ContainerController {
 		populateGuestReservationsAndReservedApartmentsList();
 		populateApartmentBusyDatesList();
 		populateCommentsList();
+		populateApartmentPictureReferenceList();
 	}
 	public static void populateLocationsList() {
 		List<LocationDbModel> dbModels = DatabaseController.getLocationsFromDatabase();
@@ -88,12 +95,12 @@ public class ContainerController {
 		amenities = getAmenitiesFromDbModels(dbModels);
 	}
 	public static void populateApartmentAmenitiesList() {
-		List<ApartmentAmenityDbModel> dbModels = DatabaseController.getApartmentAmenityPairingsFromDatabase();
+		List<ApartmentPairingDbModel> dbModels = DatabaseController.getApartmentPairingsFromDatabase("apartmentAmenityPairings.txt");
 		Apartment apartment = null;
 		Amenity amenity = null;
-		for(ApartmentAmenityDbModel dbm : dbModels) {
+		for(ApartmentPairingDbModel dbm : dbModels) {
 			apartment = findApartmentById(Integer.parseInt(dbm.apartmentId));
-			amenity = findAmenityById(Integer.parseInt(dbm.amenityId));
+			amenity = findAmenityById(Integer.parseInt(dbm.strPair));
 			apartment.getAmenities().add(amenity);
 		}
 	}
@@ -125,6 +132,20 @@ public class ContainerController {
 		List<CommentDbModel> dbModels = DatabaseController.getCommentsFromDatabase();
 		comments = getCommentsFromDbModels(dbModels);
 	}
+	public static void populateApartmentPictureReferenceList() {
+		//apartmentPictureReferencePairings = new HashMap<Apartment, ArrayList<String>>(); 
+		List<ApartmentPairingDbModel> dbModels = DatabaseController.getApartmentPairingsFromDatabase("apartmentPictureReferencePairings.txt");
+		for(ApartmentPairingDbModel dbm : dbModels) {
+			Apartment apartment = findApartmentById(Integer.parseInt(dbm.apartmentId));
+			/*
+			if(!apartmentPictureReferencePairings.containsKey(apartment))
+				apartmentPictureReferencePairings.put(apartment, new ArrayList<String>());
+			apartmentPictureReferencePairings.get(apartment).add(dbm.strPair);
+			*/
+			apartment.getPictures().add(dbm.strPair);
+		}
+		
+	}
 	
 	//Save Lists
 	public static void saveLocationList() {
@@ -140,8 +161,8 @@ public class ContainerController {
 		DatabaseController.saveApartmentsToDatabase(dbModels);
 	}
 	public static void saveApartmentAmenitiyPairingList() {
-		List<ApartmentAmenityDbModel> dbModels = getApartmentAmenityDbModelsFromApartments();
-		DatabaseController.saveApartmentAmenityPairingsToDatabase(dbModels);
+		List<ApartmentPairingDbModel> dbModels = getApartmentAmenityDbModelsFromApartments();
+		DatabaseController.saveApartmentAmenityPairingsToDatabase(dbModels, "apartmentAmenityPairings.txt");
 	}
 	public static void saveAmenityList() {
 		List<AmenityDbModel> dbModels = getDbModelsFromAmenities();
@@ -154,6 +175,10 @@ public class ContainerController {
 	public static void saveCommentList() {
 		List<CommentDbModel> dbModels = getDbModelsFromComments();
 		DatabaseController.saveCommentsToDatabase(dbModels);
+	}
+	public static void saveApartmentPicturePairingList() {
+		List<ApartmentPairingDbModel> dbModels = getApartmentPictureDbModelsFromApartments();
+		DatabaseController.saveApartmentAmenityPairingsToDatabase(dbModels, "apartmentPictureReferencePairings.txt");
 	}
 	
 	//Get containerModel list from dbModel list
@@ -325,12 +350,12 @@ public class ContainerController {
 		}
 		return dbModels;
 	}
-	private static List<ApartmentAmenityDbModel> getApartmentAmenityDbModelsFromApartments() {
-		ArrayList<ApartmentAmenityDbModel> dbModels = new ArrayList<ApartmentAmenityDbModel>();
+	private static List<ApartmentPairingDbModel> getApartmentAmenityDbModelsFromApartments() {
+		ArrayList<ApartmentPairingDbModel> dbModels = new ArrayList<ApartmentPairingDbModel>();
 		Integer id = 1;
 		for(Apartment apartment : apartments) {
 			for(Amenity amenity : apartment.getAmenities()) {
-				ApartmentAmenityDbModel dbm = createModelFromApartmentAndAmenity(id, apartment.getId(), amenity.getId());
+				ApartmentPairingDbModel dbm = createModelFromApartmentAndAmenity(id, apartment.getId(), amenity.getId());
 				dbModels.add(dbm);
 				id = new Integer(id.intValue() + 1);
 			}
@@ -360,6 +385,32 @@ public class ContainerController {
 			dbModels.add(dbm);
 		}
 		return dbModels;
+	}
+	private static List<ApartmentPairingDbModel> getApartmentPictureDbModelsFromApartments() {
+		List<ApartmentPairingDbModel> dbModels = new ArrayList<ApartmentPairingDbModel>();
+		Integer id = 1;
+		for(Apartment apartment : apartments) {
+			String apartmentId = apartment.getId().toString();
+			for(String picture : apartment.getPictures()) {
+				dbModels.add(new ApartmentPairingDbModel(id.toString(), apartmentId, picture));
+				id = new Integer(id.intValue() + 1);
+			}
+		}
+		/*
+	    Iterator<Entry<Apartment, ArrayList<String>>> it = apartmentPictureReferencePairings.entrySet().iterator();
+	    while (it.hasNext()) {
+			Map.Entry<Apartment, ArrayList<String>> pair = (Map.Entry<Apartment, ArrayList<String>>)it.next();
+	        String apartmentId = ((Apartment) pair.getKey()).getId().toString();
+			ArrayList<String> picRefList = (ArrayList<String>) pair.getValue();
+			for(String picRef : picRefList) {
+				list.add(new ApartmentPairingDbModel(id.toString(), apartmentId, picRef));
+				id = new Integer(id.intValue() + 1);
+			}
+				
+	        it.remove();
+	    }
+	    */
+	    return dbModels;
 	}
 	
 	//Create dbModel from containerModel/containerModels
@@ -401,11 +452,11 @@ public class ContainerController {
 			a.getStatus().toString(),
 			a.getEnabled().toString());
 	}
-	public static ApartmentAmenityDbModel createModelFromApartmentAndAmenity(
+	public static ApartmentPairingDbModel createModelFromApartmentAndAmenity(
 			Integer id, 
 			Integer apartmentId,
 			Integer amenityId) {
-			return new ApartmentAmenityDbModel(
+			return new ApartmentPairingDbModel(
 				id.toString(), 
 				apartmentId.toString(), 
 				amenityId.toString()
@@ -820,28 +871,28 @@ public class ContainerController {
 	public static ArrayList<ApartmentTableModel> sortTableApartmentList(ArrayList<ApartmentTableModel> apartmentList, ApartmentTableParameter parameter, Boolean reversed) {
 		switch(parameter) {
 			case TYPE:
-				return sortApartments(apartmentList, ApartmentTableModel::getType, reversed);
+				return sortApartmentsByString(apartmentList, ApartmentTableModel::getType, reversed);
 			case ROOM_COUNT:
-				return sortApartments(apartmentList, ApartmentTableModel::getRoomCount, reversed);
+				return sortApartmentsByRoomCount(apartmentList, reversed);
 			case GUEST_COUNT:
-				return sortApartments(apartmentList, ApartmentTableModel::getGuestCount, reversed);
+				return sortApartmentsByGuestCount(apartmentList, reversed);
 			case LOCATION:
-				return sortApartments(apartmentList, ApartmentTableModel::getLocation, reversed);
+				return sortApartmentsByString(apartmentList, ApartmentTableModel::getLocation, reversed);
 			case HOST:
-				return sortApartments(apartmentList, ApartmentTableModel::getHost, reversed);
+				return sortApartmentsByString(apartmentList, ApartmentTableModel::getHost, reversed);
 			case PRICE:
-				return sortApartments(apartmentList, ApartmentTableModel::getPrice, reversed);
+				return sortApartmentsByPrice(apartmentList, reversed);
 			case BOOKING_TIME:
-				return sortApartments(apartmentList, ApartmentTableModel::getBookingTime, reversed);
+				return sortApartmentsByBookingTime(apartmentList, reversed);
 			case CANCEL_TIME:
-				return sortApartments(apartmentList, ApartmentTableModel::getCancelTime, reversed);
+				return sortApartmentsByCancelTime(apartmentList, reversed);
 			case STATUS:
-				return sortApartments(apartmentList, ApartmentTableModel::getStatus, reversed);
+				return sortApartmentsByString(apartmentList, ApartmentTableModel::getStatus, reversed);
 			default:
 		}
 		return null;
 	}
-	private static ArrayList<ApartmentTableModel> sortApartments(
+	private static ArrayList<ApartmentTableModel> sortApartmentsByString(
 		ArrayList<ApartmentTableModel> apartmentList, 
 		Function<ApartmentTableModel, String> sortKey, Boolean reversed) {
 		if(!reversed)
@@ -857,6 +908,86 @@ public class ContainerController {
 					.collect(Collectors.toList())
 			);
 	}
+	private static ArrayList<ApartmentTableModel> sortApartmentsByRoomCount(
+			ArrayList<ApartmentTableModel> apartmentList, 
+			Boolean reversed) {
+			if(!reversed)
+				return new ArrayList<ApartmentTableModel>(
+					apartmentList.stream()
+						.sorted(Comparator.comparingInt(ApartmentTableModel::getRoomCountAsInt))
+						.collect(Collectors.toList())
+				);
+			else
+				return new ArrayList<ApartmentTableModel>(
+					apartmentList.stream()
+						.sorted(Comparator.comparingInt(ApartmentTableModel::getRoomCountAsInt).reversed())
+						.collect(Collectors.toList())
+				);
+		}
+	private static ArrayList<ApartmentTableModel> sortApartmentsByGuestCount(
+			ArrayList<ApartmentTableModel> apartmentList, 
+			Boolean reversed) {
+			if(!reversed)
+				return new ArrayList<ApartmentTableModel>(
+					apartmentList.stream()
+						.sorted(Comparator.comparingInt(ApartmentTableModel::getGuestCountAsInt))
+						.collect(Collectors.toList())
+				);
+			else
+				return new ArrayList<ApartmentTableModel>(
+					apartmentList.stream()
+						.sorted(Comparator.comparingInt(ApartmentTableModel::getGuestCountAsInt).reversed())
+						.collect(Collectors.toList())
+				);
+		}
+	private static ArrayList<ApartmentTableModel> sortApartmentsByPrice(
+			ArrayList<ApartmentTableModel> apartmentList, 
+			Boolean reversed) {
+			if(!reversed)
+				return new ArrayList<ApartmentTableModel>(
+					apartmentList.stream()
+						.sorted(Comparator.comparingDouble(ApartmentTableModel::getPriceAsDouble))
+						.collect(Collectors.toList())
+				);
+			else
+				return new ArrayList<ApartmentTableModel>(
+					apartmentList.stream()
+						.sorted(Comparator.comparingDouble(ApartmentTableModel::getPriceAsDouble).reversed())
+						.collect(Collectors.toList())
+				);
+		}
+	private static ArrayList<ApartmentTableModel> sortApartmentsByBookingTime(
+			ArrayList<ApartmentTableModel> apartmentList, 
+			Boolean reversed) {
+			if(!reversed)
+				return new ArrayList<ApartmentTableModel>(
+					apartmentList.stream()
+						.sorted(Comparator.comparingDouble(ApartmentTableModel::getBookingTimeAsDouble))
+						.collect(Collectors.toList())
+				);
+			else
+				return new ArrayList<ApartmentTableModel>(
+					apartmentList.stream()
+						.sorted(Comparator.comparingDouble(ApartmentTableModel::getBookingTimeAsDouble).reversed())
+						.collect(Collectors.toList())
+				);
+		}
+	private static ArrayList<ApartmentTableModel> sortApartmentsByCancelTime(
+			ArrayList<ApartmentTableModel> apartmentList, 
+			Boolean reversed) {
+			if(!reversed)
+				return new ArrayList<ApartmentTableModel>(
+					apartmentList.stream()
+						.sorted(Comparator.comparingDouble(ApartmentTableModel::getCancelTimeAsDouble))
+						.collect(Collectors.toList())
+				);
+			else
+				return new ArrayList<ApartmentTableModel>(
+					apartmentList.stream()
+						.sorted(Comparator.comparingDouble(ApartmentTableModel::getCancelTimeAsDouble).reversed())
+						.collect(Collectors.toList())
+				);
+		}
 	public static ArrayList<ReservationTableModel> sortTableReservationList(
 			ArrayList<ReservationTableModel> reservationList, ReservationTableParameter parameter,
 			Boolean reversed) {

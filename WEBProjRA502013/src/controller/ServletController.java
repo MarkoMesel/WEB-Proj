@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.List;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -69,6 +70,9 @@ public class ServletController {
 	}
 	public static void forwardToEditApartment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/editApartment.jsp").forward(request, response);
+	}
+	public static void forwardToAddApartmentPictures(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/addApartmentPictures.jsp").forward(request, response);
 	}
 	
 	//Forward to Reservation pages
@@ -188,6 +192,52 @@ public class ServletController {
 		);
 	}
 	
+	//Create from session (+ optional)
+	public static Location createLocationFromSession(HttpSession session) {
+		return new Location(
+				Integer.parseInt(session.getAttribute("locationId").toString()),
+				Float.parseFloat(session.getAttribute("locationLatitude").toString()),
+				Float.parseFloat(session.getAttribute("locationLongitude").toString()),
+				session.getAttribute("locationStreetName").toString(),
+				session.getAttribute("locationStreetNumber").toString(),
+				session.getAttribute("locationCity").toString(),
+				session.getAttribute("locationPostNumber").toString(),
+				true
+			);
+	}
+	public static Apartment createApartmentFromSessionAndLocation(HttpSession session, Location location) {
+		Integer id = Integer.parseInt(session.getAttribute("apartmentId").toString());
+		Type type = Type.valueOf(session.getAttribute("apartmentType").toString());
+		Integer roomCount = Integer.parseInt(session.getAttribute("apartmentRoomCount").toString());
+		Integer guestCount = Integer.parseInt(session.getAttribute("apartmentGuestCount").toString());
+		String price = session.getAttribute("apartmentPrice").toString();
+		String checkInTime = session.getAttribute("apartmentCheckInTime").toString();
+		String checkOutTime = session.getAttribute("apartmentCheckOutTime").toString();
+		return new Apartment(
+				id,
+				type,
+				roomCount,
+				guestCount,
+				location,
+				(Host) ContainerController.findUserById(Integer.parseInt(session.getAttribute("id").toString())),
+				price,
+				checkInTime,
+				checkOutTime,
+				ApartmentStatus.INACTIVE,
+				true
+			);
+	}
+	@SuppressWarnings("unchecked")
+	public static void createAmenityListForApartmentFromSession(Apartment apartment, HttpSession session) {
+		ArrayList<AmenityTableModel> amenityTMList = (ArrayList<AmenityTableModel>) session.getAttribute("amenities");
+		ArrayList<Amenity> amenities = new ArrayList<Amenity>();
+		for(AmenityTableModel atm : amenityTMList) {
+		if(atm.checked == "true")
+			amenities.add(ContainerController.findAmenityById(Integer.parseInt(atm.getId())));
+		}
+		apartment.setAmenities(amenities);
+	}
+	
 	//Edit from request
 	public static void editUserFromRequest(User user, HttpServletRequest request) {
 		user.setPassword(request.getParameter("password"));
@@ -210,6 +260,7 @@ public class ServletController {
 		apartment.setPrice(request.getParameter("guestCount"));
 		apartment.setCheckInTime(request.getParameter("checkInTime"));
 		apartment.setCheckOutTime(request.getParameter("checkOutTime"));
+		apartment.setStatus(ApartmentStatus.valueOf(request.getParameter("status")));
 	}
 	public static void editLocationFromRequest(Location location, HttpServletRequest request) {
 		location.setLatitude(Float.parseFloat(request.getParameter("latitude")));
@@ -365,43 +416,10 @@ public class ServletController {
 		response.sendError(HttpServletResponse.SC_BAD_REQUEST, errorMessage);
 	}
 
-	public static void loadApartmentsAndForwardToApartmentOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Role role = Role.valueOf(request.getSession().getAttribute("role").toString());
-		ArrayList<Apartment> apartments;
-		switch(role) {
-		case ADMIN:
-			apartments = ContainerController.findApartmentsByEnabled(true);
-			putApartmentListInSession(apartments, request.getSession());
-			forwardToApartmentOverview(request, response);
-			break;
-		case HOST:
-			Integer hostId = Integer.parseInt(request.getSession().getAttribute("id").toString());
-			ArrayList<Apartment> activeApartments = ContainerController.findApartmentsByStatusAndHostIdAndEnabled(
-				ApartmentStatus.ACTIVE, 
-				hostId,
-				true
-			);
-			ArrayList<Apartment> inactiveApartments = ContainerController.findApartmentsByStatusAndHostIdAndEnabled(
-				ApartmentStatus.INACTIVE,
-				hostId,
-				true
-			);
-			ServletController.putActiveAndInactiveApartmentListsInSession(
-				activeApartments,
-				inactiveApartments,
-				request.getSession()
-			);
-			forwardToApartmentOverview(request, response);
-			break;
-		case GUEST:
-			apartments = ContainerController.findApartmentsByStatusAndEnabled("ACTIVE", true);
-			putApartmentListInSession(apartments, request.getSession());
-			forwardToApartmentOverview(request, response);
-			break;
-		default:
-			break;
-		}
-	}
+
+
+
+
 
 
 

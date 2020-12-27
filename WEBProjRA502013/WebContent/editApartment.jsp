@@ -13,6 +13,14 @@
 	<h2>General Info</h2>
 	<table border="1" align="center" >
 		<tr>
+			<td>
+				<select name="status" id="status">
+				  <option value="ACTIVE" ${sessionScope.apartmentStatus == 'ACTIVE' ? 'selected' : ''}>Active</option>
+				  <option value="INACTIVE" ${sessionScope.apartmentStatus == 'INACTIVE' ? 'selected' : ''}>Inactive</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
 		<td>Apartment Type:</td>
 			<td>
 				<select name="aType" id="aType">

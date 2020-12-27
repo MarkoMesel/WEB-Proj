@@ -15,6 +15,7 @@ public class Apartment {
 	private ApartmentStatus status;
 	private ArrayList<String> busyDates;
 	private ArrayList<Amenity> amenities;
+	private ArrayList<String> pictures;
 	private Boolean enabled;
 	
 	public Apartment(int id, Type type, int roomCount, int guestCount, Location location, Host host,
@@ -32,6 +33,7 @@ public class Apartment {
 		this.status = status;
 		this.busyDates = new ArrayList<String>();
 		this.amenities = new ArrayList<Amenity>();
+		this.pictures = new ArrayList<String>();
 		this.enabled = enabled;
 	}
 
@@ -129,6 +131,14 @@ public class Apartment {
 
 	public void setAmenities(ArrayList<Amenity> amenities) {
 		this.amenities = amenities;
+	}
+	
+	public ArrayList<String> getPictures() {
+		return pictures;
+	}
+
+	public void setPictures(ArrayList<String> pictures) {
+		this.pictures = pictures;
 	}
 
 	public Boolean getEnabled() {

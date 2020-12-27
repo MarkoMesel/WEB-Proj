@@ -12,7 +12,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import dbm.AmenityDbModel;
-import dbm.ApartmentAmenityDbModel;
+import dbm.ApartmentPairingDbModel;
 import dbm.ApartmentDbModel;
 import dbm.CommentDbModel;
 import dbm.LocationDbModel;
@@ -47,9 +47,9 @@ public class DatabaseController {
 		List<String> amenityLines = getLinesFromFile(getPathToFile("amenities.txt"));
 		return getAmenityDbModelsFromLines(amenityLines);
 	}
-	public static List<ApartmentAmenityDbModel> getApartmentAmenityPairingsFromDatabase() {
-		List<String> lines = getLinesFromFile(getPathToFile("apartmentAmenityPairings.txt"));
-		return getApartmentAmenityDbModelsFromLines(lines);
+	public static List<ApartmentPairingDbModel> getApartmentPairingsFromDatabase(String filename) {
+		List<String> lines = getLinesFromFile(getPathToFile(filename));
+		return getApartmentPairingDbModelsFromLines(lines);
 	}
 	public static List<ReservationDbModel> getReservationsFromDatabase() {
 		List<String> lines = getLinesFromFile(getPathToFile("reservations.txt"));
@@ -73,9 +73,9 @@ public class DatabaseController {
 		List<String> lines = getLinesFromApartmentDbModels(dbModels);
 		saveLinesToFile(lines, getPathToFile("apartments.txt"));
 	}
-	public static void saveApartmentAmenityPairingsToDatabase(List<ApartmentAmenityDbModel> dbModels) {
+	public static void saveApartmentAmenityPairingsToDatabase(List<ApartmentPairingDbModel> dbModels, String filename) {
 		List<String> lines = getLinesFromApartmentAmenityDbModels(dbModels);
-		saveLinesToFile(lines, getPathToFile("apartmentAmenityPairings.txt"));
+		saveLinesToFile(lines, getPathToFile(filename));
 	}
 	public static void saveAmenitiesToDatabase(List<AmenityDbModel> dbModels) {
 		List<String> lines = getLinesFromAmenityDbModels(dbModels);
@@ -115,10 +115,10 @@ public class DatabaseController {
 			dbModels.add(new AmenityDbModel(splitLine(line)));
 		return dbModels;
 	}
-	private static List<ApartmentAmenityDbModel> getApartmentAmenityDbModelsFromLines(List<String> lines) {
-		ArrayList<ApartmentAmenityDbModel> dbModels = new ArrayList<ApartmentAmenityDbModel>();
+	private static List<ApartmentPairingDbModel> getApartmentPairingDbModelsFromLines(List<String> lines) {
+		ArrayList<ApartmentPairingDbModel> dbModels = new ArrayList<ApartmentPairingDbModel>();
 		for(String line : lines)
-			dbModels.add(new ApartmentAmenityDbModel(splitLine(line)));
+			dbModels.add(new ApartmentPairingDbModel(splitLine(line)));
 		return dbModels;
 	}
 	private static List<ReservationDbModel> getReservationDbModelsFromLines(List<String> lines) {
@@ -153,9 +153,9 @@ public class DatabaseController {
 			lines.add(mergeIntoLine(dbm));
 		return lines;
 	}
-	private static List<String> getLinesFromApartmentAmenityDbModels(List<ApartmentAmenityDbModel> dbModels) {
+	private static List<String> getLinesFromApartmentAmenityDbModels(List<ApartmentPairingDbModel> dbModels) {
 		ArrayList<String> lines = new ArrayList<String>();
-		for(ApartmentAmenityDbModel dbm : dbModels)
+		for(ApartmentPairingDbModel dbm : dbModels)
 			lines.add(mergeIntoLine(dbm));
 		return lines;
 	}

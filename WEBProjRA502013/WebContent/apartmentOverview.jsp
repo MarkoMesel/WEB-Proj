@@ -170,7 +170,11 @@
 				 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
 				 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Comments"/>
 				 	</form>
-				<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
+				 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewPicturesServlet">
+				 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+				 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Pictures"/>
+				 	</form>
+					<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
 					 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/EditApartmentServlet">
 					 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
 					 		<input class="button smaller" id="${apartment.id}" type="submit" value="Edit"/>
@@ -179,14 +183,13 @@
 					 	<input style="display:inline-block;" class="deleteButton smaller" id="${apartment.id}" 
 					 		onclick="displayDeleteModal('${apartment.id}')" type="submit" value="Delete"/>
 
-				</c:if>
-				<c:if test="${sessionScope.role == 'GUEST'}">
-
+					</c:if>
+					<c:if test="${sessionScope.role == 'GUEST'}">
 					 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ReserveApartmentServlet">
 					 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
 					 		<input class="button reserve smaller" id="${apartment.id}" type="submit" value="Reserve"/>
 					 	</form>
-				</c:if>
+					</c:if>
 				</td>
 			</tr>
 		</c:forEach>
@@ -252,6 +255,26 @@
 				  <td><c:out value="${apartment.bookingTime}" /></td>
 				  <td><c:out value="${apartment.cancelTime}" /></td>
 				  <td><c:out value="${apartment.status}" /></td>
+				</tr>
+				<tr>
+				<td align="left" colspan="100%">
+				 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewCommentsServlet">
+				 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+				 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Comments"/>
+				 	</form>
+				 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewPicturesServlet">
+				 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+				 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Pictures"/>
+				 	</form>
+					<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
+					 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/EditApartmentServlet">
+					 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+					 		<input class="button smaller" id="${apartment.id}" type="submit" value="Edit"/>
+					 	</form>
+
+					 	<input style="display:inline-block;" class="deleteButton smaller" id="${apartment.id}" 
+					 		onclick="displayDeleteModal('${apartment.id}')" type="submit" value="Delete"/>
+					</c:if>
 				</tr>
 			</c:forEach>
 		</table>
