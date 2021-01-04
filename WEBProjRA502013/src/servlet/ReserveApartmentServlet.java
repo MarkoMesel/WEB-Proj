@@ -52,11 +52,16 @@ public class ReserveApartmentServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContainerController.populateLists();
 		ValidationResponse validationResponse = Validator.validateApartmentReservation(request);
-		//TODO - finish validation
 		if(validationResponse.isValid()) {
 			Reservation reservation = ServletController.createReservationFromRequest(request);
-			ContainerController.reservations.add(reservation);
-			ContainerController.saveReservationsList();
+			if(ContainerController.addReservation(reservation)) {
+				//ContainerController.reservations.add(reservation);
+				ContainerController.saveReservationsList();
+				ServletController.putSuccessMessageInSession(request, MessageGenerator.generateSuccessfulCreateMessage("reservation"));
+				ServletController.forwardToHome(request, response);
+			} else {
+				ServletController.sendBadRequest(response, MessageGenerator.generateEntryAlreadyExistsMessage("Reservation"));
+			}
 		} else {
 		    ServletController.sendBadRequest(response, validationResponse.getErrorMessage());
 		}

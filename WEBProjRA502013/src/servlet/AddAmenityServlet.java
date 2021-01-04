@@ -39,10 +39,13 @@ public class AddAmenityServlet extends HttpServlet {
 		ValidationResponse validationResponse = Validator.validateAmenity(request);
 		if(validationResponse.isValid()) {
 			Amenity amenity = ServletController.createAmenityFromRequest(request);
-			ContainerController.amenities.add(amenity);
-			ContainerController.saveAmenityList();
-			ServletController.putAllEnabledAmenitiesInSession(request.getSession());
-			ServletController.forwardToManageAmenitiesWithSuccess(request, response, MessageGenerator.generateSuccessfulUpdateMessage("the selected amenity"));
+			if(ContainerController.addAmenity(amenity)) {
+				ContainerController.saveAmenityList();
+				ServletController.putAllEnabledAmenitiesInSession(request.getSession());
+				ServletController.forwardToManageAmenitiesWithSuccess(request, response, MessageGenerator.generateSuccessfulUpdateMessage("the selected amenity"));
+			} else {
+			    ServletController.sendBadRequest(response, MessageGenerator.generateEntryAlreadyExistsMessage("Amenity"));
+			}
 		} else {
 		    ServletController.sendBadRequest(response, validationResponse.getErrorMessage());
 		}

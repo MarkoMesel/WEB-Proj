@@ -19,8 +19,8 @@ lastName.addEventListener("keyup", checkLastName);
 function checkUsername() {
 	if (username.value.length == 0) {
 		usernameError.innerHTML = "Username must not be empty.";
-	} else if (username.value.indexOf("\|") > -1) {
-		usernameError.innerHTML = "Username must not contain the symbol \'\|\'.";
+	} else if (username.value.indexOf(",") > -1) {
+		usernameError.innerHTML = "Username must not contain the symbol \',\'.";
 	}else {
 		usernameError.innerHTML = "";
 	}
@@ -31,8 +31,8 @@ function checkPasswords() {
 	var repeatPasswordValid = "false";
 	if (password.value.length == 0) {
 		passwordError.innerHTML = "Password must not be empty.";
-	} else if (password.value.indexOf("\|") > -1) {
-		passwordError.innerHTML = "Password must not contain the symbol \'\|\'.";
+	} else if (password.value.indexOf(",") > -1) {
+		passwordError.innerHTML = "Password must not contain the symbol \',\'.";
 	} else if(password.value.length < 8) {
 		passwordError.innerHTML = "Password must be at least 8 characters long.";
 	} else {
@@ -40,8 +40,8 @@ function checkPasswords() {
 	}
 	if (repeatPassword.value.length == 0) {
 		repeatPasswordError.innerHTML = "Repeated password must not be empty.";
-	} else if (repeatPassword.value.indexOf("\|") > -1) {
-		repeatPasswordError.innerHTML = "Repeated password must not contain the symbol \'\|\'.";
+	} else if (repeatPassword.value.indexOf(",") > -1) {
+		repeatPasswordError.innerHTML = "Repeated password must not contain the symbol \',\'.";
 	} else if(repeatPassword.value.length < 8) {
 		repeatPasswordError.innerHTML = "Repeated password must be at least 8 characters long.";
 	} else {
@@ -65,8 +65,8 @@ function checkPasswords() {
 function checkFirstName() {
 	if (firstName.value.length == 0) {
 		firstNameError.innerHTML = "First name must not be empty.";
-	} else if (firstName.value.indexOf("\|") > -1) {
-		firstNameError.innerHTML = "First name must not contain the symbol \'\|\'.";
+	} else if (firstName.value.indexOf(",") > -1) {
+		firstNameError.innerHTML = "First name must not contain the symbol \',\'.";
 	} else {
 		firstNameError.innerHTML = "";
 	}
@@ -75,8 +75,8 @@ function checkFirstName() {
 function checkLastName() {
 	if (lastName.value.length == 0) {
 		lastNameError.innerHTML = "Last name must not be empty.";
-	} else if (lastName.value.indexOf("\|") > -1) {
-		lastNameError.innerHTML = "Last name must not contain the symbol \'\|\'.";
+	} else if (lastName.value.indexOf(",") > -1) {
+		lastNameError.innerHTML = "Last name must not contain the symbol \',\'.";
 	}else {
 		lastNameError.innerHTML = "";
 	}

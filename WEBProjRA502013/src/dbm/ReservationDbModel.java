@@ -6,9 +6,9 @@ public class ReservationDbModel {
 	public String date;
 	public String numberOfNights;
 	public String totalPrice;
-	public String reservationMessage;
 	public String guestId;
 	public String status;
+	public String reservationMessage;
 	
 	public ReservationDbModel(String id, String apartmentId, String date, String numberOfNights, String totalPrice,
 			String reservationMessage, String guestId, String status) {
@@ -28,8 +28,8 @@ public class ReservationDbModel {
 		this.date = array[2];
 		this.numberOfNights = array[3];
 		this.totalPrice = array[4];
-		this.reservationMessage = array[5];
-		this.guestId = array[6];
-		this.status = array[7];
+		this.guestId = array[5];
+		this.status = array[6];
+		this.reservationMessage = array[7];
 	}
 }

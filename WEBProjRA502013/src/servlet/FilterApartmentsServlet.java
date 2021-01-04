@@ -13,16 +13,15 @@ import controller.ContainerController;
 import controller.ServletController;
 import model.Apartment;
 import model.ApartmentStatus;
-import model.Reservation;
 import model.User;
 import validator.ValidationResponse;
 import validator.Validator;
 
-@WebServlet("/FindReservationServlet")
-public class FindReservationServlet extends HttpServlet {
+@WebServlet("/FilterApartmentsServlet")
+public class FilterApartmentsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-    public FindReservationServlet() {
+    public FilterApartmentsServlet() {
         super();
     }
 	
@@ -34,26 +33,34 @@ public class FindReservationServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ContainerController.populateLists();
-		ArrayList<Reservation> reservationList;
+		ArrayList<Apartment> apartmentList;
 		String role = request.getSession().getAttribute("role").toString();
-		String reservationStatusSearch = request.getParameter("reservationStatusSearch");
 		if(role.equals("HOST")) {
 			Integer hostId = Integer.parseInt(request.getSession().getAttribute("id").toString());
-			reservationList = ContainerController.findReservationsByHostId(hostId);
+			apartmentList = ContainerController.findApartmentsByStatusAndHostIdAndEnabled(
+				ApartmentStatus.ACTIVE,
+				hostId,
+				true
+			);
 		} else {
-			reservationList = ContainerController.reservations;
+			apartmentList = ContainerController.findApartmentsByEnabled(true);
 		}
-		Reservation searchResultSingle = ContainerController.findReservationFromSearchOptions(
-			reservationList,
-			reservationStatusSearch,
-			request.getParameter("username")
+		ArrayList<Apartment> searchResult = ContainerController.filterApartmentsFromSearchOptions(
+			apartmentList,
+			ApartmentStatus.ACTIVE,
+			request.getParameter("datepickerArrive"),
+			request.getParameter("datepickerLeave"),
+			request.getParameter("timeArrive"),
+			request.getParameter("timeLeave"),
+			request.getParameter("priceMin"),
+			request.getParameter("priceMax"),
+			request.getParameter("roomCountMin"),
+			request.getParameter("roomCountMax"),
+			request.getParameter("guestCount"),
+			request.getParameter("location")
 		);
-		ArrayList<Reservation> searchResult = new ArrayList<Reservation>();
-		if(searchResultSingle != null) {
-			searchResult.add(searchResultSingle);
-		}
-		ServletController.putReservationListInSession(searchResult, request.getSession());
-		ServletController.forwardToReservationOverview(request, response);
+		ServletController.putApartmentListInSession(searchResult, request.getSession());
+		ServletController.forwardToApartmentOverview(request, response);
 	}
 	
 }

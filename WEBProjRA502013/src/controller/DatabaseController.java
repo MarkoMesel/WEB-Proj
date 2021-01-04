@@ -124,13 +124,13 @@ public class DatabaseController {
 	private static List<ReservationDbModel> getReservationDbModelsFromLines(List<String> lines) {
 		ArrayList<ReservationDbModel> dbModels = new ArrayList<ReservationDbModel>();
 		for(String line : lines)
-			dbModels.add(new ReservationDbModel(splitLine(line)));
+			dbModels.add(new ReservationDbModel(splitLineWithLimit(line, 8)));
 		return dbModels;
 	}
 	private static List<CommentDbModel> getCommentDbModelsFromLines(List<String> lines) {
 		ArrayList<CommentDbModel> dbModels = new ArrayList<CommentDbModel>();
 		for(String line : lines)
-			dbModels.add(new CommentDbModel(splitLine(line)));
+			dbModels.add(new CommentDbModel(splitLineWithLimit(line, 6)));
 		return dbModels;
 	}
 	
@@ -203,14 +203,17 @@ public class DatabaseController {
 		return cutPath + PATH_TO_RESOURCES + s;
 	}
 	public static String[] splitLine(String line) {
-		return line.split("\\|");
+		return line.split(",");
+	}
+	public static String[] splitLineWithLimit(String line, int limit) {
+		return line.split(",", limit);
 	}
 	public static String mergeIntoLine(Object dbm) {
 		String line = "";
 		Field[] fields = dbm.getClass().getDeclaredFields();
 		for(Field f : fields) {
 			try {
-				line = line + f.get(dbm).toString() + "|";
+				line = line + f.get(dbm).toString() + ",";
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {

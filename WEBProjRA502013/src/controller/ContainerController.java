@@ -568,7 +568,7 @@ public class ContainerController {
 			.orElse(null);
 	}
 	
-	//Find User/Users
+	//Find or Filter User/Users
 	public static User findUserById(Integer id) {
 		return users.stream()
 			.filter(
@@ -595,7 +595,7 @@ public class ContainerController {
 				.collect(Collectors.toList())
 		);
 	}
-	public static ArrayList<User> findUsersFromSearchOptions(
+	public static ArrayList<User> filterUsersFromSearchOptions(
 			ArrayList<User> userList, String role, String username, String firstName, String lastName, String gender) {
 		return new ArrayList<>(
 			userList.stream()
@@ -617,8 +617,37 @@ public class ContainerController {
 				.collect(Collectors.toList())
 		);
 	}
+	public static User findUserFromSearchOptions(
+			ArrayList<User> userList, String role, String username, String firstName, String lastName, String gender) {
+		
+		if(username.isEmpty()
+		&& firstName.isEmpty()
+		&& lastName.isEmpty()
+		&& gender.equals("NONE"))
+			return null;
+		
+		return userList.stream()
+				.filter(
+					user -> 
+					(role.equals("NONE")) ? true : user.getRole().toString().equals(role))
+				.filter(
+					user -> 
+						user.getUsername().contains(username))
+				.filter(
+					user -> 
+						user.getFirstName().contains(firstName))
+				.filter(
+					user -> 
+						user.getLastName().contains(lastName))
+				.filter(
+					user -> 
+						(gender.equals("NONE")) ? true : user.getGender().toString().equals(gender))
+				.findFirst()
+				.orElse(null);
+	}
 
-	//Find Apartment/Apartments
+
+	//Find or Filter Apartment/Apartments
 	public static Apartment findApartmentById(Integer id) {
 		return apartments.stream()
 			.filter(
@@ -639,7 +668,7 @@ public class ContainerController {
 				.collect(Collectors.toList())
 		);
 	}
-	public static ArrayList<Apartment> findApartmnetsFromSearchOptions(
+	public static ArrayList<Apartment> filterApartmentsFromSearchOptions(
 		ArrayList<Apartment> apartmentList,
 		ApartmentStatus status,
 		String datepickerArrive, 
@@ -652,7 +681,6 @@ public class ContainerController {
 		String roomCountMax, 
 		String guestCount, 
 		String location) {
-		//TO DO
 		return new ArrayList<>(
 			apartmentList.stream()
 			.filter(
@@ -692,30 +720,7 @@ public class ContainerController {
 					location.isEmpty() || apartment.getLocation().getCity().contains(location))
 			.collect(Collectors.toList())
 		);
-/*
-		return new ArrayList<>(
-				apartmentList.stream()
-				.filter(
-					apartment -> 
-						type.equals("NONE") || apartment.getType().toString().contains(type))
-				.filter(
-						apartment -> 
-							roomCount.isEmpty() || apartment.getRoomCount() == getNumFromString(roomCount))
-				.filter(
-						apartment -> 
-							guestCount.isEmpty() || apartment.getGuestCount() == getNumFromString(guestCount))
-				.filter(
-						apartment ->
-							price.isEmpty()
-							|| PriceManager.comparePrices(apartment.getPrice(), ComparisonOption.LESS_THAN_OR_EQUAL_TO, price))
-				.filter(
-						apartment -> 
-							enabled.equals(apartment.getEnabled()))
-				.collect(Collectors.toList())
-		);
-*/
 	}
-
 	public static ArrayList<Apartment> findApartmentsByHostId(Integer id) {
 		return new ArrayList<>(
 			apartments.stream()
@@ -749,6 +754,92 @@ public class ContainerController {
 				.collect(Collectors.toList())
 		);
 	}
+	public static Apartment findApartmentFromSearchOptions(
+			ArrayList<Apartment> apartmentList,
+			ApartmentStatus status,
+			String datepickerArrive, 
+			String datepickerLeave,
+			String timeArrive,
+			String timeLeave,
+			String priceMin, 
+			String priceMax, 
+			String roomCountMin, 
+			String roomCountMax, 
+			String guestCount, 
+			String location) {
+		
+			if(datepickerArrive.isEmpty()
+			&& datepickerLeave.isEmpty()
+			&& timeArrive.isEmpty()
+			&& timeLeave.isEmpty()
+			&& priceMin.isEmpty()
+			&& priceMax.isEmpty()
+			&& roomCountMin.isEmpty()
+			&& guestCount.isEmpty()
+			&& location.isEmpty())
+				return null;
+				
+			return apartmentList.stream()
+				.filter(
+						apartment -> 
+							apartment.getStatus() == status)
+				.filter(
+					apartment ->
+						datepickerArrive.isEmpty() || apartmentReservationStartAtDate(apartment, datepickerArrive))
+				.filter(
+					apartment ->
+						datepickerLeave.isEmpty() || apartmentReservationEndAtDate(apartment, datepickerLeave))
+				.filter(
+					apartment ->
+						timeArrive.isEmpty() || apartment.getCheckInTime().equals(timeArrive))
+				.filter(
+					apartment ->
+						timeLeave.isEmpty() || apartment.getCheckInTime().equals(timeLeave))
+				.filter(
+					apartment ->
+						(priceMin.isEmpty() && priceMax.isEmpty())
+						|| (priceMin.isEmpty() && PriceManager.comparePrices(apartment.getPrice(), ComparisonOption.LESS_THAN_OR_EQUAL_TO, priceMax))
+						|| (priceMax.isEmpty() && PriceManager.comparePrices(apartment.getPrice(), ComparisonOption.GREATER_THAN_OR_EQUAL_TO, priceMin))
+						|| (PriceManager.comparePrices(apartment.getPrice(), ComparisonOption.LESS_THAN_OR_EQUAL_TO, priceMax)
+							&& PriceManager.comparePrices(apartment.getPrice(), ComparisonOption.GREATER_THAN_OR_EQUAL_TO, priceMin)))
+				.filter(
+					apartment ->
+						(roomCountMin.isEmpty() && roomCountMax.isEmpty())
+						|| (roomCountMin.isEmpty() && (apartment.getRoomCount() <= getNumFromString(roomCountMax)))
+						|| (roomCountMax.isEmpty() && (apartment.getRoomCount() >= getNumFromString(roomCountMin)))
+						|| ((apartment.getRoomCount() <= getNumFromString(roomCountMax))
+							&& (apartment.getRoomCount() >= getNumFromString(roomCountMin))))
+				.filter(
+					apartment ->
+						guestCount.isEmpty() || apartment.getGuestCount() == getNumFromString(guestCount))
+				.filter(
+					apartment ->
+						location.isEmpty() || apartment.getLocation().getCity().contains(location))
+				.findFirst()
+				.orElse(null);
+	/*
+			return new ArrayList<>(
+					apartmentList.stream()
+					.filter(
+						apartment -> 
+							type.equals("NONE") || apartment.getType().toString().contains(type))
+					.filter(
+							apartment -> 
+								roomCount.isEmpty() || apartment.getRoomCount() == getNumFromString(roomCount))
+					.filter(
+							apartment -> 
+								guestCount.isEmpty() || apartment.getGuestCount() == getNumFromString(guestCount))
+					.filter(
+							apartment ->
+								price.isEmpty()
+								|| PriceManager.comparePrices(apartment.getPrice(), ComparisonOption.LESS_THAN_OR_EQUAL_TO, price))
+					.filter(
+							apartment -> 
+								enabled.equals(apartment.getEnabled()))
+					.collect(Collectors.toList())
+			);
+	*/
+		}
 	
 	//Find Amenity/Amenities
 	public static Amenity findAmenityById(Integer id) {
@@ -777,7 +868,7 @@ public class ContainerController {
 			.orElse(null);
 	}
 	
-	//Find Reservation/Reservations
+	//Find or Filter Reservation/Reservations
 	public static Reservation findReservationById(Integer id) {
 		return reservations.stream()
 			.filter(
@@ -825,17 +916,38 @@ public class ContainerController {
 					.collect(Collectors.toList())
 			);
 	}
-	public static ArrayList<Reservation> findReservationsFromGuestUsername(ArrayList<Reservation> reservations,
+	public static ArrayList<Reservation> filterReservationsFromSearchOptions(ArrayList<Reservation> reservations,
+			String status,
 			String username) {
 		return new ArrayList<>(
 			reservations.stream()
 				.filter(
 					reservation ->
-						reservation.getGuest().getUsername().contains(username))
+						(status.equals("NONE")) ? true : reservation.getStatus().toString().equals(status))
+				.filter(
+					reservation ->
+						username.isEmpty() || reservation.getGuest().getUsername().contains(username))
 				.collect(Collectors.toList())
 		);
 	}
-	
+	public static Reservation findReservationFromSearchOptions(ArrayList<Reservation> reservations,
+			String status,
+			String username) {
+		if(status.equals("NONE")
+		&& username.isEmpty())
+			return null;
+		
+		return reservations.stream()
+				.filter(
+					reservation ->
+						(status.equals("NONE")) ? true : reservation.getStatus().toString().equals(status))
+				.filter(
+					reservation ->
+						username.isEmpty() || reservation.getGuest().getUsername().contains(username))
+				.findFirst()
+				.orElse(null);
+	}
+
 	//Find Comment/Comments
 	public static Comment findCommentById(Integer id) {
 		return comments.stream()
@@ -1025,9 +1137,11 @@ public class ContainerController {
 				.collect(Collectors.toList())
 		);
 	}
+
 /*	
 	
-//Checks
+
+	//Checks
 	public static boolean isAdmin(String role) {
 		return role.equals("ADMIN");
 	}
@@ -1057,6 +1171,141 @@ public class ContainerController {
 				return true;
 		}
 		return false;
+	}
+	private static boolean amenityAlreadyExists(Amenity chosenAmenity) {
+		Amenity foundAmenity = amenities.stream()
+		.filter(
+				amenity -> 
+					chosenAmenity.getName().equals(amenity.getName()))
+		.filter(
+				amenity -> 
+					chosenAmenity.getDetails().equals(amenity.getDetails()))
+		.filter(
+				amenity -> 
+					chosenAmenity.getEnabled().equals(amenity.getEnabled()))
+		.findFirst()
+		.orElse(null);	
+		if(foundAmenity == null)
+			return false;
+		return true;
+	}
+	private static boolean locationAlreadyExists(Location chosenLocation) {
+		Location foundLocation = locations.stream()
+		.filter(
+				location -> 
+					chosenLocation.getLatitude().equals(location.getLatitude()))
+		.filter(
+				location -> 
+					chosenLocation.getLongitude().equals(location.getLongitude()))
+		.filter(
+				location -> 
+					chosenLocation.getStreetName().equals(location.getStreetName()))
+		.filter(
+				location -> 
+					chosenLocation.getStreetNumber().equals(location.getStreetNumber()))
+		.filter(
+				location -> 
+					chosenLocation.getCity().equals(location.getCity()))
+		.filter(
+				location -> 
+					chosenLocation.getPostNumber().equals(location.getPostNumber()))
+		.filter(
+				location -> 
+					chosenLocation.getEnabled().equals(location.getEnabled()))
+		.findFirst()
+		.orElse(null);	
+		if(foundLocation == null)
+			return false;
+		return true;
+	}
+	private static boolean apartmentAlreadyExists(Apartment chosenApartment) {
+		Apartment foundApartment = apartments.stream()
+				.filter(
+						apartment -> 
+							chosenApartment.getType().equals(apartment.getType()))
+				.filter(
+						apartment -> 
+							chosenApartment.getRoomCount().equals(apartment.getRoomCount()))
+				.filter(
+						apartment -> 
+							chosenApartment.getGuestCount().equals(apartment.getGuestCount()))
+				.filter(
+						apartment -> 
+							chosenApartment.getRoomCount().equals(apartment.getRoomCount()))
+				.filter(
+						apartment -> 
+							chosenApartment.getLocation().getId().equals(apartment.getLocation().getId()))
+				.filter(
+						apartment -> 
+							chosenApartment.getHost().getId().equals(apartment.getHost().getId()))
+				.filter(
+						apartment -> 
+							chosenApartment.getPrice().equals(apartment.getPrice()))
+				.filter(
+						apartment -> 
+							chosenApartment.getCheckInTime().equals(apartment.getCheckInTime()))
+				.filter(
+						apartment -> 
+							chosenApartment.getCheckOutTime().equals(apartment.getCheckOutTime()))
+				.filter(
+						apartment -> 
+							chosenApartment.getStatus().equals(apartment.getStatus()))
+		.findFirst()
+		.orElse(null);	
+		if(foundApartment == null)
+			return false;
+		return true;
+	}
+	private static boolean commentAlreadyExists(Comment chosenComment) {
+		Comment foundComment = 
+				comments.stream()
+					.filter(
+						comment -> 
+							chosenComment.getGuest().getId().equals(comment.getGuest().getId()))
+					.filter(
+						comment ->
+							chosenComment.getApartment().getId().equals(comment.getApartment().getId()))
+					.filter(
+							comment ->
+								chosenComment.getMessage().equals(comment.getMessage()))
+					.filter(
+							comment ->
+								chosenComment.getRating().equals(comment.getRating()))
+					.filter(
+							comment ->
+								chosenComment.getHidden().equals(comment.getHidden()))
+					.findFirst()
+					.orElse(null);	
+		if(foundComment == null)
+			return false;
+		return true;
+	}
+	private static boolean reservationAlreadyExists(Reservation chosenReservation) {
+		Reservation foundReservation = 
+				reservations.stream()
+					.filter(
+						reservation -> 
+							chosenReservation.getApartment().getId().equals(reservation.getApartment().getId()))
+					.filter(
+						reservation -> 
+							chosenReservation.getDate().equals(reservation.getDate()))
+					.filter(
+						reservation -> 
+							chosenReservation.getTotalPrice().equals(reservation.getTotalPrice()))
+					.filter(
+						reservation -> 
+							chosenReservation.getReservationMessage().equals(reservation.getReservationMessage()))
+					.filter(
+						reservation -> 
+							chosenReservation.getGuest().getId().equals(reservation.getGuest().getId()))
+					.filter(
+						reservation -> 
+							chosenReservation.getStatus().equals(reservation.getStatus()))
+					.findFirst()
+					.orElse(null);	
+		if(foundReservation == null)
+			return false;
+		return true;
 	}
 	
 	//Logical Delete
@@ -1097,7 +1346,6 @@ public class ContainerController {
 			try {
 				c.setTime(sdf.parse(reservationDate));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			for(int i = 0; i < numberOfNights; i++) {
@@ -1106,5 +1354,32 @@ public class ContainerController {
 			}
 		}
 		return dates;
+	}
+
+	//Add entry
+	public static boolean addAmenity(Amenity amenity) {
+		if(amenityAlreadyExists(amenity))
+			return false;
+		amenities.add(amenity);
+		return true;
+	}
+	public static boolean addLocationAndApartment(Location location, Apartment apartment) {
+		if(locationAlreadyExists(location) && apartmentAlreadyExists(apartment))
+			return false;
+		locations.add(location);
+		apartments.add(apartment);
+		return true;
+	}
+	public static boolean addComment(Comment comment) {
+		if(commentAlreadyExists(comment))
+			return false;
+		comments.add(comment);
+		return true;
+	}
+	public static boolean addReservation(Reservation reservation) {
+		if(reservationAlreadyExists(reservation))
+			return false;
+		reservations.add(reservation);
+		return true;
 	}
 }

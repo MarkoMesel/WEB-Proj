@@ -15,8 +15,8 @@ lastName.addEventListener("keyup", checkLastName);
 function checkPassword() {
 	if (password.value.length == 0) {
 		passwordError.innerHTML = "Password must not be empty.";
-	} else if (password.value.indexOf("\|") > -1) {
-		passwordError.innerHTML = "Password must not contain the symbol \'\|\'.";
+	} else if (password.value.indexOf(",") > -1) {
+		passwordError.innerHTML = "Password must not contain the symbol \',\'.";
 	} else if(password.value.length < 8) {
 		passwordError.innerHTML = "Password must be at least 8 characters long.";
 	} else {
@@ -27,8 +27,8 @@ function checkPassword() {
 function checkFirstName() {
 	if (firstName.value.length == 0) {
 		firstNameError.innerHTML = "First name must not be empty.";
-	} else if (firstName.value.indexOf("\|") > -1) {
-		firstNameError.innerHTML = "First name must not contain the symbol \'\|\'.";
+	} else if (firstName.value.indexOf(",") > -1) {
+		firstNameError.innerHTML = "First name must not contain the symbol \',\'.";
 	} else {
 		firstNameError.innerHTML = "";
 	}
@@ -37,8 +37,8 @@ function checkFirstName() {
 function checkLastName() {
 	if (lastName.value.length == 0) {
 		lastNameError.innerHTML = "Last name must not be empty.";
-	} else if (lastName.value.indexOf("\|") > -1) {
-		lastNameError.innerHTML = "Last name must not contain the symbol \'\|\'.";
+	} else if (lastName.value.indexOf(",") > -1) {
+		lastNameError.innerHTML = "Last name must not contain the symbol \',\'.";
 	}else {
 		lastNameError.innerHTML = "";
 	}

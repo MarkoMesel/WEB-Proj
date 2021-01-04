@@ -14,7 +14,7 @@ public class MessageGenerator {
 		return s + " must not be empty.";
 	}
 	public static String generateNotSymbolMessage(String s) {
-		return s + " must not contain the symbol \'|\'.";
+		return s + " must not contain the symbol \',\'.";
 	}
 	public static String generateMustBeUniqueMessage(String s) {
 		return s + " must be unique.";
@@ -60,6 +60,12 @@ public class MessageGenerator {
 	}
 	public static String generateChosenDatesNotAvailableMessage() {
 		return "The chosen dates are not available.";
+	}
+	public static String generateEntryAlreadyExistsMessage(String s) {
+		return s + " already exists in the database.";
+	}
+	public static String generateSpammingMessage() {
+		return "Don't spam! You have already left this comment.";
 	}
 	
 }

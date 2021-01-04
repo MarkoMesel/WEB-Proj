@@ -51,58 +51,62 @@ public class AddApartmentPicturesServlet extends HttpServlet {
 		ContainerController.populateLists();
 		
 		Location location = ServletController.createLocationFromSession(request.getSession());
-		ContainerController.locations.add(location);
+		//ContainerController.locations.add(location);
 		Apartment apartment = ServletController.createApartmentFromSessionAndLocation(request.getSession(), location);
-		ServletController.createAmenityListForApartmentFromSession(apartment, request.getSession());
-		ContainerController.apartments.add(apartment);
-		//ContainerController.apartmentPictureReferencePairings.put(apartment, new ArrayList<String>());
-		
-		if(!ServletFileUpload.isMultipartContent(request)){
-			throw new ServletException("Content type is not multipart/form-data");
-		}
-		
-		//response.setContentType("text/html");
-		//PrintWriter out = response.getWriter();
-		//out.write("<html><head></head><body>");
-		try {
-			List<FileItem> fileItemsList = uploader.parseRequest(request);
-			Iterator<FileItem> fileItemsIterator = fileItemsList.iterator();
-			int i = 0;
-			String filename;
-			while(fileItemsIterator.hasNext()){
-				FileItem fileItem = fileItemsIterator.next();
-				System.out.println("FieldName="+fileItem.getFieldName());
-				System.out.println("FileName="+fileItem.getName());
-				System.out.println("ContentType="+fileItem.getContentType());
-				System.out.println("Size in bytes="+fileItem.getSize());
-				File file;
-				do
-				{
-					filename = apartment.getId() + "_" + i++;
-					file = new File(request.getServletContext().getAttribute("FILES_DIR") + File.separator + filename);
-				} while(file.exists());
-				System.out.println("Absolute Path at server="+file.getAbsolutePath());
-				fileItem.write(file);
-				apartment.getPictures().add(filename);
-				//ContainerController.apartmentPictureReferencePairings.get(apartment).add(filename);
-				/*
-				out.write("File "+fileItem.getName()+ " uploaded successfully.");
-				out.write("<br>");
-				out.write("<a href=\"UploadDownloadFileServlet?fileName="+fileItem.getName()+"\">Download "+fileItem.getName()+"</a>");
-				*/
+		if(ContainerController.addLocationAndApartment(location, apartment)) {
+			ServletController.createAmenityListForApartmentFromSession(apartment, request.getSession());
+			//ContainerController.apartments.add(apartment);
+			//ContainerController.apartmentPictureReferencePairings.put(apartment, new ArrayList<String>());
+			
+			if(!ServletFileUpload.isMultipartContent(request)){
+				throw new ServletException("Content type is not multipart/form-data");
 			}
-			ContainerController.saveApartmentList();
-			ContainerController.saveLocationList();
-			ContainerController.saveApartmentAmenitiyPairingList();
-			ContainerController.saveApartmentPicturePairingList();
-			ServletController.putSuccessMessageInSession(request, MessageGenerator.generateSuccessfulCreateMessage("apartment"));
-			ServletController.forwardToHome(request, response);
-		} catch (FileUploadException e) {
-			//out.write("Exception in uploading file.");
-			e.printStackTrace();
-		} catch (Exception e) {
-			//out.write("Exception in uploading file.");
-			e.printStackTrace();
+			
+			//response.setContentType("text/html");
+			//PrintWriter out = response.getWriter();
+			//out.write("<html><head></head><body>");
+			try {
+				List<FileItem> fileItemsList = uploader.parseRequest(request);
+				Iterator<FileItem> fileItemsIterator = fileItemsList.iterator();
+				int i = 0;
+				String filename;
+				while(fileItemsIterator.hasNext()){
+					FileItem fileItem = fileItemsIterator.next();
+					System.out.println("FieldName="+fileItem.getFieldName());
+					System.out.println("FileName="+fileItem.getName());
+					System.out.println("ContentType="+fileItem.getContentType());
+					System.out.println("Size in bytes="+fileItem.getSize());
+					File file;
+					do
+					{
+						filename = apartment.getId() + "_" + i++;
+						file = new File(request.getServletContext().getAttribute("FILES_DIR") + File.separator + filename);
+					} while(file.exists());
+					System.out.println("Absolute Path at server="+file.getAbsolutePath());
+					fileItem.write(file);
+					apartment.getPictures().add(filename);
+					//ContainerController.apartmentPictureReferencePairings.get(apartment).add(filename);
+					/*
+					out.write("File "+fileItem.getName()+ " uploaded successfully.");
+					out.write("<br>");
+					out.write("<a href=\"UploadDownloadFileServlet?fileName="+fileItem.getName()+"\">Download "+fileItem.getName()+"</a>");
+					*/
+				}
+				ContainerController.saveApartmentList();
+				ContainerController.saveLocationList();
+				ContainerController.saveApartmentAmenitiyPairingList();
+				ContainerController.saveApartmentPicturePairingList();
+				ServletController.putSuccessMessageInSession(request, MessageGenerator.generateSuccessfulCreateMessage("apartment"));
+				ServletController.forwardToHome(request, response);
+			} catch (FileUploadException e) {
+				//out.write("Exception in uploading file.");
+				e.printStackTrace();
+			} catch (Exception e) {
+				//out.write("Exception in uploading file.");
+				e.printStackTrace();
+			}
+		} else {
+			ServletController.sendBadRequest(response, MessageGenerator.generateEntryAlreadyExistsMessage("Location and Apartment pair"));
 		}
 		//out.write("</body></html>");
 	}

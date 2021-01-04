@@ -18,11 +18,11 @@ import model.User;
 import validator.ValidationResponse;
 import validator.Validator;
 
-@WebServlet("/FindReservationServlet")
-public class FindReservationServlet extends HttpServlet {
+@WebServlet("/FilterReservationsServlet")
+public class FilterReservationsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-    public FindReservationServlet() {
+    public FilterReservationsServlet() {
         super();
     }
 	
@@ -43,15 +43,11 @@ public class FindReservationServlet extends HttpServlet {
 		} else {
 			reservationList = ContainerController.reservations;
 		}
-		Reservation searchResultSingle = ContainerController.findReservationFromSearchOptions(
+		ArrayList<Reservation> searchResult = ContainerController.filterReservationsFromSearchOptions(
 			reservationList,
 			reservationStatusSearch,
 			request.getParameter("username")
 		);
-		ArrayList<Reservation> searchResult = new ArrayList<Reservation>();
-		if(searchResultSingle != null) {
-			searchResult.add(searchResultSingle);
-		}
 		ServletController.putReservationListInSession(searchResult, request.getSession());
 		ServletController.forwardToReservationOverview(request, response);
 	}

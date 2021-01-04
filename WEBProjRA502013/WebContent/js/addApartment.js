@@ -59,8 +59,8 @@ function toggleRoomCountDisabled() {
 function validateRoomCount() {
 	if (roomCount.value.length == 0) {
 		roomCountError.innerHTML = "Room count field must not be empty.";
-	} else if (roomCount.value.indexOf("\|") > -1) {
-		roomCountError.innerHTML = "Room count field must not contain the symbol \'\|\'.";
+	} else if (roomCount.value.indexOf(",") > -1) {
+		roomCountError.innerHTML = "Room count field must not contain the symbol \',\'.";
 	} else if (!(numNoLeadingZerosRegex.test(roomCount.value))) {
 		roomCountError.innerHTML = "Room count field must be a natural number higher than 0 (ex. 1, 2, 5, 6, etc.).";
 	} else {
@@ -70,8 +70,8 @@ function validateRoomCount() {
 function validateGuestCount() {
 	if (guestCount.value.length == 0) {
 		guestCountError.innerHTML = "Guest count field must not be empty.";
-	} else if (guestCount.value.indexOf("\|") > -1) {
-		guestCountError.innerHTML = "Guest count field must not contain the symbol \'\|\'.";
+	} else if (guestCount.value.indexOf(",") > -1) {
+		guestCountError.innerHTML = "Guest count field must not contain the symbol \',\'.";
 	} else if (!(numNoLeadingZerosRegex.test(guestCount.value))) {
 		guestCountError.innerHTML = "Guest count field must be a natural number higher than 0 (ex. 1, 2, 5, 6, etc.).";
 	} else {
@@ -81,8 +81,8 @@ function validateGuestCount() {
 function validatePrice() {
 	if (price.value.length == 0) {
 		priceError.innerHTML = "Price field must not be empty.";
-	} else if (price.value.indexOf("\|") > -1) {
-		priceError.innerHTML = "Price field must not contain the symbol \'\|\'.";
+	} else if (price.value.indexOf(",") > -1) {
+		priceError.innerHTML = "Price field must not contain the symbol \',\'.";
 	} else if (!(dollarRegex.test(price.value))) {
 		priceError.innerHTML = "Price must be written in a valid price format.";
 	} else {
@@ -92,8 +92,8 @@ function validatePrice() {
 function validateCheckInTime() {
 	if (checkInTime.value.length == 0) {
 		checkInTimeError.innerHTML = "Check-In time field must not be empty.";
-	} else if (checkInTime.value.indexOf("\|") > -1) {
-		checkInTimeError.innerHTML = "Check-In time field must not contain the symbol \'\|\'.";
+	} else if (checkInTime.value.indexOf(",") > -1) {
+		checkInTimeError.innerHTML = "Check-In time field must not contain the symbol \',\'.";
 	} else if (!(timeRegex.test(checkInTime.value))) {
 		checkInTimeError.innerHTML = "Time must be written in a 24-hour time format (\'h:mm\' or \'hh:mm\').";
 	} else {
@@ -103,8 +103,8 @@ function validateCheckInTime() {
 function validateCheckOutTime() {
 	if (checkOutTime.value.length == 0) {
 		checkOutTimeError.innerHTML = "Check-In time field must not be empty.";
-	} else if (checkOutTime.value.indexOf("\|") > -1) {
-		checkOutTimeError.innerHTML = "Check-In time field must not contain the symbol \'\|\'.";
+	} else if (checkOutTime.value.indexOf(",") > -1) {
+		checkOutTimeError.innerHTML = "Check-In time field must not contain the symbol \',\'.";
 	} else if (!(timeRegex.test(checkOutTime.value))) {
 		checkOutTimeError.innerHTML = "Time must be written in a 24-hour time format (\'h:mm\' or \'hh:mm\').";
 	} else {
@@ -114,8 +114,8 @@ function validateCheckOutTime() {
 function validateLatitude() {
 	if (latitude.value.length == 0) {
 		latitudeError.innerHTML = "Latitude field must not be empty.";
-	} else if (latitude.value.indexOf("\|") > -1) {
-		latitudeError.innerHTML = "Latitude field must not contain the symbol \'\|\'.";
+	} else if (latitude.value.indexOf(",") > -1) {
+		latitudeError.innerHTML = "Latitude field must not contain the symbol \',\'.";
 	} else if (!(latitudeRegex.test(latitude.value))) {
 		latitudeError.innerHTML = "Latitude must be written in valid latitude format (-90 to 90, with or without decimal spaces).";
 	} else {
@@ -125,8 +125,8 @@ function validateLatitude() {
 function validateLongitude() {
 	if (longitude.value.length == 0) {
 		longitudeError.innerHTML = "Longitude field must not be empty.";
-	} else if (longitude.value.indexOf("\|") > -1) {
-		longitudeError.innerHTML = "Longitude field must not contain the symbol \'\|\'.";
+	} else if (longitude.value.indexOf(",") > -1) {
+		longitudeError.innerHTML = "Longitude field must not contain the symbol \',\'.";
 	} else if (!(longitudeRegex.test(longitude.value))) {
 		longitudeError.innerHTML = "Longitude must be written in valid longitude format (-180 to 180, with or without decimal spaces).";
 	} else {
@@ -136,8 +136,8 @@ function validateLongitude() {
 function validateStreetName() {
 	if (streetName.value.length == 0) {
 		streetNameError.innerHTML = "Street name field must not be empty.";
-	} else if (streetName.value.indexOf("\|") > -1) {
-		streetNameError.innerHTML = "Street name field must not contain the symbol \'\|\'.";
+	} else if (streetName.value.indexOf(",") > -1) {
+		streetNameError.innerHTML = "Street name field must not contain the symbol \',\'.";
 	} else {
 		streetNameError.innerHTML = "";
 	}
@@ -145,8 +145,8 @@ function validateStreetName() {
 function validateStreetNumber() {
 	if (streetNumber.value.length == 0) {
 		streetNumberError.innerHTML = "Street number field must not be empty.";
-	} else if (streetNumber.value.indexOf("\|") > -1) {
-		streetNumberError.innerHTML = "Street number field must not contain the symbol \'\|\'.";
+	} else if (streetNumber.value.indexOf(",") > -1) {
+		streetNumberError.innerHTML = "Street number field must not contain the symbol \',\'.";
 	} else if (!(streetNumberRegex.test(streetNumber.value))) {
 		streetNumberError.innerHTML = "Street number must be written in valid street number format (ex. 102, 50a, 12B, etc.).";
 	} else {
@@ -156,8 +156,8 @@ function validateStreetNumber() {
 function validateCity() {
 	if (city.value.length == 0) {
 		cityError.innerHTML = "City field must not be empty.";
-	} else if (city.value.indexOf("\|") > -1) {
-		cityError.innerHTML = "City field must not contain the symbol \'\|\'.";
+	} else if (city.value.indexOf(",") > -1) {
+		cityError.innerHTML = "City field must not contain the symbol \',\'.";
 	} else {
 		cityError.innerHTML = "";
 	}
@@ -165,8 +165,8 @@ function validateCity() {
 function validatePostNumber() {
 		if (postNumber.value.length == 0) {
 		postNumberError.innerHTML = "Post number field must not be empty.";
-	} else if (postNumber.value.indexOf("\|") > -1) {
-		postNumberError.innerHTML = "Post number field must not contain the symbol \'\|\'.";
+	} else if (postNumber.value.indexOf(",") > -1) {
+		postNumberError.innerHTML = "Post number field must not contain the symbol \',\'.";
 	} else if (!(numberRegex.test(postNumber.value))) {
 		postNumberError.innerHTML = "Post number can only contain numbers.";
 	} else {

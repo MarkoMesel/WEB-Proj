@@ -14,9 +14,20 @@
 </head>
 <body>
 <div class="mainPanelLarge">
-	<form method="post" action="/WEBProjRA502013/FindApartmentServlet">
-		<h1>Find Apartments</h1>
+	<form method="post" id="findFiterApartmentForm" action="/WEBProjRA502013/FindApartmentServlet">
+		<h1>Find/Filter</h1>
 		<table border="1" align="center">
+		<tr>
+			<td>Find or Filter?</td>
+			<td>
+				<input type="radio" id="findRBtn" name="rBtn" onclick="changeAction(this);" value="Find" checked>
+				<label for="findRBtn">Find</label><br>
+			</td>
+			<td>
+				<input type="radio" id="filterRBtn" name="rBtn" onclick="changeAction(this);" value="Filter">
+				<label for="filterRBtn">Filter</label><br>
+			</td>
+		</tr>
 		<tr>
 			<td rowspan="2" >By Date</td>
 			<td align="left">
@@ -99,7 +110,7 @@
 				<input type="text" name="location" id="location"/>
 			</td>
 		</tr>
-		<tr><td colspan="3"><input type="submit" class="submitButton" value="Find Apartments"/></td></tr>
+		<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submitButton" value="Find Apartment"/></td></tr>
 	</table>
 	</form>
 	
@@ -313,6 +324,16 @@ function displayDeleteModal(id) {
 function closeDeleteModal() {
 	document.getElementById('id01').style.display='none';
 	document.getElementById('id02').style.display='none';
+}
+function changeAction(myRadio) {
+    var currentId = myRadio.id;
+    if(currentId=="findRBtn") {
+    	document.getElementById("findFiterApartmentForm").action = "\/WEBProjRA502013\/FindApartmentServlet";
+    	document.getElementById("findFilterSubmitBtn").value = "Find Apartment";
+    } else if(currentId=="filterRBtn") {
+    	document.getElementById("findFiterApartmentForm").action = "\/WEBProjRA502013\/FilterApartmentsServlet";
+    	document.getElementById("findFilterSubmitBtn").value = "Filter Apartments";
+	}
 }
 </script>
 

@@ -15,11 +15,11 @@ import model.Reservation;
 import model.Role;
 import model.User;
 
-@WebServlet("/UserOverviewServlet")
-public class UserOverviewServlet extends HttpServlet {
+@WebServlet("/FilterUserServlet")
+public class FilterUsersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-    public UserOverviewServlet() {
+    public FilterUsersServlet() {
         super();
     }
 	
@@ -27,22 +27,6 @@ public class UserOverviewServlet extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-		ContainerController.populateLists();
-		ArrayList<User> users = new ArrayList<User>();
-		Role role = Role.valueOf(request.getSession().getAttribute("role").toString());
-		if(role == Role.ADMIN) {
-			users = ContainerController.users;
-		} else {
-			Integer hostId = Integer.parseInt(request.getSession().getAttribute("id").toString());
-			ArrayList<Reservation> reservations = ContainerController.findReservationsByHostId(hostId);
-			for(Reservation reservation : reservations) {
-				if(!users.contains(reservation.getGuest())) {
-					users.add(reservation.getGuest());
-				}
-			}
-		}
-		ServletController.putUserListInSession(users, request.getSession());
-		ServletController.forwardToUserOverview(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

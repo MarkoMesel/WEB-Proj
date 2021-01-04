@@ -206,8 +206,6 @@ public class Validator {
 		//Reservation message
 		if(ValidationRules.isEmpty(request.getParameter("reservationMessage")))
 			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Reservation Message"));
-		if(ValidationRules.containsForbiddenSymbol(request.getParameter("reservationMessage")))
-			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Reservation Message"));
 		//Date an Number of Nights
 		if(ValidationRules.apartmentIsNotfreeAtThatTime(
 			(String) request.getSession().getAttribute("apartmentId"),

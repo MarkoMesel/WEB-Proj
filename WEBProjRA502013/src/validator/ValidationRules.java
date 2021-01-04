@@ -26,7 +26,7 @@ public class ValidationRules {
 	
 	//Validation Rules
 	public static boolean containsForbiddenSymbol(String s) {
-		if(s.contains("|"))
+		if(s.contains(","))
 			return true;
 		return false;
 	}	

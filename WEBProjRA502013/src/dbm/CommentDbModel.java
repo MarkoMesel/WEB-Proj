@@ -4,9 +4,9 @@ public class CommentDbModel {
 	public String id;
 	public String guestId;
 	public String apartmentId;
-	public String message;
 	public String rating;
 	public String hidden;
+	public String message;
 	
 	public CommentDbModel(String id, String guestId, String apartmentId, String message, String rating, String hidden) {
 		super();
@@ -22,8 +22,8 @@ public class CommentDbModel {
 		this.id = array[0];
 		this.guestId = array[1];
 		this.apartmentId = array[2];
-		this.message = array[3];
-		this.rating = array[4];
-		this.hidden = array[5];
+		this.rating = array[3];
+		this.hidden = array[4];
+		this.message = array[5];
 	}
 }

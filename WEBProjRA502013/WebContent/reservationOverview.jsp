@@ -10,19 +10,44 @@
 <body>
 <div class="mainPanelLarge">
 	<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
-		<form method="post" action="/WEBProjRA502013/FindReservationServlet">
-			<h1>Find Reservations</h1>
+		<form method="post" id="findFiterReservationForm" action="/WEBProjRA502013/FindReservationServlet">
+			<h1>Find/Filter</h1>
 				<table border="1" align="center">
+				<tr>
+					<td>Find or Filter?</td>
+					<td>
+						<input type="radio" id="findRBtn" name="rBtn" onclick="changeAction(this);" value="Find" checked>
+						<label for="findRBtn">Find</label><br>
+					</td>
+					<td>
+						<input type="radio" id="filterRBtn" name="rBtn" onclick="changeAction(this);" value="Filter">
+						<label for="filterRBtn">Filter</label><br>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						By status:
+					</td>
+					<td colspan="2">
+						<select name="reservationStatusSearch">
+							<option value="NONE">Ignore Status</option>
+							<option value="CREATED">Created</option>
+							<option value="REJECTED">Rejected</option>
+							<option value="CANCELED">Canceled</option>
+							<option value="ACCEPTED">Accepted</option>
+							<option value="FINISHED">Finished</option>
+						</select>
+					</td>
+				</tr>
 				<tr>
 					<td>
 						By username:
 					</td>
-					<td>
+					<td colspan="2">
 						<input type="text" name="username" id="username"/>
-					</td>
-					
+					</td>					
 				</tr>
-				<tr><td colspan="2"><input type="submit" class="submitButton" value="Find Reservations"/></td></tr>
+				<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submitButton" value="Find Reservation"/></td></tr>
 				</table>
 		</form>
 	</c:if>
@@ -141,6 +166,16 @@ function displayDeleteModal(id) {
 function closeDeleteModal() {
 	document.getElementById('id01').style.display='none';
 	document.getElementById('id02').style.display='none';
+}
+function changeAction(myRadio) {
+    var currentId = myRadio.id;
+    if(currentId=="findRBtn") {
+    	document.getElementById("findFiterReservationForm").action = "\/WEBProjRA502013\/FindReservationServlet";
+    	document.getElementById("findFilterSubmitBtn").value = "Find Reservation";
+    } else if(currentId=="filterRBtn") {
+    	document.getElementById("findFiterReservationForm").action = "\/WEBProjRA502013\/FilterReservationsServlet";
+    	document.getElementById("findFilterSubmitBtn").value = "Filter Reservations";
+	}
 }
 </script>
 

@@ -45,7 +45,7 @@ public class FindApartmentServlet extends HttpServlet {
 		} else {
 			apartmentList = ContainerController.findApartmentsByEnabled(true);
 		}
-		ArrayList<Apartment> searchResult = ContainerController.findApartmnetsFromSearchOptions(
+		Apartment searchResultSingle = ContainerController.findApartmentFromSearchOptions(
 			apartmentList,
 			ApartmentStatus.ACTIVE,
 			request.getParameter("datepickerArrive"),
@@ -59,6 +59,10 @@ public class FindApartmentServlet extends HttpServlet {
 			request.getParameter("guestCount"),
 			request.getParameter("location")
 		);
+		ArrayList<Apartment> searchResult = new ArrayList<Apartment>();
+		if(searchResultSingle != null) {
+			searchResult.add(searchResultSingle);
+		}
 		ServletController.putApartmentListInSession(searchResult, request.getSession());
 		ServletController.forwardToApartmentOverview(request, response);
 	}

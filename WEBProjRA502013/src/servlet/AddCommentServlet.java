@@ -43,32 +43,36 @@ public class AddCommentServlet extends HttpServlet {
 		ValidationResponse validationResponse = Validator.validateComment(request);
 		if(validationResponse.isValid()) {
 			Comment comment = ServletController.createCommentFromRequest(request);
-			ContainerController.comments.add(comment);
-			ContainerController.saveCommentList();
-			
-			String id = request.getSession().getAttribute("apartmentId").toString();
-			Apartment apartment = ContainerController.findApartmentById(Integer.parseInt(id));
-			Role role = Role.valueOf(request.getSession().getAttribute("role").toString());
-			Integer userId = Integer.parseInt(request.getSession().getAttribute("id").toString());
-			ArrayList<Comment> comments = new ArrayList<Comment>(); 
-			String permission = "false";
-			if(role == Role.GUEST) {
-				comments = ContainerController.findCommentsByApartmentIdAndHidden(apartment.getId(), false);
-				ArrayList<Reservation> reservations = ContainerController.findReservationsByApartmentIdAndGuestId(apartment.getId(), userId);
-				for(Reservation reservation : reservations) {
-					if(reservation.getStatus() == ReservationStatus.REJECTED || reservation.getStatus() == ReservationStatus.FINISHED) {
-						permission = "true";
-						break;
+			if(ContainerController.addComment(comment)) {
+				//ContainerController.comments.add(comment);
+				ContainerController.saveCommentList();
+				
+				String id = request.getSession().getAttribute("apartmentId").toString();
+				Apartment apartment = ContainerController.findApartmentById(Integer.parseInt(id));
+				Role role = Role.valueOf(request.getSession().getAttribute("role").toString());
+				Integer userId = Integer.parseInt(request.getSession().getAttribute("id").toString());
+				ArrayList<Comment> comments = new ArrayList<Comment>(); 
+				String permission = "false";
+				if(role == Role.GUEST) {
+					comments = ContainerController.findCommentsByApartmentIdAndHidden(apartment.getId(), false);
+					ArrayList<Reservation> reservations = ContainerController.findReservationsByApartmentIdAndGuestId(apartment.getId(), userId);
+					for(Reservation reservation : reservations) {
+						if(reservation.getStatus() == ReservationStatus.REJECTED || reservation.getStatus() == ReservationStatus.FINISHED) {
+							permission = "true";
+							break;
+						}
 					}
+				} else {
+					comments = ContainerController.findCommentsByApartmentId(apartment.getId());
+					permission = "true";
 				}
+				ServletController.putApartmentInSession(apartment, request.getSession());
+				ServletController.putCommentListInSession(comments, request.getSession());
+				ServletController.putCommentPermissionInSession(permission, request.getSession());
+				ServletController.forwardToViewComments(request, response);
 			} else {
-				comments = ContainerController.findCommentsByApartmentId(apartment.getId());
-				permission = "true";
+				ServletController.sendBadRequest(response, MessageGenerator.generateSpammingMessage());
 			}
-			ServletController.putApartmentInSession(apartment, request.getSession());
-			ServletController.putCommentListInSession(comments, request.getSession());
-			ServletController.putCommentPermissionInSession(permission, request.getSession());
-			ServletController.forwardToViewComments(request, response);		
 		} else {
 		    ServletController.sendBadRequest(response, validationResponse.getErrorMessage());
 		}

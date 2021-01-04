@@ -8,12 +8,23 @@
 </head>
 <body>
 <div class="mainPanel">
-	<form method="post" action="/WEBProjRA502013/UserOverviewServlet">
-		<h1>Find Users</h1>
+	<form method="post" id="findFiterUserForm" action="/WEBProjRA502013/FindUserServlet">
+		<h1>Find/Filter</h1>
 		<table border="1" align="center">
+			<tr>
+				<td>Find or Filter?</td>
+				<td>
+					<input type="radio" id="findRBtn" name="rBtn" onclick="changeAction(this);" value="Find" checked>
+					<label for="findRBtn">Find</label><br>
+				</td>
+				<td>
+					<input type="radio" id="filterRBtn" name="rBtn" onclick="changeAction(this);" value="Filter">
+					<label for="filterRBtn">Filter</label><br>
+				</td>
+			</tr>
 		<c:if test="${sessionScope.role == 'ADMIN'}">
 			<tr><td>By Role:</td>
-				<td>
+				<td colspan="2">
 					<select name="userRoleSearch">
 						<option value="NONE">Ignore Role</option>
 						<option value="ADMIN">Administrator</option>
@@ -25,18 +36,18 @@
 		</c:if>
 		<tr>
 			<td>By Username (leave blank to ignore):</td>
-			<td><input type="text" name="username" id="username"/></td>
+			<td colspan="2"><input type="text" name="username" id="username"/></td>
 		</tr>
 		<tr>
 			<td>By First Name (leave blank to ignore):</td>
-			<td><input type="text" name="firstName" id="firstName"/></td>
+			<td colspan="2"><input type="text" name="firstName" id="firstName"/></td>
 		</tr>
 		<tr>
 			<td>By Last Name (leave blank to ignore):</td>
-			<td><input type="text" name="lastName" id="lastName"/></td>
+			<td colspan="2"><input type="text" name="lastName" id="lastName"/></td>
 		</tr>
 		<tr><td>By Gender:</td>
-			<td>
+			<td colspan="2">
 				<select name="gender">
 					<option value="NONE">Ignore Gender</option>
 					<option value="MALE">Male</option>
@@ -44,7 +55,7 @@
 				</select>
 			</td>
 		</tr>
-		<tr><td colspan="2"><input type="submit" class="submitButton" value="Find Users"/></td></tr>
+		<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submitButton" value="Find User"/></td></tr>
 	</table>
 	</form>
 	<h1>User Overview</h1>
@@ -65,5 +76,19 @@
 		</c:forEach>
 	</table>
 </div>
+
+<script>
+function changeAction(myRadio) {
+    var currentId = myRadio.id;
+    if(currentId=="findRBtn") {
+    	document.getElementById("findFiterUserForm").action = "\/WEBProjRA502013\/FindUserServlet";
+    	document.getElementById("findFilterSubmitBtn").value = "Find User";
+    } else if(currentId=="filterRBtn") {
+    	document.getElementById("findFiterUserForm").action = "\/WEBProjRA502013\/FilterUserServlet";
+    	document.getElementById("findFilterSubmitBtn").value = "Filter Users";
+	}
+}
+</script>
+
 </body>
 </html>
