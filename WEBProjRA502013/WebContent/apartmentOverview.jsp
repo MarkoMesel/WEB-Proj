@@ -14,8 +14,9 @@
 </head>
 <body>
 <div class="mainPanelLarge">
+	<h1>Apartment Overview</h1>
 	<form method="post" id="findFiterApartmentForm" action="/WEBProjRA502013/FindApartmentServlet">
-		<h1>Find/Filter</h1>
+		<h2>Find/Filter</h2>
 		<table border="1" align="center">
 		<tr>
 			<td>Find or Filter?</td>
@@ -110,11 +111,22 @@
 				<input type="text" name="location" id="location"/>
 			</td>
 		</tr>
-		<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submitButton" value="Find Apartment"/></td></tr>
+		<tr><td colspan="3" align="center">Search by Amenities</tr>
+	       <c:forEach var="element" items="${sessionScope.amenities}">
+	       	<tr>
+	           <td align="left">
+	           		<input type="checkbox" id="${element.name}" name="${element.name}" value="${element.name}">
+	           		<label for="${element.name}">${element.name}</label>
+	           </td>
+	           <td colspan="2" align="left"><label><c:out value="${element.details}"></c:out></label></td>
+	        </tr>
+	       </c:forEach>
+   		<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submitButton" value="Find Apartment"/></td></tr>
 	</table>
+	
 	</form>
 	
-	<h1>Apartment Overview</h1>
+	<h2>Active Apartments</h2>
 	<table border="1" align="center">
 		<tr>
 			<th>
@@ -174,6 +186,9 @@
 				<td><c:out value="${apartment.bookingTime}" /></td>
 				<td><c:out value="${apartment.cancelTime}" /></td>
 				<td><c:out value="${apartment.status}" /></td>
+			</tr>
+			<tr>
+				<td align="left" colspan="100%">Amenities: <c:out value="${apartment.apartmentAmenities}" /></td>
 			</tr>
 			<tr>
 				<td align="left" colspan="100%">

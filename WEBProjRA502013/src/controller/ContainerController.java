@@ -500,12 +500,24 @@ public class ContainerController {
 			a.getType().toString(),
 			a.getRoomCount().toString(),
 			a.getGuestCount().toString(),
-			DatabaseController.getLocationAsString(a.getLocation()),
+			//DatabaseController.getLocationAsString(a.getLocation()),
+			a.getLocation().getCity(),
 			a.getHost().getUsername(),
 			a.getPrice().toString(),
 			a.getCheckInTime(),
 			a.getCheckOutTime(),
-			a.getStatus().toString());
+			a.getStatus().toString(),
+			combineAmenitiesIntoOneString(a.getAmenities()));
+	}
+	private static String combineAmenitiesIntoOneString(ArrayList<Amenity> amenities) {
+		String result = "";
+		for(Amenity amenity : amenities) {
+			result = result + amenity.getName() + ", ";
+		}
+		if(result.length() > 1)
+			return result.substring(0, result.length() - 2);
+		else
+			return result;
 	}
 	public static AmenityTableModel createTableModelFromApartmentAndAmenity(Amenity a, String checked) {
 		return new AmenityTableModel(
@@ -670,6 +682,7 @@ public class ContainerController {
 	}
 	public static ArrayList<Apartment> filterApartmentsFromSearchOptions(
 		ArrayList<Apartment> apartmentList,
+		ArrayList<Amenity> amenityList,
 		ApartmentStatus status,
 		String datepickerArrive, 
 		String datepickerLeave,
@@ -686,6 +699,9 @@ public class ContainerController {
 			.filter(
 					apartment -> 
 						apartment.getStatus() == status)
+			.filter(
+					apartment -> 
+						amenityList.isEmpty() || apartmentHasAmenities(apartment, amenityList))
 			.filter(
 				apartment ->
 					datepickerArrive.isEmpty() || apartmentReservationStartAtDate(apartment, datepickerArrive))
@@ -756,6 +772,7 @@ public class ContainerController {
 	}
 	public static Apartment findApartmentFromSearchOptions(
 			ArrayList<Apartment> apartmentList,
+			ArrayList<Amenity> amenityList,
 			ApartmentStatus status,
 			String datepickerArrive, 
 			String datepickerLeave,
@@ -768,7 +785,8 @@ public class ContainerController {
 			String guestCount, 
 			String location) {
 		
-			if(datepickerArrive.isEmpty()
+			if(amenityList.isEmpty()
+			&& datepickerArrive.isEmpty()
 			&& datepickerLeave.isEmpty()
 			&& timeArrive.isEmpty()
 			&& timeLeave.isEmpty()
@@ -783,6 +801,9 @@ public class ContainerController {
 				.filter(
 						apartment -> 
 							apartment.getStatus() == status)
+				.filter(
+					apartment -> 
+						amenityList.isEmpty() || apartmentHasAmenities(apartment, amenityList))
 				.filter(
 					apartment ->
 						datepickerArrive.isEmpty() || apartmentReservationStartAtDate(apartment, datepickerArrive))
@@ -1305,6 +1326,13 @@ public class ContainerController {
 					.orElse(null);	
 		if(foundReservation == null)
 			return false;
+		return true;
+	}
+	private static boolean apartmentHasAmenities(Apartment apartment, ArrayList<Amenity> amenityList) {
+		for(Amenity amenity : amenityList) {
+			if(!apartment.getAmenities().contains(amenity))
+				return false;
+		}
 		return true;
 	}
 	

@@ -14,9 +14,10 @@ public class ApartmentTableModel {
 	public String bookingTime;
 	public String cancelTime;
 	public String status;
+	public String apartmentAmenities;
 	
 	public ApartmentTableModel(String id, String type, String roomCount, String guestCount, String location,
-			String host, String price, String bookingTime, String cancelTime, String status) {
+			String host, String price, String bookingTime, String cancelTime, String status, String apartmentAmenities) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -28,6 +29,7 @@ public class ApartmentTableModel {
 		this.bookingTime = bookingTime;
 		this.cancelTime = cancelTime;
 		this.status = status;
+		this.apartmentAmenities = apartmentAmenities;
 	}
 
 	public String getId() {
@@ -110,6 +112,14 @@ public class ApartmentTableModel {
 		this.status = status;
 	}
 	
+	public String getApartmentAmenities() {
+		return apartmentAmenities;
+	}
+
+	public void setApartmentAmenities(String apartmentAmenities) {
+		this.apartmentAmenities = apartmentAmenities;
+	}
+
 	public int getRoomCountAsInt() {
 		return Integer.parseInt(roomCount);
 	}

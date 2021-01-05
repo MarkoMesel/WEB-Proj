@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ContainerController;
 import controller.ServletController;
+import model.Amenity;
 import model.Apartment;
 import model.ApartmentStatus;
 import model.User;
@@ -45,8 +46,10 @@ public class FilterApartmentsServlet extends HttpServlet {
 		} else {
 			apartmentList = ContainerController.findApartmentsByEnabled(true);
 		}
+		ArrayList<Amenity> amenityList = ServletController.createAmenityListFromRequest(request);
 		ArrayList<Apartment> searchResult = ContainerController.filterApartmentsFromSearchOptions(
 			apartmentList,
+			amenityList,
 			ApartmentStatus.ACTIVE,
 			request.getParameter("datepickerArrive"),
 			request.getParameter("datepickerLeave"),

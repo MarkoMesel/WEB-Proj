@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.ContainerController;
 import controller.ServletController;
+import model.Amenity;
 import model.Apartment;
 import model.ApartmentStatus;
 import model.Role;
@@ -70,6 +71,9 @@ public class ApartmentOverviewServlet extends HttpServlet {
 		default:
 			break;
 		}
+		
+		ArrayList<Amenity> amenities = ContainerController.findAmenitiesByEnabled(true);
+		ServletController.putAmenityListInSession(amenities, "amenities", request.getSession());
 		
 		ServletController.forwardToApartmentOverview(request, response);
 		

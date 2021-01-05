@@ -191,6 +191,15 @@ public class ServletController {
 			false
 		);
 	}
+	public static ArrayList<Amenity> createAmenityListFromRequest(HttpServletRequest request) {
+		ArrayList<Amenity> selectedAmenities = new ArrayList<Amenity>();
+		for(Amenity a : ContainerController.amenities) {
+			if(request.getParameter(a.name)!=null) {
+				selectedAmenities.add(a);
+			}
+		}
+		return selectedAmenities;
+	}
 	
 	//Create from session (+ optional)
 	public static Location createLocationFromSession(HttpSession session) {
