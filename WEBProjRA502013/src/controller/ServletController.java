@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.List;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -131,7 +132,7 @@ public class ServletController {
 			true
 		);
 	}
-	public static Apartment createApartmentFromRequestAndLocation(HttpServletRequest request, Location location) {		
+	public static Apartment createApartmentFromRequestAndLocation(HttpServletRequest request, Location location) {	
 		return new Apartment(
 			ContainerController.apartments.size()+1,
 			Type.valueOf(request.getParameter("aType")),

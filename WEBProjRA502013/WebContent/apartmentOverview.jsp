@@ -6,7 +6,7 @@
 <title>Apartment Overview</title>
 	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
 	<link href="css/deletemodal.css" rel="stylesheet" type="text/css">
-	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -177,18 +177,18 @@
 		</tr>
 		<c:forEach var="apartment" items="${sessionScope.apartments}">
 			<tr>
-				<td><c:out value="${apartment.type}" /></td>
-				<td><c:out value="${apartment.roomCount}" /></td>
-				<td><c:out value="${apartment.guestCount}" /></td>
-				<td><c:out value="${apartment.location}" /></td>
-				<td><c:out value="${apartment.host}" /></td>
-				<td><c:out value="${apartment.price}" /></td>
-				<td><c:out value="${apartment.bookingTime}" /></td>
-				<td><c:out value="${apartment.cancelTime}" /></td>
-				<td><c:out value="${apartment.status}" /></td>
+				<td><label>${apartment.type}</label></td>
+				<td><label>${apartment.roomCount}</label></td>
+				<td><label>${apartment.guestCount}</label></td>
+				<td><label>${apartment.location}</label></td>
+				<td><label>${apartment.host}</label></td>
+				<td><label>${apartment.price}</label></td>
+				<td><label>${apartment.bookingTime}</label></td>
+				<td><label>${apartment.cancelTime}</label></td>
+				<td><label>${apartment.status}</label></td>
 			</tr>
 			<tr>
-				<td align="left" colspan="100%">Amenities: <c:out value="${apartment.apartmentAmenities}" /></td>
+				<td align="left" colspan="100%"><label>Amenities: ${apartment.apartmentAmenities}</label></td>
 			</tr>
 			<tr>
 				<td align="left" colspan="100%">
@@ -272,15 +272,18 @@
 			</tr>
 			<c:forEach var="apartment" items="${sessionScope.inactiveApartments}">
 				<tr>
-				  <td><c:out value="${apartment.type}" /></td>
-				  <td><c:out value="${apartment.roomCount}" /></td>
-				  <td><c:out value="${apartment.guestCount}" /></td>
-				  <td><c:out value="${apartment.location}" /></td>
-				  <td><c:out value="${apartment.host}" /></td>
-				  <td><c:out value="${apartment.price}" /></td>
-				  <td><c:out value="${apartment.bookingTime}" /></td>
-				  <td><c:out value="${apartment.cancelTime}" /></td>
-				  <td><c:out value="${apartment.status}" /></td>
+					<td><label>${apartment.type}</label></td>
+					<td><label>${apartment.roomCount}</label></td>
+					<td><label>${apartment.guestCount}</label></td>
+					<td><label>${apartment.location}</label></td>
+					<td><label>${apartment.host}</label></td>
+					<td><label>${apartment.price}</label></td>
+					<td><label>${apartment.bookingTime}</label></td>
+					<td><label>${apartment.cancelTime}</label></td>
+					<td><label>${apartment.status}</label></td>
+				</tr>
+				<tr>
+					<td align="left" colspan="100%"><label>Amenities: ${apartment.apartmentAmenities}</label></td>
 				</tr>
 				<tr>
 				<td align="left" colspan="100%">

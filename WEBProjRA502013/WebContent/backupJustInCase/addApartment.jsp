@@ -2,14 +2,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css">
-    <style>
-      .map {
-        height: 400px;
-        width: 600px;
-      }
-    </style>
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
 <meta charset="UTF-8">
 <title>Add New Apartment</title>
 	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
@@ -64,7 +56,6 @@
 		</tr>
 	</table>
 	<h2>Location</h2>
-	<div id="map" class="map"></div>
 	<table border="1" align="center" >
 		<tr>
 			<td>Latitude:</td>
@@ -87,7 +78,7 @@
 			<td><label id="streetNumberError"></label></td>
 		</tr>
 		<tr>
-			<td>Place:</td>
+			<td>City:</td>
 			<td><input type="text" name="city" id="city"/></td>
 			<td><label id="cityError"></label></td>
 		</tr>
@@ -115,76 +106,6 @@
 	</table>
 	</form>
 </div>
-<script type="text/javascript">
-		var map = new ol.Map({
-		    layers: [
-		      new ol.layer.Tile({
-		        source: new ol.source.OSM()
-		      })
-		    ],
-		    target: 'map',
-		    view: new ol.View({
-		      center: [0, 0],
-		      zoom: 2
-		    })
-		  });
-		  function simpleReverseGeocoding(lon, lat) {
-		    fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
-		      return response.json();
-		    }).then(function(json) {
-		    	var place = "";
-		    	let place_switch = 0;
-		    	do{
-			    	switch(place_switch) {
-			    	  case 0:
-			    		place = json.address.city;
-			    	    break;
-			    	  case 1:
-			    		place = json.address.suburb;
-			    	  	break;
-			    	  case 2:
-			    		place = json.address.town;
-			    	  	break;
-			    	  case 3:
-			    		place = json.address.state;
-			    	  	break;
-			    	  case 4:
-				    	place = json.address.country;
-			    	  default:
-			    		place = "undefined";
-			    	}
-			    	place_switch++;
-		    	} while(typeof place === 'undefined' && place_switch < 6);
-
-		    	document.getElementById('streetName').value = json.address.road;
-		    	document.getElementById('streetNumber').value = json.address.house_number;
-		    	document.getElementById('city').value = place;
-		    	document.getElementById('postNumber').value = json.address.postcode;
-		    	
-			    validateLatitude();
-			    validateLongitude();
-			    validateStreetName();
-			    validateStreetNumber();
-			    validateCity();
-			    validatePostNumber();
-		    })
-		  }
-		  map.addEventListener('click', function(e) {
-		    var coordinate = ol.proj.toLonLat(e.coordinate).map(function(val) {
-		      return val.toFixed(6);
-		    });
-		    var lon = document.getElementById('longitude').value = coordinate[0];
-		    var lat = document.getElementById('latitude').value = coordinate[1];
-		    simpleReverseGeocoding(lon, lat);
-		  });
-		  /*
-		  document.getElementById('reversegeocoding').addEventListener('click', function(e) {
-		    if (document.getElementById('lon').value && document.getElementById('lat').value) {
-		      simpleReverseGeocoding(document.getElementById('lon').value, document.getElementById('lat').value);
-		    }
-		  });
-		  */
-    </script>
 <script type="text/javascript" src="js/addApartment.js"></script>
 </body>
 </html>

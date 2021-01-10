@@ -157,8 +157,6 @@ public class Validator {
 			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Street number"));
 		if(ValidationRules.containsForbiddenSymbol(request.getParameter("streetNumber")))
 			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Street number"));
-		if(ValidationRules.isNotInValidStreetNumberFormat(request.getParameter("streetNumber")))
-			return new ValidationResponse(false, MessageGenerator.generateMustBeInValidStreetNumberFormatMessage("Street number"));
 		//City
 		if(ValidationRules.isEmpty(request.getParameter("city")))
 			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("City"));

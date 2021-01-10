@@ -30,7 +30,7 @@ var dollarRegex = /^\$?\-?([1-9]{1}[0-9]{0,2}(\,\d{3})*(\.\d{0,2})?|[1-9]{1}\d{0
 var timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
 var latitudeRegex = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/;
 var longitudeRegex = /^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
-var streetNumberRegex = /^([1-9][0-9]*[A-Za-z]?)$/;
+//var streetNumberRegex = /^([1-9][0-9]*[A-Za-z]?)$/;
 var numberRegex = /^([0-9]*)$/;
 //EventListeners
 apartmentType.addEventListener("change", toggleRoomCountDisabled);
@@ -147,8 +147,8 @@ function validateStreetNumber() {
 		streetNumberError.innerHTML = "Street number field must not be empty.";
 	} else if (streetNumber.value.indexOf(",") > -1) {
 		streetNumberError.innerHTML = "Street number field must not contain the symbol \',\'.";
-	} else if (!(streetNumberRegex.test(streetNumber.value))) {
-		streetNumberError.innerHTML = "Street number must be written in valid street number format (ex. 102, 50a, 12B, etc.).";
+//	} else if (!(streetNumberRegex.test(streetNumber.value))) {
+//		streetNumberError.innerHTML = "Street number must be written in valid street number format (ex. 102, 50a, 12B, etc.).";
 	} else {
 		streetNumberError.innerHTML = "";
 	}
