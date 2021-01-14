@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import controller.ContainerController;
 import message.MessageGenerator;
 import model.Type;
+import model.User;
 
 public class Validator {
 	//FIELDS
@@ -75,13 +76,6 @@ public class Validator {
 		return new ValidationResponse(true, "");
 	}
 	public static ValidationResponse validateEditProfile(HttpServletRequest request) {
-		//Password
-		if(ValidationRules.isEmpty(request.getParameter("password")))
-			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Password"));
-		if(ValidationRules.containsForbiddenSymbol(request.getParameter("password")))
-			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Password"));
-		if(ValidationRules.isNotLongEnough(request.getParameter("password"), MINIMUM_PASSWORD_LENGTH))
-			return new ValidationResponse(false, MessageGenerator.generateNotLongEnoughMessage("Password", MINIMUM_PASSWORD_LENGTH));
 		//First Name
 		if(ValidationRules.isEmpty(request.getParameter("firstName")))
 			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("First name"));
@@ -92,6 +86,29 @@ public class Validator {
 			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Last name"));
 		if(ValidationRules.containsForbiddenSymbol(request.getParameter("lastName")))
 			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Last name"));
+		//Valid
+		return new ValidationResponse(true, "");
+	}
+	public static ValidationResponse validateChangePassword(HttpServletRequest request) {
+		//Old Password
+		User user = ContainerController.findUserById(Integer.parseInt((String)request.getSession().getAttribute("id")));
+		if(user == null)
+			return new ValidationResponse(false, "Session expired.");
+		if(ValidationRules.isEmpty(request.getParameter("oldPassword")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("Old password"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("oldPassword")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("Old password"));
+		if(ValidationRules.isNotLongEnough(request.getParameter("oldPassword"), MINIMUM_PASSWORD_LENGTH))
+			return new ValidationResponse(false, MessageGenerator.generateNotLongEnoughMessage("Old password", MINIMUM_PASSWORD_LENGTH));
+		if(ValidationRules.isPasswordIncorrect(user.getPassword(), request.getParameter("oldPassword")))
+			return new ValidationResponse(false, MessageGenerator.generateWrongPasswordMessage());
+		//New Password
+		if(ValidationRules.isEmpty(request.getParameter("newPassword")))
+			return new ValidationResponse(false, MessageGenerator.generateNotEmptyMessage("New password"));
+		if(ValidationRules.containsForbiddenSymbol(request.getParameter("newPassword")))
+			return new ValidationResponse(false, MessageGenerator.generateNotSymbolMessage("New password"));
+		if(ValidationRules.isNotLongEnough(request.getParameter("newPassword"), MINIMUM_PASSWORD_LENGTH))
+			return new ValidationResponse(false, MessageGenerator.generateNotLongEnoughMessage("New password", MINIMUM_PASSWORD_LENGTH));
 		//Valid
 		return new ValidationResponse(true, "");
 	}

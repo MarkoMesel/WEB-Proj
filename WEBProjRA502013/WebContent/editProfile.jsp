@@ -12,11 +12,6 @@
 	<div style="color: #008000;">${successMessage}</div>
 	<table border="1" align="center">
 		<tr>
-			<td>Change Password:</td>
-			<td><input type="text" name="password" id="password" value="${sessionScope.password}"/></td>
-			<td><label id="passwordError"></label></td>
-		</tr>
-		<tr>
 			<td>Change First Name:</td>
 			<td><input type="text" name="firstName" id="firstName" value="${sessionScope.firstName}"/></td>
 			<td><label id="firstNameError"></label></td>

@@ -33,6 +33,9 @@
 			<form method="get" action="/WEBProjRA502013/EditProfileServlet">
 				<input type="submit" class="submitButton" value="Edit Profile"/>
 			</form>
+			<form method="get" action="/WEBProjRA502013/ChangePasswordServlet">
+				<input type="submit" class="submitButton" value="Change Password"/>
+			</form>
 			<form method="get" action="/WEBProjRA502013/UserOverviewServlet">
 				<input type="${sessionScope.role == 'GUEST' ? 'hidden' : 'submit'}" class="submitButton" value="User Overview"/>
 			</form>

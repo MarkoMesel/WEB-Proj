@@ -58,6 +58,11 @@ public class ValidationRules {
 				return false;
 		return true;
 	}
+	public static boolean isPasswordIncorrect(String originalPassword, String passwordFromRequest) {
+		if(originalPassword.equals(passwordFromRequest))
+			return false;
+		return true;
+	}
 	public static boolean isNotNumberWithNoLeadingZeros(String s) {
 		if(Pattern.matches(numNoLeadingZerosRegex, s))
 			return false;

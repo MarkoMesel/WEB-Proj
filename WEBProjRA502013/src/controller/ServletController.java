@@ -61,6 +61,14 @@ public class ServletController {
 	public static void forwardToUserOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/userOverview.jsp").forward(request, response);
 	}
+	public static void forwardToChangePassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/changePassword.jsp").forward(request, response);
+	}
+	public static void forwardToChangePasswordWithSuccess(HttpServletRequest request, HttpServletResponse response,
+			String successMessage) throws ServletException, IOException {
+		request.setAttribute("successMessage", successMessage);
+		request.getRequestDispatcher("/changePassword.jsp").forward(request, response);
+	}
 	
 	//Forward to Apartment management pages
 	public static void forwardToApartmentOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -250,10 +258,12 @@ public class ServletController {
 	
 	//Edit from request
 	public static void editUserFromRequest(User user, HttpServletRequest request) {
-		user.setPassword(request.getParameter("password"));
 		user.setFirstName(request.getParameter("firstName"));
 		user.setLastName(request.getParameter("lastName"));
 		user.setGender(Gender.valueOf(request.getParameter("gender")));
+	}
+	public static void editPasswordFromRequest(User user, HttpServletRequest request) {
+		user.setPassword(request.getParameter("newPassword"));
 	}
 	public static void editAmenityFromRequest(Amenity amenity, HttpServletRequest request) {
 		amenity.setName(request.getParameter("amenityName"));
@@ -425,6 +435,7 @@ public class ServletController {
 	public static void sendBadRequest(HttpServletResponse response, String errorMessage) throws IOException {
 		response.sendError(HttpServletResponse.SC_BAD_REQUEST, errorMessage);
 	}
+
 
 
 
