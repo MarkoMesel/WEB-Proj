@@ -16,3 +16,4 @@
 16,testguest,tetetete,abc,def,MALE,GUEST,true
 17,abc,ffffffff,d,d,MALE,GUEST,true
 18,randomguy123,aaaaaaaa,John,Johnson,MALE,GUEST,true
+19,testhost,bbbbbbbb,TestHostFirst,TestHostLast,MALE,HOST,true

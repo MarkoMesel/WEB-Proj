@@ -612,7 +612,7 @@ public class ContainerController {
 		return new ArrayList<>(
 			userList.stream()
 				.filter(
-					user -> 
+					user ->
 					(role.equals("NONE")) ? true : user.getRole().toString().equals(role))
 				.filter(
 					user -> 
@@ -632,7 +632,8 @@ public class ContainerController {
 	public static User findUserFromSearchOptions(
 			ArrayList<User> userList, String role, String username, String firstName, String lastName, String gender) {
 		
-		if(username.isEmpty()
+		if(role.equals("NONE")
+		&& username.isEmpty()
 		&& firstName.isEmpty()
 		&& lastName.isEmpty()
 		&& gender.equals("NONE"))
@@ -641,7 +642,7 @@ public class ContainerController {
 		return userList.stream()
 				.filter(
 					user -> 
-					(role.equals("NONE")) ? true : user.getRole().toString().equals(role))
+						(role.equals("NONE")) ? true : user.getRole().toString().equals(role))
 				.filter(
 					user -> 
 						user.getUsername().contains(username))

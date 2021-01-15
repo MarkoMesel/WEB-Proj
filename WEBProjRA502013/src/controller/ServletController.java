@@ -69,6 +69,9 @@ public class ServletController {
 		request.setAttribute("successMessage", successMessage);
 		request.getRequestDispatcher("/changePassword.jsp").forward(request, response);
 	}
+	public static void forwardToAddHost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/addHost.jsp").forward(request,response);
+	}
 	
 	//Forward to Apartment management pages
 	public static void forwardToApartmentOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -208,6 +211,17 @@ public class ServletController {
 			}
 		}
 		return selectedAmenities;
+	}
+	public static Host createHostFromRequest(HttpServletRequest request) {
+		return new Host(
+			ContainerController.users.size()+1,
+			request.getParameter("username"),
+			request.getParameter("password"),
+			request.getParameter("firstName"),
+			request.getParameter("lastName"),
+			Gender.valueOf(request.getParameter("gender")),
+			true
+		);
 	}
 	
 	//Create from session (+ optional)
@@ -435,6 +449,7 @@ public class ServletController {
 	public static void sendBadRequest(HttpServletResponse response, String errorMessage) throws IOException {
 		response.sendError(HttpServletResponse.SC_BAD_REQUEST, errorMessage);
 	}
+
 
 
 
