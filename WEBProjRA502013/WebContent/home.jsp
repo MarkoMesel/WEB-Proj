@@ -8,9 +8,16 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Home Page</title>
-		<link href="css/mainpage.css" rel="stylesheet" type="text/css">
+	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+	<div class="site-header">
+		<div class="site-header-content">
+		<a href="home.jsp">
+			<img src="images/logo.png" alt="webProjLogo">
+		</a>
+		</div>
+	</div>
 	<div class="mainPanel">
 		<div style="color: #00BF00;">${successMessage}</div>
 		<h1>Welcome!</h1>
@@ -31,33 +38,33 @@
 			</c:choose>
 			
 			<form method="get" action="/WEBProjRA502013/EditProfileServlet">
-				<input type="submit" class="submitButton" value="Edit Profile"/>
+				<input type="submit" class="submit-button edit-profile" value="Edit Profile"/>
 			</form>
 			<form method="get" action="/WEBProjRA502013/ChangePasswordServlet">
-				<input type="submit" class="submitButton" value="Change Password"/>
+				<input type="submit" class="submit-button change-password" value="Change Password"/>
 			</form>
 			<form method="get" action="/WEBProjRA502013/UserOverviewServlet">
-				<input type="${sessionScope.role == 'GUEST' ? 'hidden' : 'submit'}" class="submitButton" value="User Overview"/>
+				<input type="${sessionScope.role == 'GUEST' ? 'hidden' : 'submit'}" class="submit-button user-overview" value="User Overview"/>
 			</form>
 			<form method="get" action="/WEBProjRA502013/AddApartmentServlet">
-				<input type="${sessionScope.role == 'HOST' ? 'submit' : 'hidden'}" class="submitButton" value="Add Apartment"/>
+				<input type="${sessionScope.role == 'HOST' ? 'submit' : 'hidden'}" class="submit-button add-apartment" value="Add Apartment"/>
 			</form>
 			<form method="get" action="/WEBProjRA502013/ManageAmenitiesServlet">
-				<input type="${sessionScope.role == 'ADMIN' ? 'submit' : 'hidden'}" class="submitButton" value="Manage Amenities"/>
+				<input type="${sessionScope.role == 'ADMIN' ? 'submit' : 'hidden'}" class="submit-button manage-amenities" value="Manage Amenities"/>
 			</form>
 			<form method="get" action="/WEBProjRA502013/AddHostServlet">
-				<input type="${sessionScope.role == 'ADMIN' ? 'submit' : 'hidden'}" class="submitButton" value="Add Host"/>
+				<input type="${sessionScope.role == 'ADMIN' ? 'submit' : 'hidden'}" class="submit-button add-host" value="Add Host"/>
 			</form>
 		</c:if>
 		<form method="get" action="/WEBProjRA502013/ApartmentOverviewServlet">
-			<input type="submit" class="submitButton" value="Apartment Overview"/>
+			<input type="submit" class="submit-button apartment-overview" value="Apartment Overview"/>
 		</form>
 		<form method="get" action="/WEBProjRA502013/ReservationOverviewServlet">
-			<input type="submit" class="submitButton" value="Reservation Overview"/>
+			<input type="submit" class="submit-button reservation-overview" value="Reservation Overview"/>
 		</form>
 		<c:if test="${sessionScope.id != null}">
 			<form method="post" action="/WEBProjRA502013/LogoutServlet">
-				<input type="submit" class="submitButton" value="Logout"/>
+				<input type="submit" class="submit-button logout" value="Logout"/>
 			</form>
 		</c:if>
 	</div>

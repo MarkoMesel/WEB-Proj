@@ -1,0 +1,84 @@
+.site-header {
+    background-color: #224a25;
+    padding: 4px 0 0 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+    position: fixed;
+    width:100%;
+    top: 0;
+    left: 0;
+}
+
+.site-header-content {
+    background-color: #000000;
+}
+
+.submit-button {
+	font-weight: bold;
+	border: solid;
+	color: #ffffff;
+	padding-top: 20px;
+	padding-right: 20px;
+	padding-bottom: 20px;
+	padding-left: 80px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	border-width: medium;
+	border-radius: 12px;
+	border-color: #d4d4d4;
+	background: url('../images/background-cropped.png') no-repeat;
+	background-position: left center;
+	cursor:pointer;
+}
+
+.edit-profile {
+	background: url('../images/background-cropped-edit-profile.png') no-repeat;
+	background-position: left center;
+}
+
+.change-password {
+	background: url('../images/background-cropped-change-password.png') no-repeat;
+	background-position: left center;
+}
+
+.user-overview {
+	background: url('../images/background-cropped-user-overview.png') no-repeat;
+	background-position: left center;
+}
+
+.add-apartment {
+	background: url('../images/background-cropped-add-apartment.png') no-repeat;
+	background-position: left center;
+}
+
+.apartment-overview {
+	background: url('../images/background-cropped-apartment-overview.png') no-repeat;
+	background-position: left center;
+}
+
+.reservation-overview {
+	background: url('../images/background-cropped-reservation-overview.png') no-repeat;
+	background-position: left center;
+}
+
+.logout {
+	background: url('../images/background-cropped-logout.png') no-repeat;
+	background-position: left center;
+}
+
+.add-host {
+	background: url('../images/background-cropped-add-host.png') no-repeat;
+	background-position: left center;
+}
+
+.manage-amenities {
+	background: url('../images/background-cropped-manage-amenities.png') no-repeat;
+	background-position: left center;
+}
+
+.table-overview {
+	border-spacing: 0;
+	margin: auto;
+}
