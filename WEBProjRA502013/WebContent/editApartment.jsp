@@ -7,15 +7,23 @@
       .map {
         height: 400px;
         width: 600px;
+        margin: auto;
       }
     </style>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
 <meta charset="UTF-8">
 <title>Edit Apartment</title>
-	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
+	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="mainPanel">
+	<div class="site-header">
+		<div class="site-header-content">
+		<a href="home.jsp">
+			<img src="images/logo.png" alt="webProjLogo">
+		</a>
+		</div>
+	</div>
 	<h1>Edit Apartment</h1>
 	<form method="post" action="/WEBProjRA502013/EditApartmentServlet">
 	<h2>General Info</h2>

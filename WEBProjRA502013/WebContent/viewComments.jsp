@@ -4,16 +4,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Manage Amenities</title>
-	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
+	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 	<link href="css/deletemodal.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="mainPanel">
+	<div class="site-header">
+		<div class="site-header-content">
+		<a href="home.jsp">
+			<img src="images/logo.png" alt="webProjLogo">
+		</a>
+		</div>
+	</div>
 	<h1>Comments for chosen apartment</h1>
 	<br/>
 	<c:if test="${sessionScope.role == 'GUEST' && sessionScope.commentPermission == 'true'}">
 		<form method="get" action="/WEBProjRA502013/AddCommentServlet">
-			<input class="button" id="addComment" type="submit" value="Add Comment"/>
+			<input class="submit-button basic" id="addComment" type="submit" value="Add Comment"/>
 		</form>
 	</c:if>
 	<br />
@@ -50,7 +57,7 @@
 						<td align="left" colspan="100%">
 							<form style="display:inline-block;" method="post" action="/WEBProjRA502013/ViewCommentsServlet">
 						 		<input hidden="true" type="text" name="currentRow" value="${comment.id}"/>
-						 		<input class="button smaller" id="${comment.id}" type="submit" 
+						 		<input class="submit-button basic" id="${comment.id}" type="submit" 
 						 			value="${comment.hidden == 'true' ? 'Unhide From Guest' : 'Hide From Guest'}"/>
 						 	</form>
 					 	</td>

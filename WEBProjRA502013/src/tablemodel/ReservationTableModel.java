@@ -1,5 +1,8 @@
 package tablemodel;
 
+import helper.DateManager;
+import helper.PriceManager;
+
 public class ReservationTableModel {
 	public String id;
 	public String apartment;
@@ -95,5 +98,14 @@ public class ReservationTableModel {
 
 	public void setNoNightsLeft(String noNightsLeft) {
 		this.noNightsLeft = noNightsLeft;
+	}
+	public String getDateAsYYYYMMDDString() {
+		return DateManager.convertDateToYYYYMMDDString(date);
+	}
+	public int getNightsAsInt() {
+		return Integer.parseInt(nights);
+	}
+	public double getPriceAsDouble() {
+		return PriceManager.convertPriceToDouble(price);
 	}
 }

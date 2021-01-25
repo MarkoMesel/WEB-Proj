@@ -3,9 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Edit Account Information</title>
-	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
+	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<div class="site-header">
+	<div class="site-header-content">
+	<a href="home.jsp">
+		<img src="images/logo.png" alt="webProjLogo">
+	</a>
+	</div>
+</div>
 <div class="mainPanel">
 	<h1>Edit Profile</h1>
 	<form method="post" action="/WEBProjRA502013/EditProfileServlet">
@@ -29,7 +36,7 @@
 				</select>
 			</td>
 		</tr>
-		<tr><td colspan="3"><input type="submit" class="submitButton" value="Edit Profile"/></td></tr>
+		<tr><td colspan="3"><input type="submit" class="submit-button basic" value="Edit Profile"/></td></tr>
 	</table>
 	</form>
 </div>

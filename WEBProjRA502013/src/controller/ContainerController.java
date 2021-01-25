@@ -1126,23 +1126,84 @@ public class ContainerController {
 			ArrayList<ReservationTableModel> reservationList, ReservationTableParameter parameter,
 			Boolean reversed) {
 		switch(parameter) {
-		case APARTMENT:
-			return sortReservations(reservationList, ReservationTableModel::getApartment, reversed);
-		case DATE:
-			return sortReservations(reservationList, ReservationTableModel::getDate, reversed);
-		case NIGHTS:
-			return sortReservations(reservationList, ReservationTableModel::getNights, reversed);
-		case GUEST:
-			return sortReservations(reservationList, ReservationTableModel::getGuest, reversed);
-		case MESSAGE:
-			return sortReservations(reservationList, ReservationTableModel::getMessage, reversed);
-		case PRICE:
-			return sortReservations(reservationList, ReservationTableModel::getPrice, reversed);
-		case STATUS:
-			return sortReservations(reservationList, ReservationTableModel::getStatus, reversed);
-		default:
+			case APARTMENT:
+				return sortReservationsByString(reservationList, ReservationTableModel::getApartment, reversed);
+			case DATE:
+				return sortReservationsByDate(reservationList, reversed);
+			case NIGHTS:
+				return sortReservationsByNights(reservationList, reversed);
+			case GUEST:
+				return sortReservationsByString(reservationList, ReservationTableModel::getGuest, reversed);
+			case MESSAGE:
+				return sortReservationsByString(reservationList, ReservationTableModel::getMessage, reversed);
+			case PRICE:
+				return sortReservationsByPrice(reservationList, reversed);
+			case STATUS:
+				return sortReservationsByString(reservationList, ReservationTableModel::getStatus, reversed);
+			default:
+		}
+		return null;
 	}
-	return null;
+	private static ArrayList<ReservationTableModel> sortReservationsByPrice(
+			ArrayList<ReservationTableModel> reservationList, Boolean reversed) {
+					if(!reversed)
+				return new ArrayList<ReservationTableModel>(
+					reservationList.stream()
+						.sorted(Comparator.comparingDouble(ReservationTableModel::getPriceAsDouble))
+						.collect(Collectors.toList())
+				);
+			else
+				return new ArrayList<ReservationTableModel>(
+					reservationList.stream()
+						.sorted(Comparator.comparingDouble(ReservationTableModel::getPriceAsDouble).reversed())
+						.collect(Collectors.toList())
+				);
+	}
+	private static ArrayList<ReservationTableModel> sortReservationsByNights(
+			ArrayList<ReservationTableModel> reservationList, Boolean reversed) {
+		if(!reversed)
+			return new ArrayList<ReservationTableModel>(
+				reservationList.stream()
+					.sorted(Comparator.comparingInt(ReservationTableModel::getNightsAsInt))
+					.collect(Collectors.toList())
+			);
+		else
+			return new ArrayList<ReservationTableModel>(
+				reservationList.stream()
+					.sorted(Comparator.comparingInt(ReservationTableModel::getNightsAsInt).reversed())
+					.collect(Collectors.toList())
+			);
+	}
+	private static ArrayList<ReservationTableModel> sortReservationsByDate(
+			ArrayList<ReservationTableModel> reservationList, Boolean reversed) {
+		if(!reversed)
+		return new ArrayList<ReservationTableModel>(
+			reservationList.stream()
+				.sorted(Comparator.comparing(ReservationTableModel::getDateAsYYYYMMDDString))
+				.collect(Collectors.toList())
+		);
+		else
+		return new ArrayList<ReservationTableModel>(
+			reservationList.stream()
+				.sorted(Comparator.comparing(ReservationTableModel::getDateAsYYYYMMDDString).reversed())
+				.collect(Collectors.toList())
+		);
+	}
+	private static ArrayList<ReservationTableModel> sortReservationsByString(
+		ArrayList<ReservationTableModel> reservationList,
+		Function<ReservationTableModel, String> sortKey, Boolean reversed) {
+			if(!reversed)
+			return new ArrayList<ReservationTableModel>(
+				reservationList.stream()
+					.sorted(Comparator.comparing(sortKey))
+					.collect(Collectors.toList())
+			);
+		else
+			return new ArrayList<ReservationTableModel>(
+				reservationList.stream()
+					.sorted(Comparator.comparing(sortKey).reversed())
+					.collect(Collectors.toList())
+			);
 	}
 	private static ArrayList<ReservationTableModel> sortReservations(ArrayList<ReservationTableModel> reservationList,
 			Function<ReservationTableModel, String> sortKey, Boolean reversed) {

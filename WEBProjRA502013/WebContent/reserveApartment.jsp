@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Reserve Apartment</title>
-	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
+	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
@@ -13,6 +13,13 @@
 </head>
 <body>
 <div class="mainPanel">
+	<div class="site-header">
+		<div class="site-header-content">
+		<a href="home.jsp">
+			<img src="images/logo.png" alt="webProjLogo">
+		</a>
+		</div>
+	</div>
 	<h1>Reserve Apartment</h1>
 	<input hidden="true" type="text" id="apartmentDates" value="${sessionScope.apartmentDates}"/>
 	<form method="post" action="/WEBProjRA502013/ReserveApartmentServlet">
@@ -32,7 +39,7 @@
 			<td><input type="text" name="reservationMessage" id="reservationMessage"></td>
 			<td><label id="reservationMessageError"></label></td>
 		</tr>
-		<tr><td colspan="3"><input class="submitButton" type="submit" value="Reserve Apartment"/></td></tr>
+		<tr><td colspan="3"><input class="submit-button" type="submit" value="Reserve Apartment"/></td></tr>
 	</table>
 	</form>
 </div>

@@ -4,16 +4,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Manage Amenities</title>
-	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
+	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 	<link href="css/deletemodal.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="mainPanel">
+	<div class="site-header">
+		<div class="site-header-content">
+		<a href="home.jsp">
+			<img src="images/logo.png" alt="webProjLogo">
+		</a>
+		</div>
+	</div>
 	<h1>Manage Amenities</h1>
 	<div style="color: #00BF00;">${successMessage}</div>
 	<br/>
 	<form method="get" action="/WEBProjRA502013/AddAmenityServlet">
-		<input class="button" id="addNewAmenity" type="submit" value="Add New Amenity"/>
+		<input class="submit-button basic" id="addNewAmenity" type="submit" value="Add New Amenity"/>
 	</form>
 	<br />
 	<table border="1" align="center" >
@@ -24,11 +31,11 @@
            <td align="center">
 	           	<form method="get" action="/WEBProjRA502013/EditAmenityServlet">
 	           		<input hidden="true" type="text" name="currentRow" value="${element.id}"/>
-	           		<input class="button" id="${element.id}" type="submit" value="Edit"/>
+	           		<input class="submit-button basic" id="${element.id}" type="submit" value="Edit"/>
 	           	</form>
            </td>
            <td align="center">
-	           	<input class="deleteButton" id="${element.name}" 
+	           	<input class="submit-button basic" id="${element.name}" 
 	           		onclick="displayDeleteModal('${element.name}','${element.id}')" type="submit" value="Delete"/>
            </td>
         </tr>

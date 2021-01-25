@@ -4,11 +4,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Reservation Overview</title>
-	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
+	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 	<link href="css/deletemodal.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="mainPanelLarge">
+	<div class="site-header">
+		<div class="site-header-content">
+		<a href="home.jsp">
+			<img src="images/logo.png" alt="webProjLogo">
+		</a>
+		</div>
+	</div>
 	<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
 		<form method="post" id="findFiterReservationForm" action="/WEBProjRA502013/FindReservationServlet">
 			<h1>Find/Filter</h1>
@@ -47,92 +54,102 @@
 						<input type="text" name="username" id="username"/>
 					</td>					
 				</tr>
-				<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submitButton" value="Find Reservation"/></td></tr>
+				<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submit-button basic" value="Find Reservation"/></td></tr>
 				</table>
 		</form>
 	</c:if>
 	<h1>Reservation Overview</h1>
-	<table border="1" align="center">
+	<table class="table-overview">
+		<caption><b>Sort by:</b></caption>
 		<tr>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="button" name="sortBtn" type="submit" value="Apartment"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Apartment"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="button" name="sortBtn" type="submit" value="Reservation Date"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Reservation Date"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="button" name="sortBtn" type="submit" value="Night Count"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Night Count"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="button" name="sortBtn" type="submit" value="Price"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Price"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="button" name="sortBtn" type="submit" value="Message"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Message"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="button" name="sortBtn" type="submit" value="Guest"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Guest"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="button" name="sortBtn" type="submit" value="Status"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Status"/>
 				</form>
 			</th>
 		</tr>
 		<c:forEach var="reservation" items="${sessionScope.reservations}">
 			<tr>
-				<td><c:out value="${reservation.apartment}" /></td>
-				<td><c:out value="${reservation.date}" /></td>
-				<td><c:out value="${reservation.nights}" /></td>
-				<td><c:out value="${reservation.price}" /></td>
-				<td><c:out value="${reservation.message}" /></td>
-				<td><c:out value="${reservation.guest}" /></td>
-				<td><c:out value="${reservation.status}" /></td>
+				<td colspan="100%">
+					<div class="div-wrapper">
+					<label>Status: <b>${reservation.status}</b></label><br/>
+					<label>Apartment: <b>${reservation.apartment}</b></label><br/>
+					<label>Date: <b>${reservation.date}</b></label><br/>
+					<label>Number of nights: <b>${reservation.nights}</b></label><br/>
+					<label>Guest: <b>${reservation.guest}</b></label><br/>
+					<label>Price: <b>${reservation.price}</b></label><br/>
+					<label>Message: <b>${reservation.message}</b></label><br/>	
+<%-- 				<c:out value="${reservation.apartment}" />
+				<c:out value="${reservation.date}" />
+				<c:out value="${reservation.nights}" />
+				<c:out value="${reservation.price}" />
+				<c:out value="${reservation.message}" />
+				<c:out value="${reservation.guest}" />
+				<c:out value="${reservation.status}" /> --%>
 				<c:if test="${sessionScope.role == 'GUEST' && (reservation.status == 'CREATED' || reservation.status == 'ACCEPTED')}">
-					<td align="center">
+					
 					 	<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
 					 		<input hidden="true" type="text" name="currentRow" value="${reservation.id}"/>
 					 		<input class="button" name="cancelBtn" id="${reservation.id}" type="submit" value="Cancel"/>
 					 	</form>
-					</td>
+					
 				</c:if>
 				<c:if test="${sessionScope.role == 'HOST'}">
 					<c:if test="${reservation.status == 'CREATED'}">
-						<td align="center">
 							<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
 						 		<input hidden="true" type="text" name="currentRow" value="${reservation.id}"/>
 						 		<input class="button" name="acceptBtn" id="${reservation.id}" type="submit" value="Accept"/>
 						 	</form>
-						 </td>
 					</c:if>
 					<c:if test="${reservation.status == 'CREATED' || reservation.status == 'ACCEPTED'}">
-						<td align="center">
+
 							<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
 						 		<input hidden="true" type="text" name="currentRow" value="${reservation.id}"/>
 						 		<input class="button" name="rejectBtn" id="${reservation.id}" type="submit" value="Reject"/>
 						 	</form>
-						 </td>
+
 					</c:if>
 					<c:if test="${reservation.status == 'ACCEPTED' && reservation.noNightsLeft == 'true'}">
-						<td align="center">
+
 							<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
 						 		<input hidden="true" type="text" name="currentRow" value="${reservation.id}"/>
 						 		<input class="button" name="finishBtn" id="${reservation.id}" type="submit" value="Finish"/>
 						 	</form>
-						 </td>
+
 					</c:if>
 				</c:if>
+				</div>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

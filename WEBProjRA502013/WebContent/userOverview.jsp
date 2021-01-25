@@ -4,10 +4,17 @@
 <head>
 <meta charset="UTF-8">
 <title>User Overview</title>
-	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
+	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="mainPanel">
+	<div class="site-header">
+		<div class="site-header-content">
+		<a href="home.jsp">
+			<img src="images/logo.png" alt="webProjLogo">
+		</a>
+		</div>
+	</div>
 	<form method="post" id="findFiterUserForm" action="/WEBProjRA502013/FindUserServlet">
 		<h1>Find/Filter</h1>
 		<table border="1" align="center">
@@ -55,7 +62,7 @@
 				</select>
 			</td>
 		</tr>
-		<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submitButton" value="Find User"/></td></tr>
+		<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submit-button basic" value="Find User"/></td></tr>
 	</table>
 	</form>
 	<h1>User Overview</h1>

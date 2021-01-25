@@ -14,6 +14,13 @@
 </head>
 <body>
 <div class="mainPanelLarge">
+	<div class="site-header">
+		<div class="site-header-content">
+		<a href="home.jsp">
+			<img src="images/logo.png" alt="webProjLogo">
+		</a>
+		</div>
+	</div>
 	<h1>Apartment Overview</h1>
 	<form method="post" id="findFiterApartmentForm" action="/WEBProjRA502013/FindApartmentServlet">
 		<h2>Find/Filter</h2>
@@ -125,128 +132,133 @@
 	</table>
 	
 	</form>
-	
 	<h2>Active Apartments</h2>
 	<table class="table-overview">
+		<caption><b>Sort by:</b></caption>
 		<tr>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="button" name="sortBtn" type="submit" value="Type"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Type"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="button" name="sortBtn" type="submit" value="Room Count"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Room Count"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="button" name="sortBtn" type="submit" value="Guest Count"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Guest Count"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="button" name="sortBtn" type="submit" value="Location"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Location"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="button" name="sortBtn" type="submit" value="Host"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Host"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="button" name="sortBtn" type="submit" value="Price"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Price"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="button" name="sortBtn" type="submit" value="Booking Time"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Booking Time"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="button" name="sortBtn" type="submit" value="Cancel Time"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Cancel Time"/>
 				</form>
 			</th>
 			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="button" name="sortBtn" type="submit" value="Status"/>
+					<input class="submit-button basic" name="sortBtn" type="submit" value="Status"/>
 				</form>
 			</th>
 		</tr>
 		<c:forEach var="apartment" items="${sessionScope.apartments}">
 			<tr>
 				<td colspan="100%">
-					<div>
-						<label>Status: <b>${apartment.status}</b></label><br/>	
-						<label>Host: <b>${apartment.host}</b></label><br/>
-						<label>Location: <b>${apartment.location}</b></label><br/>
-						<label>Type: <b>${apartment.type} (${apartment.roomCount} room count)</b></label><br/>
-						<label>Guest capacity: <b>${apartment.guestCount}</b></label><br/>
-						<label>Booking time: <b>${apartment.bookingTime}</b></label><br/>
-						<label>Cancel time: <b>${apartment.cancelTime}</b></label><br/>
-						<label>Price: <b>${apartment.price}</b></label><br/>
-						<label>Amenities: <b>${apartment.apartmentAmenities}</b></label><br/>
-						
+					<div class="div-wrapper">
+						<div class="div-picture">
+							<img class="apartment-img" src="images/apartmentImages/${apartment.id}_0">
+						</div>
+						<div class="div-details">
+							<label>Status: <b>${apartment.status}</b></label><br/>	
+							<label>Host: <b>${apartment.host}</b></label><br/>
+							<label>Location: <b>${apartment.location}</b></label><br/>
+							<label>Type: <b>${apartment.type} (${apartment.roomCount} room count)</b></label><br/>
+							<label>Guest capacity: <b>${apartment.guestCount}</b></label><br/>
+							<label>Booking time: <b>${apartment.bookingTime}</b></label><br/>
+							<label>Cancel time: <b>${apartment.cancelTime}</b></label><br/>
+							<label>Price: <b>${apartment.price}</b></label><br/>
+							<label>Amenities: <b>${apartment.apartmentAmenities}</b></label><br/>
+							
+			<!-- 				</td> -->
+			<!-- 				<td> -->
+							<%-- //<label>${apartment.roomCount}</label>
+			
+			<!-- 				</td> -->
+			<!-- 				<td> -->
+							//<label>${apartment.guestCount}</label>
+			<!-- 				</td> -->
+			<!-- 				<td> -->
+							//<label>${apartment.location}</label>
+			<!-- 				</td> -->
+			<!-- 				<td> -->
+							//<label>${apartment.host}</label>
+			<!-- 				</td> -->
+			<!-- 				<td> -->
+							//<label>${apartment.price}</label>
+			<!-- 				</td> -->
+			<!-- 				<td> -->
+							//<label>${apartment.bookingTime}</label>
+			<!-- 				</td> -->
+			<!-- 				<td> -->
+							//<label>${apartment.cancelTime}</label>
+			<!-- 				</td> -->
+			<!-- 				<td> -->
+							//<label>${apartment.status}</label>
 		<!-- 				</td> -->
-		<!-- 				<td> -->
-						<%-- //<label>${apartment.roomCount}</label>
+		<!-- 			</tr> -->
+		<!-- 			<tr> -->
+		<!-- 				<td align="left" colspan="100%"> -->
+							//<label>Amenities: ${apartment.apartmentAmenities}</label>
+		<!-- 				</td> -->
+		<!-- 			</tr> -->
+		<!-- 			<tr> -->
+		<!-- 				<td align="left" colspan="100%"> --> --%>
+						 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewCommentsServlet">
+						 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+						 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Comments"/>
+						 	</form>
+						 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewPicturesServlet">
+						 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+						 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Pictures"/>
+						 	</form>
+							<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
+							 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/EditApartmentServlet">
+							 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+							 		<input class="button smaller" id="${apartment.id}" type="submit" value="Edit"/>
+							 	</form>
 		
-		<!-- 				</td> -->
-		<!-- 				<td> -->
-						//<label>${apartment.guestCount}</label>
-		<!-- 				</td> -->
-		<!-- 				<td> -->
-						//<label>${apartment.location}</label>
-		<!-- 				</td> -->
-		<!-- 				<td> -->
-						//<label>${apartment.host}</label>
-		<!-- 				</td> -->
-		<!-- 				<td> -->
-						//<label>${apartment.price}</label>
-		<!-- 				</td> -->
-		<!-- 				<td> -->
-						//<label>${apartment.bookingTime}</label>
-		<!-- 				</td> -->
-		<!-- 				<td> -->
-						//<label>${apartment.cancelTime}</label>
-		<!-- 				</td> -->
-		<!-- 				<td> -->
-						//<label>${apartment.status}</label>
-	<!-- 				</td> -->
-	<!-- 			</tr> -->
-	<!-- 			<tr> -->
-	<!-- 				<td align="left" colspan="100%"> -->
-						//<label>Amenities: ${apartment.apartmentAmenities}</label>
-	<!-- 				</td> -->
-	<!-- 			</tr> -->
-	<!-- 			<tr> -->
-	<!-- 				<td align="left" colspan="100%"> --> --%>
-					 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewCommentsServlet">
-					 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
-					 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Comments"/>
-					 	</form>
-					 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewPicturesServlet">
-					 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
-					 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Pictures"/>
-					 	</form>
-						<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
-						 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/EditApartmentServlet">
-						 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
-						 		<input class="button smaller" id="${apartment.id}" type="submit" value="Edit"/>
-						 	</form>
-	
-						 	<input style="display:inline-block;" class="deleteButton smaller" id="${apartment.id}" 
-						 		onclick="displayDeleteModal('${apartment.id}')" type="submit" value="Delete"/>
-	
-						</c:if>
-						<c:if test="${sessionScope.role == 'GUEST'}">
-						 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ReserveApartmentServlet">
-						 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
-						 		<input class="button reserve smaller" id="${apartment.id}" type="submit" value="Reserve"/>
-						 	</form>
-						</c:if>
+							 	<input style="display:inline-block;" class="deleteButton smaller" id="${apartment.id}" 
+							 		onclick="displayDeleteModal('${apartment.id}')" type="submit" value="Delete"/>
+		
+							</c:if>
+							<c:if test="${sessionScope.role == 'GUEST'}">
+							 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ReserveApartmentServlet">
+							 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+							 		<input class="button reserve smaller" id="${apartment.id}" type="submit" value="Reserve"/>
+							 	</form>
+							</c:if>
+						</div>
 					</div>
 				</td>
 			</tr>

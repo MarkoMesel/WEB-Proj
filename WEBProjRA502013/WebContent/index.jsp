@@ -5,15 +5,24 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Welcome</title>
-	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
+	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 </head>
-<body>
+<body>	
+	<div class="site-header">
+		<div class="site-header-content">
+		<a href="home.jsp">
+			<img src="images/logo.png" alt="webProjLogo">
+		</a>
+		</div>
+	</div>
 	<div class="mainPanel">
 		<h1>Welcome!</h1>
 		<div style="color: #008000;">${welcomeMessage}</div>
-		Links:<br/>
-		<a class = "button" href="/WEBProjRA502013/registerGuest.jsp">Register Account</a><br/>
-		<a class = "button" href="/WEBProjRA502013/login.jsp">Login</a><br/>
+		<!-- <a class = "submit-button basic" href="/WEBProjRA502013/registerGuest.jsp">Register Account</a><br/>
+		<a class = "submit-button basic" href="/WEBProjRA502013/login.jsp">Login</a><br/> -->
+		<input type="submit" class="submit-button basic" value="Register Account" onClick="window.location='registerGuest.jsp';"/>
+		<br/>
+		<input type="submit" class="submit-button basic" value="Login" onClick="window.location='login.jsp';"/>
 	</div>
 </body>
 </html>

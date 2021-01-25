@@ -3,11 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Register Guest Account</title>
-	<link href="css/mainpage.css" rel="stylesheet" type="text/css">
+	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="mainPanel">
 	<h1>Register Guest Account</h1>
+	<div class="site-header">
+		<div class="site-header-content">
+		<a href="home.jsp">
+			<img src="images/logo.png" alt="webProjLogo">
+		</a>
+		</div>
+	</div>
 	<form method="post" action="/WEBProjRA502013/RegisterGuestServlet">
 	<table border="1" align="center" >
 		<tr>
@@ -43,7 +50,7 @@
 				</select>
 			</td>
 		</tr>
-		<tr><td colspan="3"><input class="submitButton" type="submit" value="Register"/></td></tr>
+		<tr><td colspan="3"><input class="submit-button basic" type="submit" value="Register"/></td></tr>
 	</table>
 	</form>
 </div>
