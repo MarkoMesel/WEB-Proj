@@ -449,6 +449,9 @@ public class ServletController {
 	public static void sendBadRequest(HttpServletResponse response, String errorMessage) throws IOException {
 		response.sendError(HttpServletResponse.SC_BAD_REQUEST, errorMessage);
 	}
+	public static void sendForbidden(HttpServletResponse response, String errorMessage) throws IOException {
+		response.sendError(HttpServletResponse.SC_FORBIDDEN, errorMessage);
+	}
 
 
 

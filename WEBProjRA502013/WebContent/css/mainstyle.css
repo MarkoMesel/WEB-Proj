@@ -41,6 +41,17 @@
 	background: url('../images/background-cropped.png') no-repeat;
 	background-position: left center;
 }
+
+.sub-option {
+	width: 220px;
+	padding: 5px;
+	padding-left: 80px;
+	font-size:12px;
+	margin: 1px 1px;
+	background: url('../images/background-cropped.png') no-repeat;
+	background-position: left center;
+}
+
 .basic {
 	background: url('../images/background-cropped.png') no-repeat;
 	background-position: left center;
@@ -96,7 +107,7 @@
 	margin-bottom: 15px;
 }
 .div-wrapper{
-	width: 500px;
+	width: 650px;
 	padding-top: 30px;
     overflow: hidden;
 }
@@ -137,8 +148,8 @@
 	padding-left: 15px;
 }
 .apartment-img{
-	width:280px;
-	height:190px;
+	width:290px;
+	height:230px;
 }
 .label-entry{
 	width: 100%;

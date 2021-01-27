@@ -67,5 +67,7 @@ public class MessageGenerator {
 	public static String generateSpammingMessage() {
 		return "Don't spam! You have already left this comment.";
 	}
-	
+	public static String generateNotAllowedMessage() {
+		return "You are not allowed to view this page.";
+	}
 }

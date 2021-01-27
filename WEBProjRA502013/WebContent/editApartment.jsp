@@ -15,6 +15,13 @@
 	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
+<c:if test="${sessionScope.role != 'ADMIN' && sessionScope.role != 'HOST'}">
+	<script>
+		document.location.href="/WEBProjRA502013/ForbiddenErrorServlet"; 
+	</script>
+</c:if>
+
 <div class="mainPanel">
 	<div class="site-header">
 		<div class="site-header-content">

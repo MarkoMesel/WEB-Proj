@@ -70,13 +70,9 @@
 							<img class="apartment-img" src="images/apartmentImages/${apartment.id}_0">
 						</div>
 						<div class="div-details">
-							<label>Status: <b>${apartment.status}</b></label><br/>	
-							<label>Host: <b>${apartment.host}</b></label><br/>
-							<label>Location: <b>${apartment.location}</b></label><br/>
-							<label>Type: <b>${apartment.type} (${apartment.roomCount} room count)</b></label><br/>
-							<label>Guest capacity: <b>${apartment.guestCount}</b></label><br/>
-							<label>Booking time: <b>${apartment.bookingTime}</b></label><br/>
-							<label>Cancel time: <b>${apartment.cancelTime}</b></label><br/>
+							<label><b>${apartment.status}</b> <b>${apartment.type}</b> | Hosted by <b>${apartment.host}</b> in <b>${apartment.location}</b></label><br/>
+							<label><b>${apartment.roomCount} room count</b> | <b>${apartment.guestCount} guest capacity</b></label><br/>
+							<label>Booking time - <b>${apartment.bookingTime}</b> | Cancel time <b>${apartment.cancelTime}</b></label><br/>
 							<label>Price: <b>${apartment.price}</b></label><br/>
 							<label>Amenities: <b>${apartment.apartmentAmenities}</b></label><br/>
 							
@@ -116,26 +112,26 @@
 		<!-- 				<td align="left" colspan="100%"> --> --%>
 						 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewCommentsServlet">
 						 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
-						 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Comments"/>
+						 		<input class="submit-button sub-option" id="${apartment.id}" type="submit" value="View Comments"/>
 						 	</form>
 						 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewPicturesServlet">
 						 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
-						 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Pictures"/>
+						 		<input class="submit-button sub-option" id="${apartment.id}" type="submit" value="View Pictures"/>
 						 	</form>
 							<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
 							 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/EditApartmentServlet">
 							 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
-							 		<input class="button smaller" id="${apartment.id}" type="submit" value="Edit"/>
+							 		<input class="submit-button sub-option" id="${apartment.id}" type="submit" value="Edit"/>
 							 	</form>
 		
-							 	<input style="display:inline-block;" class="deleteButton smaller" id="${apartment.id}" 
+							 	<input style="display:inline-block;" class="submit-button sub-option" id="${apartment.id}" 
 							 		onclick="displayDeleteModal('${apartment.id}')" type="submit" value="Delete"/>
 		
 							</c:if>
 							<c:if test="${sessionScope.role == 'GUEST'}">
 							 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ReserveApartmentServlet">
 							 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
-							 		<input class="button reserve smaller" id="${apartment.id}" type="submit" value="Reserve"/>
+							 		<input class="submit-button sub-option" id="${apartment.id}" type="submit" value="Reserve"/>
 							 	</form>
 							</c:if>
 						</div>
@@ -197,30 +193,26 @@
 								<img class="apartment-img" src="images/apartmentImages/${apartment.id}_0">
 							</div>
 							<div class="div-details">
-							<label>Status: <b>${apartment.status}</b></label><br/>	
-							<label>Host: <b>${apartment.host}</b></label><br/>
-							<label>Location: <b>${apartment.location}</b></label><br/>
-							<label>Type: <b>${apartment.type} (${apartment.roomCount} room count)</b></label><br/>
-							<label>Guest capacity: <b>${apartment.guestCount}</b></label><br/>
-							<label>Booking time: <b>${apartment.bookingTime}</b></label><br/>
-							<label>Cancel time: <b>${apartment.cancelTime}</b></label><br/>
+							<label><b>${apartment.status}</b> <b>${apartment.type}</b> | Hosted by <b>${apartment.host}</b> in <b>${apartment.location}</b></label><br/>
+							<label><b>${apartment.roomCount} room count</b> | <b>${apartment.guestCount} guest capacity</b></label><br/>
+							<label>Booking time - <b>${apartment.bookingTime}</b> | Cancel time <b>${apartment.cancelTime}</b></label><br/>
 							<label>Price: <b>${apartment.price}</b></label><br/>
 							<label>Amenities: <b>${apartment.apartmentAmenities}</b></label><br/>
 				 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewCommentsServlet">
 				 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
-				 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Comments"/>
+				 		<input class="submit-button sub-option" id="${apartment.id}" type="submit" value="View Comments"/>
 				 	</form>
 				 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewPicturesServlet">
 				 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
-				 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Pictures"/>
+				 		<input class="submit-button sub-option" id="${apartment.id}" type="submit" value="View Pictures"/>
 				 	</form>
 					<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
 					 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/EditApartmentServlet">
 					 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
-					 		<input class="button smaller" id="${apartment.id}" type="submit" value="Edit"/>
+					 		<input class="submit-button sub-option" id="${apartment.id}" type="submit" value="Edit"/>
 					 	</form>
 
-					 	<input style="display:inline-block;" class="deleteButton smaller" id="${apartment.id}" 
+					 	<input style="display:inline-block;" class="submit-button sub-option" id="${apartment.id}" 
 					 		onclick="displayDeleteModal('${apartment.id}')" type="submit" value="Delete"/>
 					</c:if>
 					</div>

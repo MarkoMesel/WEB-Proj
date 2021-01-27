@@ -15,6 +15,13 @@
 	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
+<c:if test="${sessionScope.role != 'HOST'}">
+	<script>
+		document.location.href="/WEBProjRA502013/ForbiddenErrorServlet"; 
+	</script>
+</c:if>
+
 <div class="mainPanel">
 	<div class="site-header">
 		<div class="site-header-content">
@@ -137,7 +144,7 @@
         </tr>
        </c:forEach>
 	</table>
-	<input class="submit-button basic" type="submit" value="Add Apartment"/>
+	<input class="submit-button basic" type="submit" value="Choose Pictures"/>
 	</form>
 </div>
 <script type="text/javascript">

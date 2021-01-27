@@ -82,7 +82,7 @@
 						
 					 	<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
 					 		<input type="hidden" name="currentRow" value="${reservation.id}"/>
-					 		<input class="button" name="cancelBtn" id="${reservation.id}" type="submit" value="Cancel"/>
+					 		<input class="submit-button sub-option" name="cancelBtn" id="${reservation.id}" type="submit" value="Cancel"/>
 					 	</form>
 						
 					</c:if>
@@ -90,14 +90,14 @@
 						<c:if test="${reservation.status == 'CREATED'}">
 								<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
 							 		<input type="hidden" name="currentRow" value="${reservation.id}"/>
-							 		<input class="button" name="acceptBtn" id="${reservation.id}" type="submit" value="Accept"/>
+							 		<input class="submit-button sub-option" name="acceptBtn" id="${reservation.id}" type="submit" value="Accept"/>
 							 	</form>
 						</c:if>
 						<c:if test="${reservation.status == 'CREATED' || reservation.status == 'ACCEPTED'}">
 	
 								<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
 							 		<input type="hidden" name="currentRow" value="${reservation.id}"/>
-							 		<input class="button" name="rejectBtn" id="${reservation.id}" type="submit" value="Reject"/>
+							 		<input class="submit-button sub-option" name="rejectBtn" id="${reservation.id}" type="submit" value="Reject"/>
 							 	</form>
 	
 						</c:if>
@@ -105,7 +105,7 @@
 	
 								<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
 							 		<input type="hidden" name="currentRow" value="${reservation.id}"/>
-							 		<input class="button" name="finishBtn" id="${reservation.id}" type="submit" value="Finish"/>
+							 		<input class="submit-button sub-option" name="finishBtn" id="${reservation.id}" type="submit" value="Finish"/>
 							 	</form>
 	
 						</c:if>

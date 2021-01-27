@@ -12,6 +12,13 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
+
+<c:if test="${sessionScope.role != 'GUEST'}">
+	<script>
+		document.location.href="/WEBProjRA502013/ForbiddenErrorServlet"; 
+	</script>
+</c:if>
+
 <div class="mainPanel">
 	<div class="site-header">
 		<div class="site-header-content">

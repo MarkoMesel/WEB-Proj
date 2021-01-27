@@ -38,7 +38,7 @@
 				<c:if test="${sessionScope.role == 'HOST'}">
 					<form style="display:inline-block;" method="post" action="/WEBProjRA502013/ViewCommentsServlet">
 				 		<input type="hidden" name="currentRow" value="${comment.id}"/>
-				 		<input id="${comment.id}" type="submit" 
+				 		<input id="${comment.id}" class="submit-button sub-option" type="submit" 
 				 			value="${comment.hidden == 'true' ? 'Unhide From Guest' : 'Hide From Guest'}"/>
 				 	</form>
 				</c:if>

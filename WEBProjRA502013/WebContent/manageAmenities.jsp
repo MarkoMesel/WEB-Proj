@@ -8,6 +8,13 @@
 	<link href="css/deletemodal.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
+<c:if test="${sessionScope.role != 'ADMIN'}">
+	<script>
+		document.location.href="/WEBProjRA502013/ForbiddenErrorServlet"; 
+	</script>
+</c:if>
+
 <div class="mainPanel">
 	<div class="site-header">
 		<div class="site-header-content">
@@ -31,9 +38,9 @@
        	   	<label>Details: <b>${element.details}</b></label><br/>
 	           	<form method="get" action="/WEBProjRA502013/EditAmenityServlet">
 	           		<input type="hidden" name="currentRow" value="${element.id}"/>
-	           		<input id="${element.id}" type="submit" value="Edit"/>
+	           		<input id="${element.id}" class="submit-button sub-option" type="submit" value="Edit"/>
 	           	</form>
-	           	<input id="${element.name}" 
+	           	<input id="${element.name}" class="submit-button sub-option"
 	           		onclick="displayDeleteModal('${element.name}','${element.id}')" type="submit" value="Delete"/>
            	</td>
         </tr>
