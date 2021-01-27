@@ -8,7 +8,6 @@
 	<link href="css/deletemodal.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div class="mainPanelLarge">
 	<div class="site-header">
 		<div class="site-header-content">
 		<a href="home.jsp">
@@ -16,26 +15,123 @@
 		</a>
 		</div>
 	</div>
-	<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
-		<form method="post" id="findFiterReservationForm" action="/WEBProjRA502013/FindReservationServlet">
-			<h1>Find/Filter</h1>
-				<table border="1" align="center">
+	<div class="div-wrapper maximum-width">
+	<c:choose>
+		<c:when test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
+			<h1 align="center">Reservation Overview</h1>
+		</c:when>
+		<c:otherwise>
+			<h1 align="left">Reservation Overview</h1>
+		</c:otherwise>
+	</c:choose>
+	<div class="div-left-side">
+		<label class="label-entry">Sort by</label>
+		<table class="table-overview">
+			<tr>
+				<td class="sort-column">
+					<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+						<input class="submit-button sort" name="sortBtn" type="submit" value="Apartment"/>
+					</form>
+
+					<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+						<input class="submit-button sort" name="sortBtn" type="submit" value="Reservation Date"/>
+					</form>
+
+					<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+						<input class="submit-button sort" name="sortBtn" type="submit" value="Night Count"/>
+					</form>
+				</td>
+				<td class="sort-column">
+					<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+						<input class="submit-button sort" name="sortBtn" type="submit" value="Price"/>
+					</form>
+
+					<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+						<input class="submit-button sort" name="sortBtn" type="submit" value="Message"/>
+					</form>
+				</td>
+				<td class="sort-column">
+					<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+						<input class="submit-button sort" name="sortBtn" type="submit" value="Guest"/>
+					</form>
+
+					<form method="post" action="/WEBProjRA502013/SortReservationServlet">
+						<input class="submit-button sort" name="sortBtn" type="submit" value="Status"/>
+					</form>
+				</td>
+			</tr>
+			<c:forEach var="reservation" items="${sessionScope.reservations}">
 				<tr>
-					<td>Find or Filter?</td>
-					<td>
-						<input type="radio" id="findRBtn" name="rBtn" onclick="changeAction(this);" value="Find" checked>
-						<label for="findRBtn">Find</label><br>
+					<td colspan="100%">
+						<div class="div-wrapper">
+						<label>Status: <b>${reservation.status}</b></label><br/>
+						<label>Apartment: <b>${reservation.apartment}</b></label><br/>
+						<label>Date: <b>${reservation.date}</b></label><br/>
+						<label>Number of nights: <b>${reservation.nights}</b></label><br/>
+						<label>Guest: <b>${reservation.guest}</b></label><br/>
+						<label>Price: <b>${reservation.price}</b></label><br/>
+						<label>Message: <b>${reservation.message}</b></label><br/>	
+	<%-- 				<c:out value="${reservation.apartment}" />
+					<c:out value="${reservation.date}" />
+					<c:out value="${reservation.nights}" />
+					<c:out value="${reservation.price}" />
+					<c:out value="${reservation.message}" />
+					<c:out value="${reservation.guest}" />
+					<c:out value="${reservation.status}" /> --%>
+					<c:if test="${sessionScope.role == 'GUEST' && (reservation.status == 'CREATED' || reservation.status == 'ACCEPTED')}">
+						
+					 	<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
+					 		<input type="hidden" name="currentRow" value="${reservation.id}"/>
+					 		<input class="button" name="cancelBtn" id="${reservation.id}" type="submit" value="Cancel"/>
+					 	</form>
+						
+					</c:if>
+					<c:if test="${sessionScope.role == 'HOST'}">
+						<c:if test="${reservation.status == 'CREATED'}">
+								<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
+							 		<input type="hidden" name="currentRow" value="${reservation.id}"/>
+							 		<input class="button" name="acceptBtn" id="${reservation.id}" type="submit" value="Accept"/>
+							 	</form>
+						</c:if>
+						<c:if test="${reservation.status == 'CREATED' || reservation.status == 'ACCEPTED'}">
+	
+								<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
+							 		<input type="hidden" name="currentRow" value="${reservation.id}"/>
+							 		<input class="button" name="rejectBtn" id="${reservation.id}" type="submit" value="Reject"/>
+							 	</form>
+	
+						</c:if>
+						<c:if test="${reservation.status == 'ACCEPTED' && reservation.noNightsLeft == 'true'}">
+	
+								<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
+							 		<input type="hidden" name="currentRow" value="${reservation.id}"/>
+							 		<input class="button" name="finishBtn" id="${reservation.id}" type="submit" value="Finish"/>
+							 	</form>
+	
+						</c:if>
+					</c:if>
+					</div>
 					</td>
-					<td>
-						<input type="radio" id="filterRBtn" name="rBtn" onclick="changeAction(this);" value="Filter">
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+		<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
+			<div class="div-find-filter">
+		<form method="post" id="findFiterReservationForm" action="/WEBProjRA502013/FindReservationServlet">
+			<h2>Find/Filter</h2>
+				<table class="table-entry table-overview">
+				<tr>
+					<td><label class="label-entry">Find or Filter?</label>
+						<input type="radio" class="sub-entry"id="findRBtn" name="rBtn" onclick="changeAction(this);" value="Find" checked>
+						<label for="findRBtn">Find</label><br>
+						<input type="radio" class="sub-entry" id="filterRBtn" name="rBtn" onclick="changeAction(this);" value="Filter">
 						<label for="filterRBtn">Filter</label><br>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						By status:
-					</td>
-					<td colspan="2">
+						<label class="label-entry">By status</label>
 						<select name="reservationStatusSearch">
 							<option value="NONE">Ignore Status</option>
 							<option value="CREATED">Created</option>
@@ -48,112 +144,16 @@
 				</tr>
 				<tr>
 					<td>
-						By username:
-					</td>
-					<td colspan="2">
+						<label class="label-entry">By Username</label>
 						<input type="text" name="username" id="username"/>
 					</td>					
 				</tr>
-				<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submit-button basic" value="Find Reservation"/></td></tr>
 				</table>
-		</form>
-	</c:if>
-	<h1>Reservation Overview</h1>
-	<table class="table-overview">
-		<caption><b>Sort by:</b></caption>
-		<tr>
-			<th>
-				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Apartment"/>
-				</form>
-			</th>
-			<th>
-				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Reservation Date"/>
-				</form>
-			</th>
-			<th>
-				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Night Count"/>
-				</form>
-			</th>
-			<th>
-				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Price"/>
-				</form>
-			</th>
-			<th>
-				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Message"/>
-				</form>
-			</th>
-			<th>
-				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Guest"/>
-				</form>
-			</th>
-			<th>
-				<form method="post" action="/WEBProjRA502013/SortReservationServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Status"/>
-				</form>
-			</th>
-		</tr>
-		<c:forEach var="reservation" items="${sessionScope.reservations}">
-			<tr>
-				<td colspan="100%">
-					<div class="div-wrapper">
-					<label>Status: <b>${reservation.status}</b></label><br/>
-					<label>Apartment: <b>${reservation.apartment}</b></label><br/>
-					<label>Date: <b>${reservation.date}</b></label><br/>
-					<label>Number of nights: <b>${reservation.nights}</b></label><br/>
-					<label>Guest: <b>${reservation.guest}</b></label><br/>
-					<label>Price: <b>${reservation.price}</b></label><br/>
-					<label>Message: <b>${reservation.message}</b></label><br/>	
-<%-- 				<c:out value="${reservation.apartment}" />
-				<c:out value="${reservation.date}" />
-				<c:out value="${reservation.nights}" />
-				<c:out value="${reservation.price}" />
-				<c:out value="${reservation.message}" />
-				<c:out value="${reservation.guest}" />
-				<c:out value="${reservation.status}" /> --%>
-				<c:if test="${sessionScope.role == 'GUEST' && (reservation.status == 'CREATED' || reservation.status == 'ACCEPTED')}">
-					
-					 	<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
-					 		<input hidden="true" type="text" name="currentRow" value="${reservation.id}"/>
-					 		<input class="button" name="cancelBtn" id="${reservation.id}" type="submit" value="Cancel"/>
-					 	</form>
-					
-				</c:if>
-				<c:if test="${sessionScope.role == 'HOST'}">
-					<c:if test="${reservation.status == 'CREATED'}">
-							<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
-						 		<input hidden="true" type="text" name="currentRow" value="${reservation.id}"/>
-						 		<input class="button" name="acceptBtn" id="${reservation.id}" type="submit" value="Accept"/>
-						 	</form>
-					</c:if>
-					<c:if test="${reservation.status == 'CREATED' || reservation.status == 'ACCEPTED'}">
-
-							<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
-						 		<input hidden="true" type="text" name="currentRow" value="${reservation.id}"/>
-						 		<input class="button" name="rejectBtn" id="${reservation.id}" type="submit" value="Reject"/>
-						 	</form>
-
-					</c:if>
-					<c:if test="${reservation.status == 'ACCEPTED' && reservation.noNightsLeft == 'true'}">
-
-							<form method="post" action="/WEBProjRA502013/ReservationOverviewServlet">
-						 		<input hidden="true" type="text" name="currentRow" value="${reservation.id}"/>
-						 		<input class="button" name="finishBtn" id="${reservation.id}" type="submit" value="Finish"/>
-						 	</form>
-
-					</c:if>
-				</c:if>
-				</div>
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-</div>
+				<input type="submit" id="findFilterSubmitBtn" class="submit-button basic" value="Find Reservation"/>
+			</form>
+			</div>
+		</c:if>
+	</div>
 
 <div id="id01" class="modal">
 </div>

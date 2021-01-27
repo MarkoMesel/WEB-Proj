@@ -21,9 +21,9 @@
 		</div>
 	</div>
 	<h1>Reserve Apartment</h1>
-	<input hidden="true" type="text" id="apartmentDates" value="${sessionScope.apartmentDates}"/>
+	<input type="hidden" id="apartmentDates" value="${sessionScope.apartmentDates}"/>
 	<form method="post" action="/WEBProjRA502013/ReserveApartmentServlet">
-	<table border="1" align="center" >
+	<table class="table-entry">
 		<tr>
 			<td>Reservation date:</td>
 			<td><input type="text" name="datepicker" id="datepicker"></td>
@@ -39,8 +39,8 @@
 			<td><input type="text" name="reservationMessage" id="reservationMessage"></td>
 			<td><label id="reservationMessageError"></label></td>
 		</tr>
-		<tr><td colspan="3"><input class="submit-button" type="submit" value="Reserve Apartment"/></td></tr>
 	</table>
+	<input class="submit-button" type="submit" value="Reserve Apartment"/>
 	</form>
 </div>
 

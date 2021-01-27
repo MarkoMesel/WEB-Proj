@@ -6,11 +6,13 @@
     width:100%;
     top: 0;
     left: 0;
+    z-index: 1;
 }
 .site-header-content {
     background-color: #000000;
 }
 .submit-button {
+	width: 300px;
 	font-weight: bold;
 	border: solid;
 	color: #ffffff;
@@ -18,7 +20,7 @@
 	padding-right: 20px;
 	padding-bottom: 20px;
 	padding-left: 80px;
-	text-align: center;
+	text-align: left;
 	text-decoration: none;
 	display: inline-block;
 	font-size: 16px;
@@ -29,6 +31,15 @@
 	background: url('../images/background-cropped.png') no-repeat;
 	background-position: left center;
 	cursor:pointer;
+}
+.sort {
+	width: 220px;
+	padding: 10px;
+	padding-left: 80px;
+	font-size:14px;
+	margin: 2px 2px;
+	background: url('../images/background-cropped.png') no-repeat;
+	background-position: left center;
 }
 .basic {
 	background: url('../images/background-cropped.png') no-repeat;
@@ -70,27 +81,98 @@
 	background: url('../images/background-cropped-manage-amenities.png') no-repeat;
 	background-position: left center;
 }
+.register {
+	background: url('../images/background-cropped-register.png') no-repeat;
+	background-position: left center;
+}
+.login {
+	background: url('../images/background-cropped-login.png') no-repeat;
+	background-position: left center;
+}
 .table-overview {
 	border-spacing: 0;
-	margin: auto;
+}
+.table-entry {
+	margin-bottom: 15px;
 }
 .div-wrapper{
 	width: 500px;
 	padding-top: 30px;
     overflow: hidden;
 }
+.maximum-width{
+	width: 100%;
+}
 .div-picture{
 	width: 300px;
 	height:300px;
     float:left;
 }
+.div-left-side{
+	width: 50%;
+	float: left;
+	border: solid;
+	border-width: thin;
+	border-radius: 12px;
+	padding-left: 15px;
+	border-color: #d4d4d4;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	min-width: 715px;
+}
+
 .div-sort{
 	padding-bottom:30px;
 }
 .div-details{
 	overflow: hidden;
 }
+.div-find-filter{
+	overflow: hidden;
+	width: 400px;
+	border: solid;
+	border-width: thin;
+	border-radius: 12px;
+	border-color: #d4d4d4;
+	padding-left: 15px;
+}
 .apartment-img{
 	width:280px;
 	height:190px;
+}
+.label-entry{
+	width: 100%;
+	color: #224a25;
+	font-weight: bold;
+	display: inline-block;
+}
+
+input[type=text], select {
+    width: 300px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.label-entry-error{
+    padding: 12px 20px;
+    display: inline-block;
+    color: #e50000;
+    font-weight: bold;
+}
+
+.sub-entry{
+	margin-left: 35px !important;
+}
+.smaller-font {
+	font-size: 14px;
+}
+
+.bottom-spacing{
+	padding-bottom: 8px;
+}
+.sort-column{
+	vertical-align:top;
 }

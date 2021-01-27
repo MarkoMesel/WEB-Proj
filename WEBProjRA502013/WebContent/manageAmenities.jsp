@@ -23,21 +23,19 @@
 		<input class="submit-button basic" id="addNewAmenity" type="submit" value="Add New Amenity"/>
 	</form>
 	<br />
-	<table border="1" align="center" >
+	<table class="table-overview">
        <c:forEach var="element" items="${sessionScope.amenities}">
        	<tr>
-       	   <td align="left"><label><c:out value="${element.name}"></c:out></label></td>
-       	   <td align="left"><label><c:out value="${element.details}"></c:out></label></td>
-           <td align="center">
+       	   <td class="bottom-spacing">
+       	   	<label>Name: <b>${element.name}</b></label><br/>
+       	   	<label>Details: <b>${element.details}</b></label><br/>
 	           	<form method="get" action="/WEBProjRA502013/EditAmenityServlet">
-	           		<input hidden="true" type="text" name="currentRow" value="${element.id}"/>
-	           		<input class="submit-button basic" id="${element.id}" type="submit" value="Edit"/>
+	           		<input type="hidden" name="currentRow" value="${element.id}"/>
+	           		<input id="${element.id}" type="submit" value="Edit"/>
 	           	</form>
-           </td>
-           <td align="center">
-	           	<input class="submit-button basic" id="${element.name}" 
+	           	<input id="${element.name}" 
 	           		onclick="displayDeleteModal('${element.name}','${element.id}')" type="submit" value="Delete"/>
-           </td>
+           	</td>
         </tr>
        </c:forEach>
 	</table>
@@ -54,7 +52,7 @@
       <p>Are you sure you want to delete this amenity?</p>
 
       <div class="clearfix">
-       	<input hidden="true" type="text" id="currentSelectedAmenity" name="currentSelectedAmenity" value="a"/>
+       	<input type="hidden" id="currentSelectedAmenity" name="currentSelectedAmenity" value="a"/>
        	<input class="deleteButton small" id="" type="submit" value="Yes"/>
         <button onclick="closeDeleteModal()" type="button" class="button small">No</button>
       </div>

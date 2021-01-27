@@ -7,7 +7,6 @@
 	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div class="mainPanel">
 	<div class="site-header">
 		<div class="site-header-content">
 		<a href="home.jsp">
@@ -15,23 +14,39 @@
 		</a>
 		</div>
 	</div>
-	<form method="post" id="findFiterUserForm" action="/WEBProjRA502013/FindUserServlet">
-		<h1>Find/Filter</h1>
-		<table border="1" align="center">
-			<tr>
-				<td>Find or Filter?</td>
-				<td>
-					<input type="radio" id="findRBtn" name="rBtn" onclick="changeAction(this);" value="Find" checked>
+	<div class="div-wrapper maximum-width">
+		<h1 align="center">User Overview</h1>
+		<div class="div-left-side">
+			<table class="table-overview">
+				<c:forEach var="user" items="${sessionScope.users}">
+					<tr>
+					<td>
+						<div class="div-wrapper">
+						  <label>Username: <b>${user.username}</b></label><br/>
+						  <label>First Name: <b>${user.firstName}</b></label><br/>
+						  <label>Last Name: <b>${user.lastName}</b></label><br/>
+						  <label>Gender: <b>${user.gender}</b></label><br/>
+						</div>  
+					  </td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	<div class="div-find-filter">
+			<form method="post" id="findFiterUserForm" action="/WEBProjRA502013/FindUserServlet">
+		<h2>Find/Filter</h2>
+		<table class="table-entry table-overview">
+			<tr >
+				<td><label class="label-entry">Find or Filter?</label>
+					<input type="radio" class="sub-entry" id="findRBtn" name="rBtn" onclick="changeAction(this);" value="Find" checked>
 					<label for="findRBtn">Find</label><br>
-				</td>
-				<td>
-					<input type="radio" id="filterRBtn" name="rBtn" onclick="changeAction(this);" value="Filter">
+					<input type="radio" class="sub-entry" id="filterRBtn" name="rBtn" onclick="changeAction(this);" value="Filter">
 					<label for="filterRBtn">Filter</label><br>
 				</td>
 			</tr>
 		<c:if test="${sessionScope.role == 'ADMIN'}">
-			<tr><td>By Role:</td>
-				<td colspan="2">
+			<tr>
+				<td><label class="label-entry">By Role</label>
 					<select name="userRoleSearch">
 						<option value="NONE">Ignore Role</option>
 						<option value="ADMIN">Administrator</option>
@@ -42,19 +57,26 @@
 			</tr>
 		</c:if>
 		<tr>
-			<td>By Username (leave blank to ignore):</td>
-			<td colspan="2"><input type="text" name="username" id="username"/></td>
+			<td>
+				<label class="label-entry">By Username</label>
+				<input type="text" name="username" id="username"/>
+			</td>
 		</tr>
 		<tr>
-			<td>By First Name (leave blank to ignore):</td>
-			<td colspan="2"><input type="text" name="firstName" id="firstName"/></td>
+			<td>
+				<label class="label-entry">By First Name</label>
+				<input type="text" name="firstName" id="firstName"/>
+			</td>
 		</tr>
 		<tr>
-			<td>By Last Name (leave blank to ignore):</td>
-			<td colspan="2"><input type="text" name="lastName" id="lastName"/></td>
+			<td>
+				<label class="label-entry">By Last Name</label>
+				<input type="text" name="lastName" id="lastName"/>
+			</td>
 		</tr>
-		<tr><td>By Gender:</td>
-			<td colspan="2">
+		<tr>
+			<td>
+				<label class="label-entry">By Gender</label>
 				<select name="gender">
 					<option value="NONE">Ignore Gender</option>
 					<option value="MALE">Male</option>
@@ -62,26 +84,10 @@
 				</select>
 			</td>
 		</tr>
-		<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submit-button basic" value="Find User"/></td></tr>
 	</table>
+	<input type="submit" id="findFilterSubmitBtn" class="submit-button basic" value="Find User"/>
 	</form>
-	<h1>User Overview</h1>
-	<table border="1" align="center">
-		<tr>
-		  <th>Username</th>
-		  <th>First Name</th>
-		  <th>Last Name</th>
-		  <th>Gender</th>
-		</tr>
-		<c:forEach var="user" items="${sessionScope.users}">
-			<tr>
-			  <td><c:out value="${user.username}" /></td>
-			  <td><c:out value="${user.firstName}" /></td>
-			  <td><c:out value="${user.lastName}" /></td>
-			  <td><c:out value="${user.gender}" /></td>
-			</tr>
-		</c:forEach>
-	</table>
+	</div>
 </div>
 
 <script>

@@ -13,7 +13,6 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
-<div class="mainPanelLarge">
 	<div class="site-header">
 		<div class="site-header-content">
 		<a href="home.jsp">
@@ -21,166 +20,47 @@
 		</a>
 		</div>
 	</div>
-	<h1>Apartment Overview</h1>
-	<form method="post" id="findFiterApartmentForm" action="/WEBProjRA502013/FindApartmentServlet">
-		<h2>Find/Filter</h2>
-		<table border="1" align="center">
-		<tr>
-			<td>Find or Filter?</td>
-			<td>
-				<input type="radio" id="findRBtn" name="rBtn" onclick="changeAction(this);" value="Find" checked>
-				<label for="findRBtn">Find</label><br>
-			</td>
-			<td>
-				<input type="radio" id="filterRBtn" name="rBtn" onclick="changeAction(this);" value="Filter">
-				<label for="filterRBtn">Filter</label><br>
-			</td>
-		</tr>
-		<tr>
-			<td rowspan="2" >By Date</td>
-			<td align="left">
-				Arrival date:
-			</td>
-			<td>
-				<input type="text" name="datepickerArrive" id="datepickerArrive"/>
-			</td>
-		</tr>
-		<tr>
-			<td align="left">
-				Leave date:
-			</td>
-			<td>
-				<input type="text" name="datepickerLeave" id="datepickerLeave"/>
-			</td>
-		</tr>
-		<tr>
-			<td rowspan="2" >By Time</td>
-			<td align="left">
-				Arrival time:
-			</td>
-			<td>
-				<input type="text" name="timeArrive" id="timeArrive"/>
-			</td>
-		</tr>
-		<tr>
-			<td align="left">
-				Leave time:
-			</td>
-			<td>
-				<input type="text" name="timeLeave" id="timeLeave"/>
-			</td>
-		</tr>
-		<tr>
-			<td rowspan="2">By Price</td>
-			<td align="left">
-				Min:
-			</td>
-			<td>
-				<input type="text" name="priceMin" id="priceMin"/>
-			</td>
-		</tr>
-		<tr>
-			<td align="left">
-				Max:
-			</td>
-			<td>
-				<input type="text" name="priceMax" id="priceMax"/>
-			</td>
-		</tr>
-		<tr>
-			<td rowspan="2">By Room Count</td>
-			<td align="left">
-				Min:
-			</td>
-			<td >
-				<input type="text" name="roomCountMin" id="roomCountMin"/>
-			</td>
-		</tr>
-		<tr>
-			<td align="left">
-				Max:
-			</td>
-			<td >
-				<input type="text" name="roomCountMax" id="roomCountMax"/>
-			</td>
-		</tr>
-		<tr>
-			<td>By Guest Count</td>
-			<td align="left">Num. of Guests:</td>
-			<td>
-				<input type="text" name="guestCount" id="guestCount"/>
-			</td>
-		</tr>
-		<tr>
-			<td>By Location</td>
-			<td align="left">City or Country:</td>
-			<td>
-				<input type="text" name="location" id="location"/>
-			</td>
-		</tr>
-		<tr><td colspan="3" align="center">Search by Amenities</tr>
-	       <c:forEach var="element" items="${sessionScope.amenities}">
-	       	<tr>
-	           <td align="left">
-	           		<input type="checkbox" id="${element.name}" name="${element.name}" value="${element.name}">
-	           		<label for="${element.name}">${element.name}</label>
-	           </td>
-	           <td colspan="2" align="left"><label><c:out value="${element.details}"></c:out></label></td>
-	        </tr>
-	       </c:forEach>
-   		<tr><td colspan="3"><input type="submit" id="findFilterSubmitBtn" class="submit-button" value="Find Apartment"/></td></tr>
-	</table>
-	
-	</form>
+<div class="div-wrapper maximum-width">
+	<h1 align="center">Apartment Overview</h1>
+	<div class="div-left-side">
 	<h2>Active Apartments</h2>
+	<label class="label-entry">Sort by</label>
 	<table class="table-overview">
-		<caption><b>Sort by:</b></caption>
 		<tr>
-			<th>
+			<td class="sort-column">
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Type"/>
+					<input class="submit-button sort" name="sortBtn" type="submit" value="Type"/>
 				</form>
-			</th>
-			<th>
+
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Room Count"/>
+					<input class="submit-button sort" name="sortBtn" type="submit" value="Room Count"/>
 				</form>
-			</th>
-			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Guest Count"/>
+					<input class="submit-button sort" name="sortBtn" type="submit" value="Guest Count"/>
 				</form>
-			</th>
-			<th>
+			</td>
+			<td class="sort-column">
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Location"/>
+					<input class="submit-button sort" name="sortBtn" type="submit" value="Location"/>
 				</form>
-			</th>
-			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Host"/>
+					<input class="submit-button sort" name="sortBtn" type="submit" value="Host"/>
 				</form>
-			</th>
-			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Price"/>
+					<input class="submit-button sort" name="sortBtn" type="submit" value="Price"/>
 				</form>
-			</th>
-			<th>
+			</td>
+			<td class="sort-column">
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Booking Time"/>
+					<input class="submit-button sort" name="sortBtn" type="submit" value="Booking Time"/>
 				</form>
-			</th>
-			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Cancel Time"/>
+					<input class="submit-button sort" name="sortBtn" type="submit" value="Cancel Time"/>
 				</form>
-			</th>
-			<th>
 				<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-					<input class="submit-button basic" name="sortBtn" type="submit" value="Status"/>
+					<input class="submit-button sort" name="sortBtn" type="submit" value="Status"/>
 				</form>
-			</th>
+			</td>
 		</tr>
 		<c:forEach var="apartment" items="${sessionScope.apartments}">
 			<tr>
@@ -235,16 +115,16 @@
 		<!-- 			<tr> -->
 		<!-- 				<td align="left" colspan="100%"> --> --%>
 						 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewCommentsServlet">
-						 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+						 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
 						 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Comments"/>
 						 	</form>
 						 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewPicturesServlet">
-						 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+						 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
 						 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Pictures"/>
 						 	</form>
 							<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
 							 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/EditApartmentServlet">
-							 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+							 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
 							 		<input class="button smaller" id="${apartment.id}" type="submit" value="Edit"/>
 							 	</form>
 		
@@ -254,7 +134,7 @@
 							</c:if>
 							<c:if test="${sessionScope.role == 'GUEST'}">
 							 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ReserveApartmentServlet">
-							 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+							 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
 							 		<input class="button reserve smaller" id="${apartment.id}" type="submit" value="Reserve"/>
 							 	</form>
 							</c:if>
@@ -266,92 +146,170 @@
 	</table>
 	<c:if test="${sessionScope.role == 'HOST'}">
 		<h2>Inactive Apartments</h2>
-		<table border="1" align="center">
+		<label class="label-entry">Sort by</label>
+		<table class="table-overview">
 			<tr>
-				<th>
+				<td class="sort-column">
 					<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-						<input class="button" name="sortInactiveBtn" type="submit" value="Type"/>
+						<input class="submit-button sort" name="sortInactiveBtn" type="submit" value="Type"/>
 					</form>
-				</th>
-				<th>
+
 					<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-						<input class="button" name="sortInactiveBtn" type="submit" value="Room Count"/>
+						<input class="submit-button sort" name="sortInactiveBtn" type="submit" value="Room Count"/>
 					</form>
-				</th>
-				<th>
+
 					<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-						<input class="button" name="sortInactiveBtn" type="submit" value="Guest Count"/>
+						<input class="submit-button sort" name="sortInactiveBtn" type="submit" value="Guest Count"/>
 					</form>
-				</th>
-				<th>
+				</td>
+				<td class="sort-column">
 					<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-						<input class="button" name="sortInactiveBtn" type="submit" value="Location"/>
+						<input class="submit-button sort" name="sortInactiveBtn" type="submit" value="Location"/>
 					</form>
-				</th>
-				<th>
+				
 					<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-						<input class="button" name="sortInactiveBtn" type="submit" value="Host"/>
+						<input class="submit-button sort" name="sortInactiveBtn" type="submit" value="Host"/>
 					</form>
-				</th>
-				<th>
+				
 					<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-						<input class="button" name="sortInactiveBtn" type="submit" value="Price"/>
+						<input class="submit-button sort" name="sortInactiveBtn" type="submit" value="Price"/>
 					</form>
-				</th>
-				<th>
+				</td>
+				<td class="sort-column">
 					<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-						<input class="button" name="sortInactiveBtn" type="submit" value="Booking Time"/>
+						<input class="submit-button sort" name="sortInactiveBtn" type="submit" value="Booking Time"/>
 					</form>
-				</th>
-				<th>
+				
 					<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-						<input class="button" name="sortInactiveBtn" type="submit" value="Cancel Time"/>
+						<input class="submit-button sort" name="sortInactiveBtn" type="submit" value="Cancel Time"/>
 					</form>
-				</th>
-				<th>
+				
 					<form method="post" action="/WEBProjRA502013/SortApartmentServlet">
-						<input class="button" name="sortInactiveBtn" type="submit" value="Status"/>
+						<input class="submit-button sort" name="sortInactiveBtn" type="submit" value="Status"/>
 					</form>
-				</th>
+				</td>
 			</tr>
 			<c:forEach var="apartment" items="${sessionScope.inactiveApartments}">
 				<tr>
-					<td><label>${apartment.type}</label></td>
-					<td><label>${apartment.roomCount}</label></td>
-					<td><label>${apartment.guestCount}</label></td>
-					<td><label>${apartment.location}</label></td>
-					<td><label>${apartment.host}</label></td>
-					<td><label>${apartment.price}</label></td>
-					<td><label>${apartment.bookingTime}</label></td>
-					<td><label>${apartment.cancelTime}</label></td>
-					<td><label>${apartment.status}</label></td>
-				</tr>
-				<tr>
-					<td align="left" colspan="100%"><label>Amenities: ${apartment.apartmentAmenities}</label></td>
-				</tr>
-				<tr>
-				<td align="left" colspan="100%">
+					<td colspan="100%">
+						<div class="div-wrapper">
+							<div class="div-picture">
+								<img class="apartment-img" src="images/apartmentImages/${apartment.id}_0">
+							</div>
+							<div class="div-details">
+							<label>Status: <b>${apartment.status}</b></label><br/>	
+							<label>Host: <b>${apartment.host}</b></label><br/>
+							<label>Location: <b>${apartment.location}</b></label><br/>
+							<label>Type: <b>${apartment.type} (${apartment.roomCount} room count)</b></label><br/>
+							<label>Guest capacity: <b>${apartment.guestCount}</b></label><br/>
+							<label>Booking time: <b>${apartment.bookingTime}</b></label><br/>
+							<label>Cancel time: <b>${apartment.cancelTime}</b></label><br/>
+							<label>Price: <b>${apartment.price}</b></label><br/>
+							<label>Amenities: <b>${apartment.apartmentAmenities}</b></label><br/>
 				 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewCommentsServlet">
-				 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+				 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
 				 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Comments"/>
 				 	</form>
 				 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/ViewPicturesServlet">
-				 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+				 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
 				 		<input class="button smaller" id="${apartment.id}" type="submit" value="View Pictures"/>
 				 	</form>
 					<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
 					 	<form style="display:inline-block;" method="get" action="/WEBProjRA502013/EditApartmentServlet">
-					 		<input hidden="true" type="text" name="currentRow" value="${apartment.id}"/>
+					 		<input type="hidden" name="currentRow" value="${apartment.id}"/>
 					 		<input class="button smaller" id="${apartment.id}" type="submit" value="Edit"/>
 					 	</form>
 
 					 	<input style="display:inline-block;" class="deleteButton smaller" id="${apartment.id}" 
 					 		onclick="displayDeleteModal('${apartment.id}')" type="submit" value="Delete"/>
 					</c:if>
+					</div>
+					</div>
+					</td>
 				</tr>
 			</c:forEach>
 		</table>
 	</c:if>
+	</div>
+	<div class="div-find-filter">
+	<form method="post" id="findFiterApartmentForm" action="/WEBProjRA502013/FindApartmentServlet">
+		<h2>Find/Filter</h2>
+		<table class="table-entry table-overview">
+		<tr>
+			<td><label class="label-entry">Find or Filter?</label>
+				<input type="radio" class="sub-entry" id="findRBtn" name="rBtn" onclick="changeAction(this);" value="Find" checked>
+				<label for="findRBtn">Find</label><br/>
+				<input type="radio" class="sub-entry" id="filterRBtn" name="rBtn" onclick="changeAction(this);" value="Filter">
+				<label for="filterRBtn">Filter</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label class="label-entry bottom-spacing">By Date</label>
+				<label class="label-entry sub-entry smaller-font">Arrival date</label>
+				<input class="sub-entry" type="text" name="datepickerArrive" id="datepickerArrive"/>
+				<label class="label-entry sub-entry smaller-font">Leave date</label>
+				<input class="sub-entry" type="text" name="datepickerLeave" id="datepickerLeave"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label class="label-entry bottom-spacing">By Time</label>
+				<label class="label-entry sub-entry smaller-font">Arrival time</label>
+				<input class="sub-entry" type="text" name="timeArrive" id="timeArrive"/>
+				<label class="label-entry sub-entry smaller-font">Leave time</label>
+				<input class="sub-entry" type="text" name="timeLeave" id="timeLeave"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label class="label-entry bottom-spacing">By Price</label>
+				<label class="label-entry sub-entry smaller-font">Min</label>
+				<input class="sub-entry" type="text" name="priceMin" id="priceMin"/>
+				<label class="label-entry sub-entry smaller-font">Max</label>
+				<input class="sub-entry" type="text" name="priceMax" id="priceMax"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label class="label-entry bottom-spacing">By Room Count</label>
+				<label class="label-entry sub-entry smaller-font">Min</label>
+				<input class="sub-entry" type="text" name="roomCountMin" id="roomCountMin"/>
+				<label class="label-entry sub-entry smaller-font">Max</label>
+				<input class="sub-entry" type="text" name="roomCountMax" id="roomCountMax"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label class="label-entry bottom-spacing">By Guest Count</label>
+				<label class="label-entry sub-entry smaller-font">Num. of Guests</label>
+				<input class="sub-entry" type="text" name="guestCount" id="guestCount"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label class="label-entry bottom-spacing">By Location</label>
+				<label class="label-entry sub-entry smaller-font">City or Country</label>
+				<input class="sub-entry" type="text" name="location" id="location"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="bottom-spacing"><label class="label-entry">Search by Amenities</label>
+		</tr>
+	       <c:forEach var="element" items="${sessionScope.amenities}">
+	       	<tr>
+	           <td class="bottom-spacing">
+	           		<input class="sub-entry" type="checkbox" id="${element.name}" name="${element.name}" value="${element.name}">
+	           		<label for="${element.name}">${element.name}</label><br/>
+	           		<label class="sub-entry">Details: <b>${element.details}</b></label>
+	           	</td>
+	        </tr>
+	       </c:forEach>
+	</table>
+	<input type="submit" id="findFilterSubmitBtn" class="submit-button" value="Find Apartment"/>
+	
+	</form>
+	</div>
 </div>
 
 <div id="id01" class="modal">
@@ -365,7 +323,7 @@
       <p>Are you sure you want to delete this apartment?</p>
 
       <div class="clearfix">
-       	<input hidden="true" type="text" id="currentSelectedApartment" name="currentSelectedApartment" value="a"/>
+       	<input type="hidden" id="currentSelectedApartment" name="currentSelectedApartment" value="a"/>
        	<input class="deleteButton small" id="" type="submit" value="Yes"/>
         <button onclick="closeDeleteModal()" type="button" class="button small">No</button>
       </div>

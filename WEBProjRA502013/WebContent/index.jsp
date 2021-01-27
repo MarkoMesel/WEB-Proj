@@ -20,9 +20,9 @@
 		<div style="color: #008000;">${welcomeMessage}</div>
 		<!-- <a class = "submit-button basic" href="/WEBProjRA502013/registerGuest.jsp">Register Account</a><br/>
 		<a class = "submit-button basic" href="/WEBProjRA502013/login.jsp">Login</a><br/> -->
-		<input type="submit" class="submit-button basic" value="Register Account" onClick="window.location='registerGuest.jsp';"/>
+		<input type="submit" class="submit-button register" value="Register Account" onClick="window.location='registerGuest.jsp';"/>
 		<br/>
-		<input type="submit" class="submit-button basic" value="Login" onClick="window.location='login.jsp';"/>
+		<input type="submit" class="submit-button login" value="Login" onClick="window.location='login.jsp';"/>
 	</div>
 </body>
 </html>

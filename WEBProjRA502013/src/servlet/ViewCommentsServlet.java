@@ -44,8 +44,16 @@ public class ViewCommentsServlet extends HttpServlet {
 		ContainerController.populateLists();
 		String id = request.getParameter("currentRow").toString();
 		Apartment apartment = ContainerController.findApartmentById(Integer.parseInt(id));
-		Role role = Role.valueOf(request.getSession().getAttribute("role").toString());
-		Integer userId = Integer.parseInt(request.getSession().getAttribute("id").toString());
+		Role role;
+		if(request.getSession().getAttribute("role") != null)
+			role = Role.valueOf(request.getSession().getAttribute("role").toString());
+		else
+			role = Role.GUEST;
+		Integer userId;
+		if(request.getSession().getAttribute("id") != null)
+			userId = Integer.parseInt(request.getSession().getAttribute("id").toString());
+		else
+			userId = -1;
 		ArrayList<Comment> comments = new ArrayList<Comment>(); 
 		String permission = "false";
 		if(role == Role.GUEST) {

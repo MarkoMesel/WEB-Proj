@@ -55,13 +55,18 @@
 			<form method="get" action="/WEBProjRA502013/AddHostServlet">
 				<input type="${sessionScope.role == 'ADMIN' ? 'submit' : 'hidden'}" class="submit-button add-host" value="Add Host"/>
 			</form>
+			<form method="get" action="/WEBProjRA502013/ReservationOverviewServlet">
+				<input type="submit" class="submit-button reservation-overview" value="Reservation Overview"/>
+			</form>
 		</c:if>
 		<form method="get" action="/WEBProjRA502013/ApartmentOverviewServlet">
 			<input type="submit" class="submit-button apartment-overview" value="Apartment Overview"/>
 		</form>
-		<form method="get" action="/WEBProjRA502013/ReservationOverviewServlet">
-			<input type="submit" class="submit-button reservation-overview" value="Reservation Overview"/>
-		</form>
+		<c:if test="${sessionScope.id == null}">
+			<input type="submit" class="submit-button register" value="Register Account" onClick="window.location='registerGuest.jsp';"/>
+			<br/>
+			<input type="submit" class="submit-button login" value="Login" onClick="window.location='login.jsp';"/>
+		</c:if>
 		<c:if test="${sessionScope.id != null}">
 			<form method="post" action="/WEBProjRA502013/LogoutServlet">
 				<input type="submit" class="submit-button logout" value="Logout"/>

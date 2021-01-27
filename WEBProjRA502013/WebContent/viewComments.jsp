@@ -24,45 +24,26 @@
 		</form>
 	</c:if>
 	<br />
-	<table border="1" align="center">
-		<tr>
-			<th>
-				Guest
-			</th>
-			<th>
-				Rating
-			</th>
-			<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
-				<th>
-					Accessibility
-				</th>
-			</c:if>
-		</tr>
+	<table class="table-overview">
 		<c:forEach var="comment" items="${sessionScope.comments}">
 			<c:if test="${!(sessionScope.role == 'GUEST' && comment.hidden == 'true')}">
 				<tr>
-					<td><c:out value="${comment.guest}" /></td>
-					<td><c:out value="${comment.rating}" /></td>
-					<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
-							<td class="${comment.hidden == 'true' ? 'delete' : 'reserve'}">
-								${comment.hidden == 'true' ? 'Hidden' : 'Can be seen'}
-							</td>
-					</c:if>
-				</tr>
-				<tr >
-					<td align="left" colspan="100%"><c:out value="${comment.message}" /></td>
-				</tr>
+					<td class="bottom-spacing">
+						<c:if test="${sessionScope.role == 'HOST' || sessionScope.role == 'ADMIN'}">
+							<label><b>${comment.hidden == 'true' ? 'Hidden' : 'Can be seen'}</b></label><br/>
+						</c:if>
+						<label>Comment by <b>${comment.guest}</b></label><br/>
+						<label>Rating: <b>${comment.rating}</b></label><br/>
+						<label><b>${comment.message}</b></label><br/>
 				<c:if test="${sessionScope.role == 'HOST'}">
-					<tr>
-						<td align="left" colspan="100%">
-							<form style="display:inline-block;" method="post" action="/WEBProjRA502013/ViewCommentsServlet">
-						 		<input hidden="true" type="text" name="currentRow" value="${comment.id}"/>
-						 		<input class="submit-button basic" id="${comment.id}" type="submit" 
-						 			value="${comment.hidden == 'true' ? 'Unhide From Guest' : 'Hide From Guest'}"/>
-						 	</form>
-					 	</td>
-					</tr>
+					<form style="display:inline-block;" method="post" action="/WEBProjRA502013/ViewCommentsServlet">
+				 		<input type="hidden" name="currentRow" value="${comment.id}"/>
+				 		<input id="${comment.id}" type="submit" 
+				 			value="${comment.hidden == 'true' ? 'Unhide From Guest' : 'Hide From Guest'}"/>
+				 	</form>
 				</c:if>
+				</td>
+				</tr>
 			</c:if>
 		</c:forEach>
 	</table>

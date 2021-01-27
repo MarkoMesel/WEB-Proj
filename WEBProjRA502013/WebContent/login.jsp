@@ -17,19 +17,19 @@
 	<h1>Login</h1>
 	<form method="post" action="/WEBProjRA502013/LoginServlet">
 	<div style="color: #FF0000;">${errorMessage}</div>
-	<table border="1" align="center">
+	<table class="table-entry">
 		<tr>
-			<td>Username:</td>
-			<td><input type="text" name="username" id="username"/></td>
-			<td><label id="usernameError"></label></td>
+			<td><label class="label-entry">Username</label>
+			<input type="text" name="username" id="username"/>
+			<label class="label-entry-error" id="usernameError"></label></td>
 		</tr>
 		<tr>
-			<td>Password:</td>
-			<td><input type="text" name="password" id="password"/></td>
-			<td><label id="passwordError"></label></td>
+			<td><label class="label-entry">Password</label>
+			<input type="text" name="password" id="password"/>
+			<label class="label-entry-error" id="passwordError"></label></td>
 		</tr>
-		<tr><td colspan="3"><input class="submit-button basic" type="submit" value="Login"/></td></tr>
 	</table>
+	<input class="submit-button basic" type="submit" value="Login"/>
 	</form>
 </div>
 <script type="text/javascript" src="js/login.js"></script>

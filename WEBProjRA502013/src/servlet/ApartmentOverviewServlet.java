@@ -38,7 +38,11 @@ public class ApartmentOverviewServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
 		ContainerController.populateLists();
-		Role role = Role.valueOf(request.getSession().getAttribute("role").toString());
+		Role role;
+		if(request.getSession().getAttribute("role") != null)
+			role = Role.valueOf(request.getSession().getAttribute("role").toString());
+		else
+			role = Role.GUEST;
 		ArrayList<Apartment> apartments;
 		switch(role) {
 		case ADMIN:
@@ -62,12 +66,11 @@ public class ApartmentOverviewServlet extends HttpServlet {
 				inactiveApartments,
 				request.getSession()
 			);
-			break;
-		case GUEST:
+			//break;
+		//case GUEST:
+		default:
 			apartments = ContainerController.findApartmentsByStatusAndEnabled("ACTIVE", true);
 			ServletController.putApartmentListInSession(apartments, request.getSession());
-			break;
-		default:
 			break;
 		}
 		

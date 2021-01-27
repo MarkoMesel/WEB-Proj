@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Edit Account Information</title>
+<title>Edit Amenity</title>
 	<link href="css/mainstyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -17,19 +17,22 @@
 	<h1>Edit Amenity</h1>
 	<form method="post" action="/WEBProjRA502013/EditAmenityServlet">
 	<div style="color: #00BF00;">${successMessage}</div>
-	<table border="1" align="center">
+	<table class="table-entry">
 		<tr>
-			<td>Change Name:</td>
-			<td><input type="text" name="amenityName" id="amenityName" value="${sessionScope.amenityName}"/></td>
-			<td><label id="amenityNameError"></label></td>
+			<td>
+			<label class="label-entry">Change Name</label>
+			<input type="text" name="amenityName" id="amenityName" value="${sessionScope.amenityName}"/>
+			<label class="label-entry-error" id="amenityNameError"></label></td>
 		</tr>
 		<tr>
-			<td>Change Details:</td>
-			<td><input type="text" name="amenityDetails" id="amenityDetails" value="${sessionScope.amenityDetails}"/></td>
-			<td><label id="amenityDetailsError"></label></td>
+			<td>
+				<label class="label-entry">Change Details</label>
+				<input type="text" name="amenityDetails" id="amenityDetails" value="${sessionScope.amenityDetails}"/>
+				<label class="label-entry-error" id="amenityDetailsError"></label>
+			</td>
 		</tr>
-		<tr><td colspan="3"><input type="submit" class="submit-button basic" value="Edit Amenity"/></td></tr>
 	</table>
+	<input type="submit" class="submit-button basic" value="Edit Amenity"/>
 	</form>
 </div>
 <script type="text/javascript" src="js/amenityValidation.js"></script>

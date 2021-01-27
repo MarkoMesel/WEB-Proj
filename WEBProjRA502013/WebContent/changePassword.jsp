@@ -17,19 +17,19 @@
 	</div>
 	<form method="post" action="/WEBProjRA502013/ChangePasswordServlet">
 	<div style="color: #008000;">${successMessage}</div>
-	<table border="1" align="center">
+	<table class="table-entry">
 		<tr>
-			<td>Change First Name:</td>
-			<td><input type="text" name="oldPassword" id="oldPassword" value=""/></td>
-			<td><label id="oldPasswordError"></label></td>
+			<td><label class="label-entry">Old Password</label>
+			<input type="text" name="oldPassword" id="oldPassword" value=""/>
+			<label class="label-entry-error" id="oldPasswordError"></label></td>
 		</tr>
 		<tr>
-			<td>Change Last Name:</td>
-			<td><input type="text" name="newPassword" id="newPassword" value=""/></td>
-			<td><label id="newPasswordError"></label></td>
+			<td><label class="label-entry">New Password</label>
+			<input type="text" name="newPassword" id="newPassword" value=""/>
+			<label class="label-entry-error" id="newPasswordError"></label></td>
 		</tr>
-		<tr><td colspan="3"><input type="submit" class="submit-button basic" value="Edit Profile"/></td></tr>
 	</table>
+	<input type="submit" class="submit-button basic" value="Edit Profile"/>
 	</form>
 </div>
 <script type="text/javascript" src="js/changePassword.js"></script>

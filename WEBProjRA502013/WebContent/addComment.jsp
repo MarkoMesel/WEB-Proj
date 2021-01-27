@@ -18,7 +18,7 @@
 	<h1>Add Comment</h1>
 	<form method="post" action="/WEBProjRA502013/AddCommentServlet">
 	<div style="color: #00BF00;">${successMessage}</div>
-	<table border="1" align="center">
+	<table class="table-entry">
 		<tr>
 			<td>Message:</td>
 			<td><input type="text" name="commentMessage" id="commentMessage" value=""/></td>
@@ -36,9 +36,9 @@
 				</select>
 			</td>
 		</tr>
-		<tr><td colspan="3"><input type="submit" class="submit-button basic" value="Add Comment"/></td></tr>
 	</table>
 	</form>
+	<input type="submit" class="submit-button basic" value="Add Comment"/>
 </div>
 <script type="text/javascript" src="js/messageValidation.js"></script>
 </body>

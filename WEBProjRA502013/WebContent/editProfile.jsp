@@ -17,27 +17,26 @@
 	<h1>Edit Profile</h1>
 	<form method="post" action="/WEBProjRA502013/EditProfileServlet">
 	<div style="color: #008000;">${successMessage}</div>
-	<table border="1" align="center">
+	<table class="table-entry">
 		<tr>
-			<td>Change First Name:</td>
-			<td><input type="text" name="firstName" id="firstName" value="${sessionScope.firstName}"/></td>
-			<td><label id="firstNameError"></label></td>
+			<td><label class="label-entry">Change First Name</label>
+			<input type="text" name="firstName" id="firstName" value="${sessionScope.firstName}"/>
+			<label class="label-entry-error" id="firstNameError"></label></td>
 		</tr>
 		<tr>
-			<td>Change Last Name:</td>
-			<td><input type="text" name="lastName" id="lastName" value="${sessionScope.lastName}"/></td>
-			<td><label id="lastNameError"></label></td>
+			<td><label class="label-entry">Change Last Name</label>
+			<input type="text" name="lastName" id="lastName" value="${sessionScope.lastName}"/>
+			<label class="label-entry-error"id="lastNameError"></label></td>
 		</tr>
-		<tr><td>Change Gender:</td>
-			<td>
+		<tr><td><label class="label-entry">Change Gender</label>
 				<select name="gender" id="gender">
 				  <option value="MALE" ${sessionScope.gender == 'MALE' ? 'selected' : ''}>Male</option>
 				  <option value="FEMALE" ${sessionScope.gender == 'FEMALE' ? 'selected' : ''}>Female</option>
 				</select>
 			</td>
 		</tr>
-		<tr><td colspan="3"><input type="submit" class="submit-button basic" value="Edit Profile"/></td></tr>
 	</table>
+	<input type="submit" class="submit-button basic" value="Edit Profile"/>
 	</form>
 </div>
 <script type="text/javascript" src="js/editProfile.js"></script>
